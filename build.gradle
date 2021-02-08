@@ -16,6 +16,12 @@ dependencies {
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
 //	runtimeOnly 'mysql:mysql-connector-java'
 
+	//엑셀을 위한 POI 의존성
+	compile group: 'org.apache.poi', name: 'poi', version: '4.0.0'
+	compile group: 'org.apache.poi', name: 'poi-ooxml', version: '4.0.0'
+	compile group: 'commons-io', name: 'commons-io', version: '2.6'
+
+
 	runtimeOnly 'com.h2database:h2'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
