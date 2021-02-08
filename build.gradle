@@ -21,11 +21,16 @@ dependencies {
 	compile group: 'org.apache.poi', name: 'poi-ooxml', version: '4.0.0'
 	compile group: 'commons-io', name: 'commons-io', version: '2.6'
 
-
+	//h2-database
 	runtimeOnly 'com.h2database:h2'
+
+	//jpa
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	//starter-web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	//starter-web-test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //	testImplementation 'org.springframework.security:spring-security-test'
 }
