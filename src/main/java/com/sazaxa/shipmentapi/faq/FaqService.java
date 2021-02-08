@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.faq;
 
+import com.sazaxa.shipmentapi.faq.dto.FaqRequestDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqResponseDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import com.sazaxa.shipmentapi.faq.exception.FaqNotFoundException;
@@ -30,5 +31,20 @@ public class FaqService {
         Faq faq = faqSaveRequestDto.toEntity();
         faqRepository.save(faq);
     }
-    
+
+    public FaqResponseDto updateFaq(Long id, FaqRequestDto faqRequestDto) {
+        Faq faq = faqRepository.findById(id).orElseThrow(() -> new FaqNotFoundException("no id" + id) );
+        faq.setTitle(faqRequestDto.getTitle());
+        faq.setContent(faqRequestDto.getContent());
+
+        faqRepository.save(faq);
+
+        FaqResponseDto faqResponseDto = new FaqResponseDto(faq);
+        return faqResponseDto;
+    }
+
+    public void deleteFaqById(Long id) {
+        faqRepository.deleteById(id);
+    }
+
 }

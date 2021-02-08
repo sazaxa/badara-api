@@ -3,6 +3,7 @@ package com.sazaxa.shipmentapi.faq.dto;
 import com.sazaxa.shipmentapi.faq.Faq;
 
 public class FaqResponseDto {
+
     private String title;
     private String content;
 

@@ -1,8 +1,6 @@
 package com.sazaxa.shipmentapi.faq.dto;
 
-import com.sazaxa.shipmentapi.faq.Faq;
-
-public class FaqSaveRequestDto {
+public class FaqRequestDto {
 
     private String title;
     private String content;
@@ -13,10 +11,6 @@ public class FaqSaveRequestDto {
 
     public String getContent() {
         return content;
-    }
-
-    public Faq toEntity(){
-        return new Faq(this.title, this.content);
     }
 
 }
