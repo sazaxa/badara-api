@@ -1,9 +1,11 @@
 package com.sazaxa.shipmentapi.faq;
 
+import com.sazaxa.shipmentapi.util.BaseEntity;
+
 import javax.persistence.*;
 
 @Entity
-public class Faq {
+public class Faq extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

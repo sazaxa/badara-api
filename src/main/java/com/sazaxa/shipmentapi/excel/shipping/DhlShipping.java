@@ -1,9 +1,11 @@
 package com.sazaxa.shipmentapi.excel.shipping;
 
+import com.sazaxa.shipmentapi.util.BaseEntity;
+
 import javax.persistence.*;
 
 @Entity
-public class DhlShipping {
+public class DhlShipping extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
