@@ -15,9 +15,9 @@ public class FaqSaveRequestDto {
         return content;
     }
 
-//    public FaqSaveRequestDto(){
-//
-//    }
+    public FaqSaveRequestDto(){
+
+    }
 
     public FaqSaveRequestDto(Faq faq){
         this.title = faq.getTitle();
