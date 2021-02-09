@@ -9,3 +9,4 @@ spring:
   #jpa 설정
   jpa:
     show-sql: true
+  #jackson 설정

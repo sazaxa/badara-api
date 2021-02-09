@@ -15,6 +15,15 @@ public class FaqSaveRequestDto {
         return content;
     }
 
+//    public FaqSaveRequestDto(){
+//
+//    }
+
+    public FaqSaveRequestDto(Faq faq){
+        this.title = faq.getTitle();
+        this.content = faq.getContent();
+    }
+
     public Faq toEntity(){
         return new Faq(this.title, this.content);
     }

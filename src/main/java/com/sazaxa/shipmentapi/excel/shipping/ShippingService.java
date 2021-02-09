@@ -1,6 +1,7 @@
 package com.sazaxa.shipmentapi.excel.shipping;
 
 import com.sazaxa.shipmentapi.excel.ExcelExtensionException;
+import com.sazaxa.shipmentapi.excel.shipping.dto.ShippingRequestDto;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -19,9 +20,12 @@ import static com.sazaxa.shipmentapi.excel.ExcelExtension.XLSX;
 public class ShippingService {
 
     private final ShippingRepository shippingRepository;
+    private final ShippingRepositorySupport shippingRepositorySupport;
 
-    public ShippingService(ShippingRepository shippingRepository) {
+
+    public ShippingService(ShippingRepository shippingRepository, ShippingRepositorySupport shippingRepositorySupport) {
         this.shippingRepository = shippingRepository;
+        this.shippingRepositorySupport = shippingRepositorySupport;
     }
 
     public void saveDhlShipment(List<DhlShipping> dhlShipmentList){
@@ -46,6 +50,18 @@ public class ShippingService {
             listCountry.add(row.getCell(i).getStringCellValue());
         }
         return listCountry;
+    }
+
+    //국가와 무게에 따른 배송비 측정
+    public double getPrice(ShippingRequestDto requestDto){
+        String country = requestDto.getCountry();
+        int weight = (int) (500 * Math.ceil(requestDto.getWeight() / 500));
+
+        System.out.println("country : " + country);
+        System.out.println("weight : " + weight);
+        List<DhlShipping> faqs = shippingRepositorySupport.getPrice(country, weight);
+        System.out.println(faqs);
+        return 1.1;
     }
 
 }

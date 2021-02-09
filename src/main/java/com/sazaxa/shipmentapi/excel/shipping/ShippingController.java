@@ -1,12 +1,11 @@
 package com.sazaxa.shipmentapi.excel.shipping;
 
+import com.sazaxa.shipmentapi.excel.shipping.dto.ShippingRequestDto;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -60,4 +59,11 @@ public class ShippingController {
 
         return "success-excel-upload";
     }
+
+    @GetMapping("/api/v1/shipping/dhl")
+    public double getPrice(@RequestBody ShippingRequestDto requestDto){
+        return shippingService.getPrice(requestDto);
+    }
+
+
 }

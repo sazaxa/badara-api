@@ -1,13 +1,17 @@
 package com.sazaxa.shipmentapi;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class ShipmentApiApplicationTests {
 
 	@Test
 	void contextLoads() {
+		double price = 1200;
+
+		int newPrice = (int) (500 * Math.ceil(price / 500));
+
+		System.out.println(newPrice);
 	}
 
 }
