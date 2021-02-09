@@ -16,7 +16,6 @@ public class FaqSaveRequestDto {
     }
 
     public FaqSaveRequestDto(){
-
     }
 
     public FaqSaveRequestDto(Faq faq){
