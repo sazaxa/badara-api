@@ -47,7 +47,7 @@ public class ShippingService {
     List<String> getCountriesName(Row row, int sizeRow){
         List<String> listCountry = new ArrayList<>();
         for (int i=1; i<sizeRow; i++){
-            listCountry.add(row.getCell(i).getStringCellValue());
+            listCountry.add(row.getCell(i).getStringCellValue().replace(" ", ""));
         }
         return listCountry;
     }
@@ -56,12 +56,8 @@ public class ShippingService {
     public double getPrice(ShippingRequestDto requestDto){
         String country = requestDto.getCountry();
         int weight = (int) (500 * Math.ceil(requestDto.getWeight() / 500));
-
-        System.out.println("country : " + country);
-        System.out.println("weight : " + weight);
         List<DhlShipping> faqs = shippingRepositorySupport.getPrice(country, weight);
-        System.out.println(faqs);
-        return 1.1;
+        return faqs.get(0).getPrice();
     }
 
 }

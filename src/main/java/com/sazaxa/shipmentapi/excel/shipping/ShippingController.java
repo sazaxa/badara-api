@@ -65,5 +65,4 @@ public class ShippingController {
         return shippingService.getPrice(requestDto);
     }
 
-
 }

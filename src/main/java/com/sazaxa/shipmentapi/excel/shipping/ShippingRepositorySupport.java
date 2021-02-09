@@ -21,11 +21,6 @@ public class ShippingRepositorySupport {
                 .where(dhlShipping.country.eq(country))
                 .fetch();
 
-        for (int i=0; i < list.size(); i++){
-            System.out.println("============");
-            System.out.println(list.get(i).getCountry());
-        }
-
         return queryFactory
                 .selectFrom(dhlShipping)
                 .where(dhlShipping.country.eq(country),dhlShipping.weight.eq(weight))
