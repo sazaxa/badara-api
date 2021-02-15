@@ -32,8 +32,8 @@ public class FaqController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void saveFaq(@RequestBody FaqSaveRequestDto faqSaveRequestDto){
-        faqService.saveFaq(faqSaveRequestDto);
+    public FaqResponseDto saveFaq(@RequestBody FaqSaveRequestDto faqSaveRequestDto){
+        return faqService.saveFaq(faqSaveRequestDto);
     }
 
     @ResponseStatus(HttpStatus.OK)

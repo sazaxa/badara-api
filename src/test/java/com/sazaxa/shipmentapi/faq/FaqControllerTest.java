@@ -1,13 +1,22 @@
 package com.sazaxa.shipmentapi.faq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sazaxa.shipmentapi.faq.dto.FaqResponseDto;
+import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(FaqController.class)
@@ -37,22 +46,28 @@ class FaqControllerTest {
                 .andExpect(status().isOk());
     }
 
-//    @Test
-//     void testSaveFaq() throws Exception {
-//
-//        //given
-//        FaqSaveRequestDto faqSaveResponseDto = new FaqSaveRequestDto(new Faq("t1", "c1"));
-//
-//        //when
-//        final ResultActions actions = mockMvc.perform(post(BASE_URL)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(objectMapper.writeValueAsString(faqSaveResponseDto)));
-//
-//        //then
-//        actions
-//                .andExpect(status().isCreated());
-//
-//    }
+    @Test
+     void testSaveFaq() throws Exception {
+
+        //given
+        FaqSaveRequestDto faqSaveResponseDto = new FaqSaveRequestDto(new Faq("t1", "c1"));
+        FaqResponseDto faqResponseDto = new FaqResponseDto(new Faq("t1", "c1"));
+
+        given(faqService.saveFaq(faqSaveResponseDto)).willReturn();
+
+
+        //when
+        final ResultActions actions = mockMvc.perform(post(BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(faqSaveResponseDto)));
+
+        //then
+        actions
+                .andExpect(status().isCreated())
+                .andExpect(content().string("t1"));
+
+        verify(faqService).saveFaq(any());
+    }
 
     void testUpdateFaq(){
 

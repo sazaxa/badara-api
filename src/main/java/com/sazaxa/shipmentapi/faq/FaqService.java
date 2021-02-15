@@ -27,9 +27,14 @@ public class FaqService {
         return faqResponseDto;
     }
 
-    public void saveFaq(FaqSaveRequestDto faqSaveRequestDto) {
+    public FaqResponseDto saveFaq(FaqSaveRequestDto faqSaveRequestDto) {
+        //저장
         Faq faq = faqSaveRequestDto.toEntity();
         faqRepository.save(faq);
+
+        //저장한 값 리턴
+        FaqResponseDto faqResponseDto = new FaqResponseDto(faq);
+        return faqResponseDto;
     }
 
     public FaqResponseDto updateFaq(Long id, FaqRequestDto faqRequestDto) {
