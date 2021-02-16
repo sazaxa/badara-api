@@ -1,7 +1,11 @@
 package com.sazaxa.shipmentapi.product;
 
-import javax.persistence.*;
+import com.sazaxa.shipmentapi.order.Order;
 
+import javax.persistence.*;
+import java.math.BigInteger;
+
+@Table(name = "zx_product")
 @Entity
 public class Product {
 
@@ -29,6 +33,10 @@ public class Product {
 
     @Column
     private double shippingWeight;
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name="order_id")
+    private Order order;
 
     public Product() {}
 
@@ -71,5 +79,9 @@ public class Product {
 
     public double getShippingWeight() {
         return shippingWeight;
+    }
+
+    public Order getOrder() {
+        return order;
     }
 }

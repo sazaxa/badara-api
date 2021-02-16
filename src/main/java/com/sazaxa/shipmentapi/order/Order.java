@@ -1,9 +1,8 @@
 package com.sazaxa.shipmentapi.order;
 
-import com.sazaxa.shipmentapi.product.Product;
-
 import javax.persistence.*;
 
+@Table(name = "zx_order")
 @Entity
 public class Order {
 
@@ -41,12 +40,21 @@ public class Order {
     @Column
     private String koreanInvoice;
 
-
-    @ManyToOne(targetEntity= Product.class, fetch=FetchType.LAZY)
-    @JoinColumn(name="product_id")
-    private Product product;
-
     public Order() {}
+
+    public Order(Long id, String status, String orderNumber, String country, String recipientAddress, double orderWeight, String memo, double price, String recipientName, String recipientPhoneNumber, String koreanInvoice) {
+        this.id = id;
+        this.status = status;
+        this.orderNumber = orderNumber;
+        this.country = country;
+        this.recipientAddress = recipientAddress;
+        this.orderWeight = orderWeight;
+        this.memo = memo;
+        this.price = price;
+        this.recipientName = recipientName;
+        this.recipientPhoneNumber = recipientPhoneNumber;
+        this.koreanInvoice = koreanInvoice;
+    }
 
     public Long getId() {
         return id;
@@ -88,7 +96,11 @@ public class Order {
         return recipientPhoneNumber;
     }
 
-    public Product getProduct() {
-        return product;
+    public String getRecipientAddress() {
+        return recipientAddress;
+    }
+
+    public String getKoreanInvoice() {
+        return koreanInvoice;
     }
 }
