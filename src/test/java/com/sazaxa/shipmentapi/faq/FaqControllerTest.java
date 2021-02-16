@@ -9,14 +9,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.MvcResult;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(FaqController.class)
@@ -53,20 +51,30 @@ class FaqControllerTest {
         FaqSaveRequestDto faqSaveResponseDto = new FaqSaveRequestDto(new Faq("t1", "c1"));
         FaqResponseDto faqResponseDto = new FaqResponseDto(new Faq("t1", "c1"));
 
-        given(faqService.saveFaq(faqSaveResponseDto)).willReturn();
+        given(faqService.saveFaq(faqSaveResponseDto)).willReturn(faqResponseDto);
 
-
-        //when
-        final ResultActions actions = mockMvc.perform(post(BASE_URL)
+        MvcResult result = mockMvc.perform(post(BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(faqSaveResponseDto)));
-
-        //then
-        actions
+                .content(objectMapper.writeValueAsString(faqSaveResponseDto)))
                 .andExpect(status().isCreated())
-                .andExpect(content().string("t1"));
+                .andDo(print())
+                .andReturn();
 
-        verify(faqService).saveFaq(any());
+        String content = result.getResponse().getContentAsString();
+        System.out.println("content : " + content);
+
+//        //when
+//        final ResultActions actions = mockMvc.perform(post(BASE_URL)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .accept(MediaType.APPLICATION_JSON)
+//                .content(content));
+//
+//        //then
+//        actions
+//                .andExpect(status().isCreated())
+//                .andExpect(content().string(containsString("t1")));
+//
+//        verify(faqService).saveFaq(any());
     }
 
     void testUpdateFaq(){
