@@ -22,7 +22,6 @@ public class ShippingService {
     private final ShippingRepository shippingRepository;
     private final ShippingRepositorySupport shippingRepositorySupport;
 
-
     public ShippingService(ShippingRepository shippingRepository, ShippingRepositorySupport shippingRepositorySupport) {
         this.shippingRepository = shippingRepository;
         this.shippingRepositorySupport = shippingRepositorySupport;

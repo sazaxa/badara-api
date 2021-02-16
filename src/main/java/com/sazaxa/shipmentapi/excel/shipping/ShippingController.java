@@ -72,6 +72,4 @@ public class ShippingController {
         return shippingService.getCountriesInfo();
     }
 
-
-
 }
