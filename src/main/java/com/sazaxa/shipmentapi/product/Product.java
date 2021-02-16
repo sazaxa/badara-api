@@ -34,10 +34,6 @@ public class Product {
     @Column
     private double shippingWeight;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name="order_id")
-    private Order order;
-
     public Product() {}
 
     public Product(String name, double width, double depth, double height, double volumeWeight, double netWeight) {
@@ -81,7 +77,4 @@ public class Product {
         return shippingWeight;
     }
 
-    public Order getOrder() {
-        return order;
-    }
 }
