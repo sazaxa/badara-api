@@ -26,7 +26,7 @@ public class OrderService {
                     data.getVolumeWeight(),
                     data.getNetWeight()
             );
-            Order order = new Order(product.)
+            Order order = new Order();
         }
     }
 }

@@ -61,7 +61,7 @@ public class ShippingController {
         return "success-excel-upload";
     }
 
-    @GetMapping("/api/v1/shipping/dhl")
+    @PostMapping("/api/v1/shipping/dhl")
     public double getPrice(@RequestBody ShippingRequestDto requestDto){
         return shippingService.getPrice(requestDto);
     }
