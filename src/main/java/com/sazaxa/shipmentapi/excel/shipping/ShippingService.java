@@ -60,4 +60,7 @@ public class ShippingService {
         return faqs.get(0).getPrice();
     }
 
+    public List<DhlShipping> getCountriesInfo() {
+        return shippingRepositorySupport.getCountriesInfo();
+    }
 }

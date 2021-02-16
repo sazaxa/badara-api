@@ -27,4 +27,14 @@ public class ShippingRepositorySupport {
                 .fetch();
     }
 
+    public List<DhlShipping> getCountriesInfo() {
+        QDhlShipping dhlShipping = QDhlShipping.dhlShipping;
+
+        return queryFactory.selectFrom(dhlShipping)
+                .groupBy(dhlShipping.id,dhlShipping.country)
+                .orderBy(dhlShipping.weight.asc())
+                .fetch();
+    }
+
+
 }

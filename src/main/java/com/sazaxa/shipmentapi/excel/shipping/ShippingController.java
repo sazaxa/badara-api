@@ -5,6 +5,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -63,6 +64,12 @@ public class ShippingController {
     @GetMapping("/api/v1/shipping/dhl")
     public double getPrice(@RequestBody ShippingRequestDto requestDto){
         return shippingService.getPrice(requestDto);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/api/v1/shipping/dhl/countries")
+    public List<DhlShipping> getCountriesInfo(){
+        return shippingService.getCountriesInfo();
     }
 
 
