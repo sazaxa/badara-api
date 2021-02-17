@@ -1,10 +1,13 @@
 package com.sazaxa.shipmentapi.order;
 
 import com.sazaxa.shipmentapi.product.Product;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import javax.persistence.*;
 
+@Builder // DTO -> ENTITY 변환시 필요
+@AllArgsConstructor // DTO -> ENTITY 변환시 필요
 @Table(name = "zx_order")
 @Entity
 public class Order {

@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.order;
 
+import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.product.Product;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -22,7 +23,15 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public void getOrders() {
+    public List<OrderResponseDto> getOrders() {
+        List<OrderResponseDto> orderResponseDtoList = new ArrayList<>();
+        OrderResponseDto orderResponseDto = new OrderResponseDto();
+
+        List<Order> Orders = orderRepository.findAll();
+        for (Order order : Orders){
+            orderResponseDtoList.add(orderResponseDto.of(order));
+        }
+        return orderResponseDtoList;
     }
 
     public void saveOrders(List<OrderSaveRequestDto> request) {

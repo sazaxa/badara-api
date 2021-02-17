@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.order;
 
+import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,15 +19,14 @@ public class OrderController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public void getOrders(){
-        orderService.getOrders();
+    public List<OrderResponseDto> getOrders(){
+        return orderService.getOrders();
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public void saveOrders(@RequestBody List<OrderSaveRequestDto> orderSaveRequestDto){
         orderService.saveOrders(orderSaveRequestDto);
     }
-
 
 }
