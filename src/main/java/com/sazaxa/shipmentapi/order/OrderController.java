@@ -29,4 +29,9 @@ public class OrderController {
         orderService.saveOrders(orderSaveRequestDto);
     }
 
+    @GetMapping("/{id}")
+    public OrderResponseDto getOrdersById(@PathVariable Long id){
+        return orderService.getOrdersById(id);
+    }
+
 }

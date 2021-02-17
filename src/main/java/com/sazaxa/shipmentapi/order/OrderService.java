@@ -2,6 +2,7 @@ package com.sazaxa.shipmentapi.order;
 
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
+import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
 import com.sazaxa.shipmentapi.product.Product;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -64,5 +65,11 @@ public class OrderService {
             orders.add(order);
         }
         orderRepository.saveAll(orders);
+    }
+
+    public OrderResponseDto getOrdersById(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id :" + id));
+        OrderResponseDto orderResponseDto = new OrderResponseDto();
+        return orderResponseDto.of(order);
     }
 }
