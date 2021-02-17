@@ -51,6 +51,20 @@ public class Order {
 
     public Order() {}
 
+    /**
+     * 최초 Order생성
+     * */
+    public Order(String recipientName, String recipientPhoneNumber, String recipientAddress, String koreanInvoice, String status, String orderNumber, String country, Product product) {
+        this.recipientName = recipientName;
+        this.recipientPhoneNumber = recipientPhoneNumber;
+        this.recipientAddress = recipientAddress;
+        this.koreanInvoice = koreanInvoice;
+        this.status = status;
+        this.orderNumber = orderNumber;
+        this.country = country;
+        this.product = product;
+    }
+
     public Long getId() {
         return id;
     }

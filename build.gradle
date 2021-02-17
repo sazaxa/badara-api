@@ -16,7 +16,15 @@ dependencies {
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
 //	runtimeOnly 'mysql:mysql-connector-java'
 
-	// Query DSL 추가
+	//lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	//lombok-test
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	//Query DSL 추가
 	implementation group: 'com.querydsl', name: 'querydsl-jpa'
 	implementation group: 'com.querydsl', name: 'querydsl-apt'
 
