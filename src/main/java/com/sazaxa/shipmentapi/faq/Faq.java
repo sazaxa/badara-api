@@ -26,4 +26,9 @@ public class Faq extends BaseEntity {
         this.content = content;
     }
 
+    public void updateFaq(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
+
 }

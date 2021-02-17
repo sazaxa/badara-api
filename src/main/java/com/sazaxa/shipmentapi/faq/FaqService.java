@@ -39,8 +39,7 @@ public class FaqService {
 
     public FaqResponseDto updateFaq(Long id, FaqRequestDto faqRequestDto) {
         Faq faq = faqRepository.findById(id).orElseThrow(() -> new FaqNotFoundException("no id" + id) );
-        faq.setTitle(faqRequestDto.getTitle());
-        faq.setContent(faqRequestDto.getContent());
+        faq.updateFaq(faqRequestDto.getTitle(), faqRequestDto.getContent());
 
         faqRepository.save(faq);
 
