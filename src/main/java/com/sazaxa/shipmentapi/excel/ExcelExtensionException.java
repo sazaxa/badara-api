@@ -9,4 +9,5 @@ public class ExcelExtensionException extends RuntimeException{
     public ExcelExtensionException(String message){
         super(message);
     }
+
 }
