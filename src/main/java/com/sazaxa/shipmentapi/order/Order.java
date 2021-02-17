@@ -119,4 +119,13 @@ public class Order {
         return product;
     }
 
+    /**
+     * 주문서 상태 변경
+     * @param status 주문상태
+     * @Author wenodev
+     */
+    public void updateOrderStatus(String status){
+        this.status = status;
+    }
+
 }

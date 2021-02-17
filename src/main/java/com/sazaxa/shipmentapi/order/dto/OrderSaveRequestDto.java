@@ -1,6 +1,8 @@
 package com.sazaxa.shipmentapi.order.dto;
 
 
+import com.sazaxa.shipmentapi.order.Order;
+
 public class OrderSaveRequestDto {
 
     private String recipientName;
@@ -14,7 +16,6 @@ public class OrderSaveRequestDto {
     private double height;
     private double volumeWeight;
     private double netWeight;
-    private double expectedPrice;
 
     public OrderSaveRequestDto() {
     }
@@ -63,7 +64,8 @@ public class OrderSaveRequestDto {
         return netWeight;
     }
 
-    public double getExpectedPrice() {
-        return expectedPrice;
+    public Order toEntity(){
+        Order order = Or
     }
+
 }
