@@ -2,6 +2,7 @@ package com.sazaxa.shipmentapi.order.dto;
 
 
 public class OrderSaveRequestDto {
+
     private String recipientName;
     private String recipientPhoneNumber;
     private String recipientAddress;
