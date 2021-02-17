@@ -54,7 +54,7 @@ public class Order {
     private double orderPrice;
 
     @Column
-    private double koreanShippingCompany;
+    private String koreanShippingCompany;
 
     @ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
     @JoinColumn(name="product_id")

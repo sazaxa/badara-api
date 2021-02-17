@@ -17,6 +17,7 @@ public class OrderResponseDto {
     private String recipientPhoneNumber;
     private String recipientAddress;
     private String koreanInvoice;
+    private String koreanShippingCompany;
     private String abroadInvoice;
     private String status;
     private String orderNumber;
@@ -32,6 +33,7 @@ public class OrderResponseDto {
                 .recipientName(order.getRecipientName())
                 .recipientAddress(order.getRecipientAddress())
                 .koreanInvoice(order.getKoreanInvoice())
+                .koreanShippingCompany(order.getKoreanShippingCompany())
                 .abroadInvoice(order.getAbroadInvoice())
                 .status(order.getStatus())
                 .orderNumber(order.getOrderNumber())

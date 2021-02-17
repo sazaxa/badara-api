@@ -54,6 +54,7 @@ public class OrderService {
                     .recipientPhoneNumber(data.getRecipientPhoneNumber())
                     .recipientAddress(data.getRecipientAddress())
                     .koreanInvoice(data.getKoreanInvoice())
+                    .koreanShippingCompany(data.getKoreanInvoice())
                     .status(OrderStatus.KOREA_SHIPPING.status)
                     .orderNumber(orderNumber)
                     .country(data.getCountry())
