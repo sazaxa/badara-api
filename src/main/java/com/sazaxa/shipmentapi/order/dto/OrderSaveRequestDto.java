@@ -8,6 +8,7 @@ public class OrderSaveRequestDto {
     private String recipientAddress;
     private String productName;
     private String koreanInvoice;
+    private String country;
     private double width;
     private double depth;
     private double height;
@@ -36,6 +37,10 @@ public class OrderSaveRequestDto {
 
     public String getKoreanInvoice() {
         return koreanInvoice;
+    }
+
+    public String getCountry() {
+        return country;
     }
 
     public double getWidth() {

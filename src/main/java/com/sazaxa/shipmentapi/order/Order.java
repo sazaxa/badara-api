@@ -1,6 +1,7 @@
 package com.sazaxa.shipmentapi.order;
 
 import com.sazaxa.shipmentapi.product.Product;
+import lombok.Builder;
 
 import javax.persistence.*;
 
@@ -54,6 +55,7 @@ public class Order {
     /**
      * 최초 Order생성
      * */
+    @Builder
     public Order(String recipientName, String recipientPhoneNumber, String recipientAddress, String koreanInvoice, String status, String orderNumber, String country, Product product) {
         this.recipientName = recipientName;
         this.recipientPhoneNumber = recipientPhoneNumber;

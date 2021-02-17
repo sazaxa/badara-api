@@ -26,9 +26,21 @@ public class OrderService {
                     data.getVolumeWeight(),
                     data.getNetWeight()
             );
+
             /*
+                String recipientName, String recipientPhoneNumber, String recipientAddress, String koreanInvoice, String status, String orderNumber, String country, Product product) {
+
              */
-            Order order = new Order();
+            Order order = Order.builder()
+                    .recipientName(data.getRecipientName())
+                    .recipientPhoneNumber(data.getRecipientPhoneNumber())
+                    .recipientAddress(data.getRecipientAddress())
+                    .koreanInvoice(data.getKoreanInvoice())
+                    .status(status)
+                    .orderNumber()
+                    .country(data.getCountry())
+                    .product(product)
+                    .build();
         }
     }
 }
