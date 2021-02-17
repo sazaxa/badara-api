@@ -4,6 +4,8 @@ import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
 import com.sazaxa.shipmentapi.product.Product;
+import com.sazaxa.shipmentapi.product.ProductRepository;
+import com.sazaxa.shipmentapi.product.exception.ProductNotFoundException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -19,9 +21,11 @@ import java.util.List;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
     }
 
     public List<OrderResponseDto> getOrders() {
@@ -40,14 +44,18 @@ public class OrderService {
         String orderNumber = new SimpleDateFormat("yyMMdd").format(new Date()) + "-" + RandomStringUtils.randomAlphanumeric(6).toUpperCase();
 
         for (OrderSaveRequestDto data : request){
-            Product product = new Product(
-                    data.getProductName(),
-                    data.getWidth(),
-                    data.getDepth(),
-                    data.getHeight(),
-                    data.getVolumeWeight(),
-                    data.getNetWeight()
-            );
+
+            productRepository.save(
+                    Product.builder()
+                    .name(data.getProductName())
+                    .width(data.getWidth())
+                    .depth(data.getDepth())
+                    .height(data.getHeight())
+                    .volumeWeight(data.getVolumeWeight())
+                    .netWeight(data.getNetWeight())
+                    .build());
+
+            Product product = productRepository.findById(productRepository.count()).orElseThrow(()->new ProductNotFoundException("no product id : " + productRepository.count()));
 
             Order order = Order.builder()
                     .recipientName(data.getRecipientName())
@@ -58,6 +66,7 @@ public class OrderService {
                     .status(OrderStatus.KOREA_SHIPPING.status)
                     .orderNumber(orderNumber)
                     .country(data.getCountry())
+                    .userMemo(data.getUserMemo())
                     .product(product)
                     .build();
 
@@ -77,4 +86,5 @@ public class OrderService {
     public void deleteOrdersById(Long id) {
         orderRepository.deleteById(id);
     }
+
 }

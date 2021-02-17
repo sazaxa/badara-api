@@ -48,7 +48,10 @@ public class Order {
     private double orderWeight;
 
     @Column
-    private String memo;
+    private String userMemo;
+
+    @Column
+    private String adminMemo;
 
     @Column
     private double orderPrice;

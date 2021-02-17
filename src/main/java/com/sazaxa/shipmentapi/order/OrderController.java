@@ -25,8 +25,9 @@ public class OrderController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void saveOrders(@RequestBody List<OrderSaveRequestDto> orderSaveRequestDto){
+    public String saveOrders(@RequestBody List<OrderSaveRequestDto> orderSaveRequestDto){
         orderService.saveOrders(orderSaveRequestDto);
+        return "success";
     }
 
     @GetMapping("/{id}")
@@ -36,8 +37,9 @@ public class OrderController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteOrdersById(@PathVariable Long id){
+    public String deleteOrdersById(@PathVariable Long id){
         orderService.deleteOrdersById(id);
+        return "success";
     }
 
 }

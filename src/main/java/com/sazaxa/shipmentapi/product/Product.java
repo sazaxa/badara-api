@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.product;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -36,6 +37,7 @@ public class Product {
     @Column
     private double shippingWeight;
 
+    @Builder
     public Product(String name, double width, double depth, double height, double volumeWeight, double netWeight) {
         this.name = name;
         this.width = width;

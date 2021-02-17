@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.order.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sazaxa.shipmentapi.order.Order;
 import com.sazaxa.shipmentapi.product.Product;
 import lombok.AllArgsConstructor;
@@ -23,8 +24,10 @@ public class OrderResponseDto {
     private String orderNumber;
     private String country;
     private double orderWeight;
-    private String memo;
+    private String userMemo;
+    private String adminMemo;
     private double orderPrice;
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private Product product;
 
     public OrderResponseDto of(Order order){
@@ -39,26 +42,11 @@ public class OrderResponseDto {
                 .orderNumber(order.getOrderNumber())
                 .country(order.getCountry())
                 .orderWeight(order.getOrderWeight())
-                .memo(order.getMemo())
+                .userMemo(order.getUserMemo())
+                .adminMemo(order.getAdminMemo())
                 .orderPrice(order.getOrderPrice())
                 .product(order.getProduct())
                 .build();
      }
 
-//    public Order toEntity(){
-//        return Order.builder()
-//                .id(id)
-//                .recipientName(recipientName)
-//                .recipientAddress(recipientAddress)
-//                .koreanInvoice(koreanInvoice)
-//                .abroadInvoice(abroadInvoice)
-//                .status(status)
-//                .orderNumber(orderNumber)
-//                .country(country)
-//                .orderWeight(orderWeight)
-//                .memo(memo)
-//                .orderPrice(orderPrice)
-//                .product(product)
-//                .build();
-//    }
 }

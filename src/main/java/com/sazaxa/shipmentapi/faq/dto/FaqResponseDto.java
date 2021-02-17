@@ -1,7 +1,9 @@
 package com.sazaxa.shipmentapi.faq.dto;
 
 import com.sazaxa.shipmentapi.faq.Faq;
+import lombok.Getter;
 
+@Getter
 public class FaqResponseDto {
 
     private Long id;
@@ -14,15 +16,4 @@ public class FaqResponseDto {
         this.content = entity.getContent();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContent() {
-        return content;
-    }
 }
