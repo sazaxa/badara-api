@@ -34,4 +34,10 @@ public class OrderController {
         return orderService.getOrdersById(id);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void deleteOrdersById(@PathVariable Long id){
+        orderService.deleteOrdersById(id);
+    }
+
 }

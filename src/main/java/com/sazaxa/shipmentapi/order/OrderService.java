@@ -72,4 +72,8 @@ public class OrderService {
         OrderResponseDto orderResponseDto = new OrderResponseDto();
         return orderResponseDto.of(order);
     }
+
+    public void deleteOrdersById(Long id) {
+        orderRepository.deleteById(id);
+    }
 }
