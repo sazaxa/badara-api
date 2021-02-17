@@ -4,8 +4,10 @@ import com.sazaxa.shipmentapi.order.Order;
 import com.sazaxa.shipmentapi.product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -24,58 +26,6 @@ public class OrderResponseDto {
     private double orderPrice;
     private Product product;
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getRecipientName() {
-        return recipientName;
-    }
-
-    public String getRecipientPhoneNumber() {
-        return recipientPhoneNumber;
-    }
-
-    public String getRecipientAddress() {
-        return recipientAddress;
-    }
-
-    public String getKoreanInvoice() {
-        return koreanInvoice;
-    }
-
-    public String getAbroadInvoice() {
-        return abroadInvoice;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getOrderNumber() {
-        return orderNumber;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public double getOrderWeight() {
-        return orderWeight;
-    }
-
-    public String getMemo() {
-        return memo;
-    }
-
-    public double getOrderPrice() {
-        return orderPrice;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
     public OrderResponseDto of(Order order){
         return OrderResponseDto.builder()
                 .id(order.getId())
@@ -92,7 +42,6 @@ public class OrderResponseDto {
                 .product(order.getProduct())
                 .build();
      }
-
 
 //    public Order toEntity(){
 //        return Order.builder()

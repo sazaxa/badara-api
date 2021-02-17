@@ -1,6 +1,8 @@
 package com.sazaxa.shipmentapi.order.dto;
 
+import lombok.Getter;
 
+@Getter
 public class OrderSaveRequestDto {
 
     private String recipientName;
@@ -16,50 +18,6 @@ public class OrderSaveRequestDto {
     private double netWeight;
 
     public OrderSaveRequestDto() {
-    }
-
-    public String getRecipientName() {
-        return recipientName;
-    }
-
-    public String getRecipientPhoneNumber() {
-        return recipientPhoneNumber;
-    }
-
-    public String getRecipientAddress() {
-        return recipientAddress;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public String getKoreanInvoice() {
-        return koreanInvoice;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    public double getDepth() {
-        return depth;
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-    public double getVolumeWeight() {
-        return volumeWeight;
-    }
-
-    public double getNetWeight() {
-        return netWeight;
     }
 
 }

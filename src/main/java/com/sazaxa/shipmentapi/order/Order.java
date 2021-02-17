@@ -3,11 +3,15 @@ package com.sazaxa.shipmentapi.order;
 import com.sazaxa.shipmentapi.product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @Builder // DTO -> ENTITY 변환시 필요
 @AllArgsConstructor // DTO -> ENTITY 변환시 필요
+@NoArgsConstructor
 @Table(name = "zx_order")
 @Entity
 public class Order {
@@ -49,11 +53,12 @@ public class Order {
     @Column
     private double orderPrice;
 
+    @Column
+    private double koreanShippingCompany;
+
     @ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
     @JoinColumn(name="product_id")
     private Product product;
-
-    public Order() {}
 
     /**
      * 최초 Order생성
@@ -68,58 +73,6 @@ public class Order {
         this.orderNumber = orderNumber;
         this.country = country;
         this.product = product;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getRecipientName() {
-        return recipientName;
-    }
-
-    public String getRecipientPhoneNumber() {
-        return recipientPhoneNumber;
-    }
-
-    public String getRecipientAddress() {
-        return recipientAddress;
-    }
-
-    public String getKoreanInvoice() {
-        return koreanInvoice;
-    }
-
-    public String getAbroadInvoice() {
-        return abroadInvoice;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getOrderNumber() {
-        return orderNumber;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public double getOrderWeight() {
-        return orderWeight;
-    }
-
-    public String getMemo() {
-        return memo;
-    }
-
-    public double getOrderPrice() {
-        return orderPrice;
-    }
-
-    public Product getProduct() {
-        return product;
     }
 
     /**

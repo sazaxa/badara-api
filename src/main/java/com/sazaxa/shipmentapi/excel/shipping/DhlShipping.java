@@ -1,9 +1,15 @@
 package com.sazaxa.shipmentapi.excel.shipping;
 
 import com.sazaxa.shipmentapi.util.BaseEntity;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
+@NoArgsConstructor
+@Table(name = "zx_dhl_shipping")
 @Entity
 public class DhlShipping extends BaseEntity {
 
@@ -20,44 +26,10 @@ public class DhlShipping extends BaseEntity {
     @Column
     private double price;
 
-    public DhlShipping() {
-    }
-
+    @Builder
     public DhlShipping(String country, int weight, double price){
         this.country = country;
         this.weight = weight;
-        this.price = price;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
         this.price = price;
     }
 
