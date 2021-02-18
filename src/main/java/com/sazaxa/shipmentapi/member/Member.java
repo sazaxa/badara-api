@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.member;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,5 +26,28 @@ public class Member {
 
     @Column
     private String name;
+
+    @Column
+    private String status;
+
+    @Builder
+    public Member(String email, String password, String phoneNumber, String name, String status) {
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.name = name;
+        this.status = status;
+    }
+
+    public void updateMember(String email, String password, String phoneNumber, String name){
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.name = name;
+    }
+
+    public void updateStatus(String status){
+        this.status = status;
+    }
 
 }
