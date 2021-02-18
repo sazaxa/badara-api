@@ -1,6 +1,7 @@
 package com.sazaxa.shipmentapi.order;
 
 import com.sazaxa.shipmentapi.product.Product;
+import com.sazaxa.shipmentapi.util.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "zx_order")
 @Entity
-public class Order {
+public class Order extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
