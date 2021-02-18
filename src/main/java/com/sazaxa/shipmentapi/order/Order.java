@@ -36,6 +36,9 @@ public class Order {
     private String abroadInvoice;
 
     @Column
+    private String abroadShippingCompany;
+
+    @Column
     private String status;
 
     @Column
@@ -85,6 +88,16 @@ public class Order {
      */
     public void updateOrderStatus(String status){
         this.status = status;
+    }
+
+    public void updateOrder(String status, String country, String recipientAddress, String abroadShippingCompany, String abroadInvoice, double orderPrice, String adminMemo) {
+        this.status = status;
+        this.country = country;
+        this.recipientAddress = recipientAddress;
+        this.abroadShippingCompany = abroadShippingCompany;
+        this.abroadInvoice = abroadInvoice;
+        this.orderPrice = orderPrice;
+        this.adminMemo = adminMemo;
     }
 
 }

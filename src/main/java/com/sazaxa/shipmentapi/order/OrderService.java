@@ -2,6 +2,7 @@ package com.sazaxa.shipmentapi.order;
 
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
+import com.sazaxa.shipmentapi.order.dto.OrderUpdateRequestDto;
 import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
@@ -81,6 +82,31 @@ public class OrderService {
         Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id :" + id));
         OrderResponseDto orderResponseDto = new OrderResponseDto();
         return orderResponseDto.of(order);
+    }
+
+    public void updateOrderById(Long id, OrderUpdateRequestDto request) {
+        Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id : " + id));
+
+        /*
+        관리자가 수정할 주문서 내용
+        1. 주문상태
+        2. 도착 국가
+        3. 도착 주소
+        4. 해외 배송 송장
+        5. 해외 배송사
+        6. 최종 주문 금액
+        7. 관리자 메모
+         */
+        order.updateOrder(
+                request.getStatus(),
+                request.getCountry(),
+                request.getRecipientAddress(),
+                request.getAbroadShippingCompany(),
+                request.getAbroadInvoice(),
+                request.getOrderPrice(),
+                request.getAdminMemo());
+
+        orderRepository.save(order);
     }
 
     public void deleteOrdersById(Long id) {
