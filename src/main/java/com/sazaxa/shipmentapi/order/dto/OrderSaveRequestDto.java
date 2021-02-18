@@ -20,5 +20,6 @@ public class OrderSaveRequestDto {
     private double volumeWeight;
     private double netWeight;
     private String userMemo;
+    private double expectedPrice;
 
 }

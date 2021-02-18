@@ -35,16 +35,19 @@ public class Product {
     private double netWeight;
 
     @Column
-    private double shippingWeight;
+    private double expectedPrice;
 
     @Builder
-    public Product(String name, double width, double depth, double height, double volumeWeight, double netWeight) {
+    public Product(String name, double width, double depth, double height, double volumeWeight, double netWeight, double expectedPrice) {
         this.name = name;
         this.width = width;
         this.depth = depth;
         this.height = height;
         this.volumeWeight = volumeWeight;
         this.netWeight = netWeight;
+        this.expectedPrice = expectedPrice;
     }
+
+
 
 }

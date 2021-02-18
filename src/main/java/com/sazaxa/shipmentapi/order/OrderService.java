@@ -48,13 +48,14 @@ public class OrderService {
 
             productRepository.save(
                     Product.builder()
-                    .name(data.getProductName())
-                    .width(data.getWidth())
-                    .depth(data.getDepth())
-                    .height(data.getHeight())
-                    .volumeWeight(data.getVolumeWeight())
-                    .netWeight(data.getNetWeight())
-                    .build());
+                            .name(data.getProductName())
+                            .width(data.getWidth())
+                            .depth(data.getDepth())
+                            .height(data.getHeight())
+                            .volumeWeight(data.getVolumeWeight())
+                            .netWeight(data.getNetWeight())
+                            .expectedPrice(data.getExpectedPrice())
+                            .build());
 
             Product product = productRepository.findById(productRepository.count()).orElseThrow(()->new ProductNotFoundException("no product id : " + productRepository.count()));
 
