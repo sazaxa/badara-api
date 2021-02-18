@@ -35,6 +35,7 @@ public class OrderResponseDto {
                 .id(order.getId())
                 .recipientName(order.getRecipientName())
                 .recipientAddress(order.getRecipientAddress())
+                .recipientPhoneNumber(order.getRecipientPhoneNumber())
                 .koreanInvoice(order.getKoreanInvoice())
                 .koreanShippingCompany(order.getKoreanShippingCompany())
                 .abroadInvoice(order.getAbroadInvoice())
