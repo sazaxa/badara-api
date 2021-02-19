@@ -49,6 +49,4 @@ public class Product extends BaseEntity {
         this.expectedPrice = expectedPrice;
     }
 
-
-
 }

@@ -42,11 +42,11 @@ public class OrderController {
         return "success";
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
-    public String deleteOrdersById(@PathVariable Long id){
-        orderService.deleteOrdersById(id);
-        return "success";
-    }
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    @DeleteMapping("/{id}")
+//    public String deleteOrdersById(@PathVariable Long id){
+//        orderService.deleteOrdersById(id);
+//        return "success";
+//    }
 
 }
