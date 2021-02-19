@@ -1,6 +1,5 @@
 package com.sazaxa.shipmentapi.order;
 
-import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderUpdateRequestDto;
 import org.springframework.http.HttpStatus;
@@ -20,19 +19,19 @@ public class OrderController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<OrderResponseDto> getOrders(){
+    public List<Order> getOrders(){
         return orderService.getOrders();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public String saveOrders(@RequestBody List<OrderSaveRequestDto> orderSaveRequestDto){
-        orderService.saveOrders(orderSaveRequestDto);
+    public String saveOrders(@RequestBody List<OrderSaveRequestDto> request){
+        orderService.saveOrders(request);
         return "success";
     }
 
     @GetMapping("/{id}")
-    public OrderResponseDto getOrdersById(@PathVariable Long id){
+    public Order getOrdersById(@PathVariable Long id){
         return orderService.getOrdersById(id);
     }
 

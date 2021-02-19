@@ -1,14 +1,11 @@
 package com.sazaxa.shipmentapi.order;
 
-import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderUpdateRequestDto;
 import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
-import com.sazaxa.shipmentapi.product.exception.ProductNotFoundException;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -29,85 +26,56 @@ public class OrderService {
         this.productRepository = productRepository;
     }
 
-    public List<OrderResponseDto> getOrders() {
-        List<OrderResponseDto> orderResponseDtoList = new ArrayList<>();
-        OrderResponseDto orderResponseDto = new OrderResponseDto();
-
-        List<Order> Orders = orderRepository.findAll();
-        for (Order order : Orders){
-            orderResponseDtoList.add(orderResponseDto.of(order));
-        }
-        return orderResponseDtoList;
+    public List<Order> getOrders() {
+        return orderRepository.findAll();
     }
 
     public void saveOrders(List<OrderSaveRequestDto> request) {
-        List<Order> orders = new ArrayList<>();
-        String orderNumber = new SimpleDateFormat("yyMMdd").format(new Date()) + "-" + RandomStringUtils.randomAlphanumeric(6).toUpperCase();
-
-        for (OrderSaveRequestDto data : request){
-
-            productRepository.save(
-                    Product.builder()
-                            .name(data.getProductName())
-                            .width(data.getWidth())
-                            .depth(data.getDepth())
-                            .height(data.getHeight())
-                            .volumeWeight(data.getVolumeWeight())
-                            .netWeight(data.getNetWeight())
-                            .expectedPrice(data.getExpectedPrice())
-                            .build());
-
-            Product product = productRepository.findById(productRepository.count()).orElseThrow(()->new ProductNotFoundException("no product id : " + productRepository.count()));
-
-            Order order = Order.builder()
-                    .recipientName(data.getRecipientName())
-                    .recipientPhoneNumber(data.getRecipientPhoneNumber())
-                    .recipientAddress(data.getRecipientAddress())
-                    .koreanInvoice(data.getKoreanInvoice())
-                    .koreanShippingCompany(data.getKoreanInvoice())
-                    .status(OrderStatus.KOREA_SHIPPING.status)
-                    .orderNumber(orderNumber)
-                    .country(data.getCountry())
-                    .userMemo(data.getUserMemo())
-                    .product(product)
-                    .build();
-
-            if (StringUtils.isNotBlank(data.getKoreanInvoice())){ order.updateOrderStatus(OrderStatus.INVOICE.status); }
-
-            orders.add(order);
+        //Product
+        List<Product> products = new ArrayList<>();
+        for (OrderSaveRequestDto product : request){
+            products.add(Product.builder()
+                    .productName(product.getProductName())
+                    .width(product.getWidth())
+                    .depth(product.getDepth())
+                    .height(product.getHeight())
+                    .volumeWeight(product.getVolumeWeight())
+                    .netWeight(product.getNetWeight())
+                    .expectedPrice(product.getExpectedPrice())
+                    .koreanInvoice(product.getKoreanInvoice())
+                    .koreanShippingCompany(product.getKoreanShippingCompany())
+                    .recipientName(product.getRecipientName())
+                    .recipientPhoneNumber(product.getRecipientPhoneNumber())
+                    .recipientAddress(product.getRecipientAddress())
+                    .status(OrderStatus.KOREA_SHIPPING.name())
+                    .country(product.getCountry())
+                    .userMemo(product.getUserMemo())
+                    .build());
         }
-        orderRepository.saveAll(orders);
+
+        for (Product product : products){
+            System.out.println("product : " + product.getWidth());
+        }
+
+        //Order
+        String orderNumber = new SimpleDateFormat("yyMMdd").format(new Date()) + "-" + RandomStringUtils.randomAlphanumeric(6).toUpperCase();
+        Order order = Order.builder()
+                .orderNumber(orderNumber)
+                .products(products)
+                .build();
+
+        orderRepository.save(order);
+
+        List<Order> orders = orderRepository.findAll();
+        System.out.println("상품 넓이 : " + orders.get(0).getProducts().get(0).getWidth());
+
     }
 
-    public OrderResponseDto getOrdersById(Long id) {
-        Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id :" + id));
-        OrderResponseDto orderResponseDto = new OrderResponseDto();
-        return orderResponseDto.of(order);
+    public Order getOrdersById(Long id) {
+        return orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id :" + id));
     }
 
     public void updateOrderById(Long id, OrderUpdateRequestDto request) {
-        Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id : " + id));
-
-        /*
-        관리자가 수정할 주문서 내용
-        1. 주문상태
-        2. 도착 국가
-        3. 도착 주소
-        4. 해외 배송 송장
-        5. 해외 배송사
-        6. 최종 주문 금액
-        7. 관리자 메모
-         */
-        order.updateOrder(
-                request.getStatus(),
-                request.getCountry(),
-                request.getRecipientAddress(),
-                request.getAbroadShippingCompany(),
-                request.getAbroadInvoice(),
-                request.getOrderPrice(),
-                request.getAdminMemo());
-
-        orderRepository.save(order);
     }
 
     public void deleteOrdersById(Long id) {
