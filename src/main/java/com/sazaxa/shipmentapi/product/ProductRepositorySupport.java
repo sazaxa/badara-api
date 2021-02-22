@@ -12,8 +12,4 @@ public class ProductRepositorySupport {
         this.queryFactory = queryFactory;
     }
 
-//    public List<Product> findByOrderId(Long id){
-//        QProduct product = QProduct.product;
-//    }
-
 }

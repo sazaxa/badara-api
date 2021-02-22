@@ -5,6 +5,7 @@ import com.sazaxa.shipmentapi.order.dto.OrderUpdateRequestDto;
 import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
+import com.sazaxa.shipmentapi.product.exception.ProductNotFoundException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,14 @@ public class OrderService {
     }
 
     public void saveOrders(List<OrderSaveRequestDto> request) {
+
+        //Order
+        String orderNumber = new SimpleDateFormat("yyMMdd").format(new Date()) + "-" + RandomStringUtils.randomAlphanumeric(6).toUpperCase();
+        Order order = Order.builder()
+                .orderNumber(orderNumber)
+                .build();
+        orderRepository.save(order);
+
         //Product
         List<Product> products = new ArrayList<>();
         for (OrderSaveRequestDto product : request){
@@ -50,25 +59,10 @@ public class OrderService {
                     .status(OrderStatus.KOREA_SHIPPING.name())
                     .country(product.getCountry())
                     .userMemo(product.getUserMemo())
+                    .order(order)
                     .build());
         }
-
-        for (Product product : products){
-            System.out.println("product : " + product.getWidth());
-        }
-
-        //Order
-        String orderNumber = new SimpleDateFormat("yyMMdd").format(new Date()) + "-" + RandomStringUtils.randomAlphanumeric(6).toUpperCase();
-        Order order = Order.builder()
-                .orderNumber(orderNumber)
-                .products(products)
-                .build();
-
-        orderRepository.save(order);
-
-        List<Order> orders = orderRepository.findAll();
-        System.out.println("상품 넓이 : " + orders.get(0).getProducts().get(0).getWidth());
-
+        productRepository.saveAll(products);
     }
 
     public Order getOrdersById(Long id) {
@@ -76,10 +70,21 @@ public class OrderService {
     }
 
     public void updateOrderById(Long id, OrderUpdateRequestDto request) {
+        Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no id : " + id));
+        order.updateOrderPrice(request.getOrderPrice());
+
+        for (Product product : request.getProducts()){
+            updateProduct(product);
+        }
     }
 
-    public void deleteOrdersById(Long id) {
-        orderRepository.deleteById(id);
+    public void updateProduct(Product product){
+        Product newProduct = productRepository.findById(product.getId()).orElseThrow(()-> new ProductNotFoundException("no id : " + product.getId()));
+        newProduct.setStatus(product.getStatus());
+        newProduct.setRecipientAddress(product.getRecipientAddress());
+        newProduct.setAbroadShippingCompany(product.getAbroadShippingCompany());
+        newProduct.setAbroadInvoice(product.getAbroadInvoice());
+        newProduct.setAdminMemo(product.getAdminMemo());
     }
 
 }

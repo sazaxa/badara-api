@@ -15,5 +15,4 @@ public class OrderResponseDto {
     private double orderPrice;
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private List<Product> products;
-
 }

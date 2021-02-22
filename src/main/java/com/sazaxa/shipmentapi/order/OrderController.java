@@ -36,8 +36,8 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public String updateOrderById(@PathVariable Long id, @RequestBody OrderUpdateRequestDto orderUpdateRequestDto){
-        orderService.updateOrderById(id, orderUpdateRequestDto);
+    public String updateOrderById(@PathVariable Long id, @RequestBody OrderUpdateRequestDto request){
+        orderService.updateOrderById(id, request);
         return "success";
     }
 

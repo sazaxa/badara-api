@@ -5,10 +5,12 @@ import com.sazaxa.shipmentapi.util.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 
 import javax.persistence.*;
-@ToString(exclude = {"order"})
+
+//@ToString(exclude = {"order"})
+@Setter
 @Getter
 @NoArgsConstructor
 @Table(name = "zx_product")
@@ -76,8 +78,7 @@ public class Product extends BaseEntity {
     @Column
     private String adminMemo;
 
-//    @ManyToOne(targetEntity = Order.class, fetch = FetchType.LAZY)
-    @ManyToOne(targetEntity = Order.class, fetch = FetchType.LAZY
+    @ManyToOne(targetEntity = Order.class, fetch = FetchType.LAZY)
     @JoinColumn(name="order_id")
     private Order order;
 

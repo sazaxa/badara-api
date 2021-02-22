@@ -66,7 +66,6 @@ configure("querydsl-sample") {
 		annotationProcessor("jakarta.annotation:jakarta.annotation-api") // java.lang.NoClassDefFoundError (javax.annotation.Generated) 발생 대응
 	}
 
-
 	// Gradle clean을 하게되면 생성된 generated 아래 Q클래스 파일이 삭제된다
 	clean {
 		delete file('src/main/generated') // 인텔리제이 큐 클래스 경로
