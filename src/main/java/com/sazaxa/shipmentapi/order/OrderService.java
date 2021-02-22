@@ -1,10 +1,12 @@
 package com.sazaxa.shipmentapi.order;
 
+import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderUpdateRequestDto;
 import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
+import com.sazaxa.shipmentapi.product.ProductRepositorySupport;
 import com.sazaxa.shipmentapi.product.exception.ProductNotFoundException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -21,14 +23,29 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final ProductRepositorySupport productRepositorySupport;
 
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, ProductRepositorySupport productRepositorySupport) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+        this.productRepositorySupport = productRepositorySupport;
     }
 
-    public List<Order> getOrders() {
-        return orderRepository.findAll();
+    public List<OrderResponseDto> getOrders() {
+        List<OrderResponseDto> orderResponseDtoList = new ArrayList<>();
+        List<Order> orders = orderRepository.findAll();
+
+        for (Order order : orders){
+            List<Product> products = productRepositorySupport.getProductsByOrderId(order.getId());
+            orderResponseDtoList.add(OrderResponseDto.builder()
+                    .id(order.getId())
+                    .orderNumber(order.getOrderNumber())
+                    .orderPrice(order.getOrderPrice())
+                    .products(products)
+                    .build());
+        }
+
+        return orderResponseDtoList;
     }
 
     public void saveOrders(List<OrderSaveRequestDto> request) {
@@ -65,8 +82,16 @@ public class OrderService {
         productRepository.saveAll(products);
     }
 
-    public Order getOrdersById(Long id) {
-        return orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id :" + id));
+    public OrderResponseDto getOrdersById(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id : " + id));
+        List<Product> products = productRepositorySupport.getProductsByOrderId(order.getId());
+
+        return OrderResponseDto.builder()
+                .id(order.getId())
+                .orderPrice(order.getOrderPrice())
+                .orderNumber(order.getOrderNumber())
+                .products(products)
+                .build();
     }
 
     public void updateOrderById(Long id, OrderUpdateRequestDto request) {

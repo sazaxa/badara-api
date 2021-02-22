@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.order;
 
+import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderUpdateRequestDto;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class OrderController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<Order> getOrders(){
+    public List<OrderResponseDto> getOrders(){
         return orderService.getOrders();
     }
 
@@ -31,7 +32,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public Order getOrdersById(@PathVariable Long id){
+    public OrderResponseDto getOrdersById(@PathVariable Long id){
         return orderService.getOrdersById(id);
     }
 
@@ -40,12 +41,5 @@ public class OrderController {
         orderService.updateOrderById(id, request);
         return "success";
     }
-
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @DeleteMapping("/{id}")
-//    public String deleteOrdersById(@PathVariable Long id){
-//        orderService.deleteOrdersById(id);
-//        return "success";
-//    }
 
 }

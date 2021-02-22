@@ -19,6 +19,7 @@ import static com.sazaxa.shipmentapi.excel.ExcelExtension.XLSX;
 @Service
 public class ShippingService {
 
+    private final int MAX_WEIGHT = 30000;
     private final ShippingRepository shippingRepository;
     private final ShippingRepositorySupport shippingRepositorySupport;
 
@@ -55,6 +56,10 @@ public class ShippingService {
     public double getPrice(ShippingRequestDto requestDto){
         String country = requestDto.getCountry();
         int weight = (int) (500 * Math.ceil(requestDto.getWeight() / 500));
+
+        //최대값 확인
+        if (weight > MAX_WEIGHT){ weight = MAX_WEIGHT; }
+
         List<DhlShipping> faqs = shippingRepositorySupport.getPrice(country, weight);
         return faqs.get(0).getPrice();
     }
