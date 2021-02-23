@@ -21,10 +21,10 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @NaturalId
     @Column(length = 60)
-    private RoleName name;
+    private RoleName roleName;
 
     @Builder
-    public Role(RoleName name){
-        this.name = name;
+    public Role(RoleName roleName){
+        this.roleName = roleName;
     }
 }
