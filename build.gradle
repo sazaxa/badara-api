@@ -13,8 +13,10 @@ repositories {
 }
 
 dependencies {
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
 //	runtimeOnly 'mysql:mysql-connector-java'
+
+	// Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	//RandomStringUtils : 임의의 String 값 생성하는 의존성
 	compile 'org.apache.commons:commons-lang3:3.0'
