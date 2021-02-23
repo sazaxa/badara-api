@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 @EnableWebSecurity
 @Configuration
-public class SecurityConfig  {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private final JwtAuthenticationEntryPoint unauthorizedHandler; // 인증 EntryPoint
