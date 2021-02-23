@@ -19,13 +19,13 @@ import java.util.Arrays;
 public class SecurityConfig {
 
 
-    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler; // 인증 EntryPoint
+
 
     public SecurityConfig(JwtAuthenticationEntryPoint unauthorizedHandler) {
         this.unauthorizedHandler = unauthorizedHandler;
     }
 
-    
     //비밀번호 암호화
     @Bean
     public PasswordEncoder passwordEncoder(){
