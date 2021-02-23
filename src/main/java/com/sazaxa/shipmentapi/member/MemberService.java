@@ -35,8 +35,14 @@ public class MemberService {
         member.updateStatus(MemberStatus.DEACTIVATE.name());
     }
 
-    //유저 email이 존재하는지 확인
+    //유저 email 존재하는지 확인
     public boolean isExistsByUserId(String email){
         return memberRepository.existsByEmail(email);
     }
+
+    //회원 가입
+    public Member registerMember(Member resource){
+        return memberRepository.save(resource);
+    }
+
 }
