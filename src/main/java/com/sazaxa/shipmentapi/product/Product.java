@@ -77,12 +77,18 @@ public class Product extends BaseEntity {
     @Column
     private String adminMemo;
 
+    @Column
+    private double adminVolumeWeight;
+
+    @Column
+    private double adminNetWeight;
+
     @ManyToOne(targetEntity = Order.class, fetch = FetchType.LAZY)
     @JoinColumn(name="order_id")
     private Order order;
 
     @Builder
-    public Product(String productName, double width, double depth, double height, double volumeWeight, double netWeight, double expectedPrice, double shippingPrice, String koreanShippingCompany, String koreanInvoice, String abroadInvoice, String abroadShippingCompany, String recipientName, String recipientPhoneNumber, String recipientAddress, String status, String country, String userMemo, String adminMemo, Order order) {
+    public Product(String productName, double width, double depth, double height, double volumeWeight, double netWeight, double expectedPrice, double shippingPrice, String koreanShippingCompany, String koreanInvoice, String abroadInvoice, String abroadShippingCompany, String recipientName, String recipientPhoneNumber, String recipientAddress, String status, String country, String userMemo, String adminMemo, double adminNetWeight, double adminVolumeWeight, Order order) {
         this.productName = productName;
         this.width = width;
         this.depth = depth;
@@ -102,6 +108,8 @@ public class Product extends BaseEntity {
         this.country = country;
         this.userMemo = userMemo;
         this.adminMemo = adminMemo;
+        this.adminNetWeight = adminNetWeight;
+        this.adminVolumeWeight = adminVolumeWeight;
         this.order = order;
     }
 

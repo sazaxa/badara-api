@@ -49,7 +49,6 @@ public class OrderService {
     }
 
     public void saveOrders(List<OrderSaveRequestDto> request) {
-
         //Order
         String orderNumber = new SimpleDateFormat("yyMMdd").format(new Date()) + "-" + RandomStringUtils.randomAlphanumeric(6).toUpperCase();
         Order order = Order.builder()
@@ -109,7 +108,11 @@ public class OrderService {
         newProduct.setRecipientAddress(product.getRecipientAddress());
         newProduct.setAbroadShippingCompany(product.getAbroadShippingCompany());
         newProduct.setAbroadInvoice(product.getAbroadInvoice());
+        newProduct.setCountry(product.getCountry());
+        newProduct.setAdminNetWeight(product.getAdminNetWeight());
+        newProduct.setAdminVolumeWeight(product.getAdminVolumeWeight());
         newProduct.setAdminMemo(product.getAdminMemo());
+        newProduct.setShippingPrice(product.getShippingPrice());
     }
 
 }

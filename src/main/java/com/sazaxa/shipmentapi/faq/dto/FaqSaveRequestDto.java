@@ -1,19 +1,19 @@
 package com.sazaxa.shipmentapi.faq.dto;
 
 import com.sazaxa.shipmentapi.faq.Faq;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Getter
 public class FaqSaveRequestDto {
 
     private String title;
     private String content;
 
-    public FaqSaveRequestDto(Faq faq){
-        this.title = faq.getTitle();
-        this.content = faq.getContent();
+    @Builder
+    public FaqSaveRequestDto(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 
     public Faq toEntity(){
