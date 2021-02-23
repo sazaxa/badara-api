@@ -34,4 +34,9 @@ public class MemberService {
         Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
         member.updateStatus(MemberStatus.DEACTIVATE.name());
     }
+
+    //유저 email이 존재하는지 확인
+    public boolean isExistsByUserId(String email){
+        return memberRepository.existsByEmail(email);
+    }
 }
