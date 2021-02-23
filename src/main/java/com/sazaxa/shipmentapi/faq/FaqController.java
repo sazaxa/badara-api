@@ -1,6 +1,6 @@
 package com.sazaxa.shipmentapi.faq;
 
-import com.sazaxa.shipmentapi.faq.dto.FaqRequestDto;
+import com.sazaxa.shipmentapi.faq.dto.FaqUpdateRequestDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqResponseDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import org.springframework.http.HttpStatus;
@@ -32,14 +32,14 @@ public class FaqController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public FaqResponseDto saveFaq(@RequestBody FaqSaveRequestDto faqSaveRequestDto){
-        return faqService.saveFaq(faqSaveRequestDto);
+    public FaqResponseDto saveFaq(@RequestBody FaqSaveRequestDto request){
+        return faqService.saveFaq(request);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public FaqResponseDto updateFaq(@PathVariable Long id, @RequestBody FaqRequestDto faqRequestDto){
-        return faqService.updateFaq(id, faqRequestDto);
+    public FaqResponseDto updateFaq(@PathVariable Long id, @RequestBody FaqUpdateRequestDto request){
+        return faqService.updateFaq(id, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
