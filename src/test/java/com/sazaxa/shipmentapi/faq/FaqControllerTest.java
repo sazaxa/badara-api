@@ -125,6 +125,7 @@ class FaqControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(faqService).deleteFaqById(id);
+//        verify(faqService).deleteFaqById(eq(id));
     }
 
     @Test
