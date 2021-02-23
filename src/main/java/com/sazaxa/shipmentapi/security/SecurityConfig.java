@@ -1,10 +1,12 @@
 package com.sazaxa.shipmentapi.security;
 
 import com.sazaxa.shipmentapi.security.jwt.JwtAuthenticationEntryPoint;
+import com.sazaxa.shipmentapi.security.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +18,7 @@ import java.util.Arrays;
 
 @EnableWebSecurity
 @Configuration
-public class SecurityConfig {
+public class SecurityConfig  {
 
 
     private final JwtAuthenticationEntryPoint unauthorizedHandler; // 인증 EntryPoint
@@ -24,6 +26,11 @@ public class SecurityConfig {
 
     public SecurityConfig(JwtAuthenticationEntryPoint unauthorizedHandler) {
         this.unauthorizedHandler = unauthorizedHandler;
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
     }
 
     //비밀번호 암호화
@@ -52,6 +59,6 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .anyRequest().permitAll();
 
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // jwt 인증필터 넣기
     }
 }
