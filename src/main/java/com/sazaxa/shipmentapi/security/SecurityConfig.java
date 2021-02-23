@@ -1,5 +1,7 @@
 package com.sazaxa.shipmentapi.security;
 
+import com.sazaxa.shipmentapi.security.jwt.JwtAuthenticationEntryPoint;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +18,10 @@ import java.util.Arrays;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+
+
+    @Autowired
+    private JwtAuthenticationEntryPoint unauthorizedHandler;
 
     //비밀번호 암호화
     @Bean
