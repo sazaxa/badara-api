@@ -12,6 +12,7 @@ import com.sazaxa.shipmentapi.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -77,13 +78,9 @@ public class AuthController {
     }
 
     @GetMapping("/current")
+    @PreAuthorize("hasRole('USER')")
     public Member getCurrentMember(@CurrentUser UserPrincipalCustom userPrincipal){
-
-        Member member = Member.builder()
-                .id(userPrincipal.getId())
-                .build();
-
-        return member;
+        return memberService.getMemberById(userPrincipal.getId());
     }
 
 }
