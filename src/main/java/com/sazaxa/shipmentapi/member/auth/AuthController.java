@@ -58,7 +58,7 @@ public class AuthController {
     public ResponseEntity registerMember(@RequestBody Member resource ){
 
         if(memberService.isExistsByEmail(resource.getEmail())){
-            return new ResponseEntity("this email is already taken", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("this email is already taken", HttpStatus.UNAUTHORIZED);
         }
 
         Role userRole = roleService.findByRoleName(RoleName.ROLE_USER);
