@@ -36,7 +36,7 @@ public class MemberService {
     }
 
     //유저 email 존재하는지 확인
-    public boolean isExistsByUserId(String email){
+    public boolean isExistsByEmail(String email){
         return memberRepository.existsByEmail(email);
     }
 

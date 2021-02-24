@@ -6,7 +6,10 @@ import com.sazaxa.shipmentapi.member.auth.dto.JwtAuthenticationResponse;
 import com.sazaxa.shipmentapi.member.role.Role;
 import com.sazaxa.shipmentapi.member.role.RoleName;
 import com.sazaxa.shipmentapi.member.role.RoleService;
+import com.sazaxa.shipmentapi.security.CurrentUser;
+import com.sazaxa.shipmentapi.security.UserPrincipalCustom;
 import com.sazaxa.shipmentapi.security.jwt.JwtTokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,10 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
@@ -25,18 +25,19 @@ import java.util.Collections;
 @RestController
 public class AuthController {
 
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
     private final MemberService memberService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final JwtTokenProvider tokenProvider;
 
-    public AuthController(MemberService memberService, RoleService roleService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtTokenProvider tokenProvider) {
+    public AuthController(MemberService memberService, RoleService roleService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.memberService = memberService;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
-        this.tokenProvider = tokenProvider;
     }
 
     @PostMapping("/signin")
@@ -56,7 +57,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity registerMember(@RequestBody Member resource ){
 
-        if(memberService.isExistsByUserId(resource.getEmail())){
+        if(memberService.isExistsByEmail(resource.getEmail())){
             return new ResponseEntity("this email is already taken", HttpStatus.BAD_REQUEST);
         }
 
@@ -72,6 +73,16 @@ public class AuthController {
         memberService.registerMember(member);
 
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/current")
+    public Member getCurrentMember(@CurrentUser UserPrincipalCustom userPrincipal){
+
+        Member member = Member.builder()
+                .id(userPrincipal.getId())
+                .build();
+
+        return member;
     }
 
 }

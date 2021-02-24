@@ -41,7 +41,8 @@ public class Member extends BaseEntity {
     private Set<Role> roles = new HashSet<>();
 
     @Builder
-    public Member(String email, String password, String phoneNumber, String name, String status, Set<Role> roles) {
+    public Member(Long id, String email, String password, String phoneNumber, String name, String status, Set<Role> roles) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
