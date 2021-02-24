@@ -2,6 +2,8 @@ package com.sazaxa.shipmentapi.member.role;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface RoleRepository extends JpaRepository<Role, Long>{
-    Role findByRoleName(RoleName roleName);
+    Optional<Role> findByRoleName(RoleName roleName);
 }

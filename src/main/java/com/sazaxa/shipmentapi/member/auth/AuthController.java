@@ -72,7 +72,7 @@ public class AuthController {
 
         memberService.registerMember(member);
 
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(member, HttpStatus.CREATED);
     }
 
     @GetMapping("/current")
