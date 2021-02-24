@@ -11,4 +11,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-  #jackson 설정
+
+jwtSecret : GoraeJwtToken
+jwtExpirationInMs : 604800000
