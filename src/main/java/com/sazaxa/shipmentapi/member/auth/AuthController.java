@@ -66,6 +66,7 @@ public class AuthController {
         Member member = Member.builder()
                 .email(resource.getEmail())
                 .password(passwordEncoder.encode(resource.getPassword()))
+                .phoneNumber(resource.getPhoneNumber())
                 .name(resource.getName())
                 .roles(Collections.singleton(userRole))
                 .build();
