@@ -6,8 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -26,7 +28,8 @@ class FaqServiceTest {
                 .build();
 
         given(faqRepository.findAll()).willReturn(List.of(faq));
-
+        given(faqRepository.findById(1L)).willReturn(Optional.of(faq));
+        given(faqRepository.save(any(Faq.class))).willReturn(faq);
     }
 
     @Test
@@ -42,16 +45,17 @@ class FaqServiceTest {
         assertThat(faqResponseDto).isNotNull();
     }
 
+    @Test
     void saveFaq() {
+
         FaqSaveRequestDto request = FaqSaveRequestDto.builder()
-                .title("t1")
+                .title("t2")
                 .content("c1")
                 .build();
 
+        FaqResponseDto response = faqService.saveFaq(request);
 
-
-        Faq faq = faqService.saveFaq(request);
-
+        assertThat(response.getTitle()).isEqualTo("t2");
 
     }
 

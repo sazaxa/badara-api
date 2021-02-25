@@ -1,5 +1,7 @@
 package com.sazaxa.shipmentapi.faq;
 
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
 import com.sazaxa.shipmentapi.faq.dto.FaqResponseDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqUpdateRequestDto;
@@ -28,8 +30,9 @@ public class FaqService {
     }
 
     public FaqResponseDto saveFaq(FaqSaveRequestDto faqSaveRequestDto) {
-        //저장
-        Faq faq = faqSaveRequestDto.toEntity();
+
+        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
+        Faq faq = mapper.map(faqSaveRequestDto, Faq.class);
         faqRepository.save(faq);
 
         //저장한 값 리턴
