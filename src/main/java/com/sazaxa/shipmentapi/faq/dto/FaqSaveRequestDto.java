@@ -20,7 +20,10 @@ public class FaqSaveRequestDto {
     }
 
     public Faq toEntity(){
-        return new Faq(this.title, this.content);
+        return Faq.builder()
+                .title(this.title)
+                .content(this.content)
+                .build();
     }
 
 }

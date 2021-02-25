@@ -71,7 +71,7 @@ class FaqControllerTest {
         given(faqService.getFaqById(1000L)).willThrow(new FaqNotFoundException("no faq id : " + id));
         given(faqService.saveFaq(any(FaqSaveRequestDto.class))).willReturn(faqResponseDto);
         given(faqService.updateFaq(eq(1L), any(FaqUpdateRequestDto.class))).willReturn(faqResponseDto);
-        given(faqService.deleteFaqById(1000L)).willThrow(new FaqNotFoundException("no faq id : " + id));
+        given(faqService.deleteFaq(1000L)).willThrow(new FaqNotFoundException("no faq id : " + id));
     }
 
     @Test
@@ -124,8 +124,8 @@ class FaqControllerTest {
         mockMvc.perform(delete(BASE_URL + "/" + id))
                 .andExpect(status().isNoContent());
 
-        verify(faqService).deleteFaqById(id);
-//        verify(faqService).deleteFaqById(eq(id));
+        verify(faqService).deleteFaq(id);
+//        verify(faqService).deleteFaq(eq(id));
     }
 
     @Test
@@ -133,7 +133,7 @@ class FaqControllerTest {
         mockMvc.perform(delete(BASE_URL + "/" + "1000"))
                 .andExpect(status().isNotFound());
 
-        verify(faqService).deleteFaqById(1000L);
+        verify(faqService).deleteFaq(1000L);
     }
 
 }

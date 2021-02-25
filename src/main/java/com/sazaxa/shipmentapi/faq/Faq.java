@@ -23,12 +23,6 @@ public class Faq extends BaseEntity {
     private String content;
 
     @Builder
-    public Faq(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
-
-    @Builder
     public Faq(Long id, String title, String content) {
         this.id = id;
         this.title = title;

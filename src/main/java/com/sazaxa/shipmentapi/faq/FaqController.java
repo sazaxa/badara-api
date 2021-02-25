@@ -45,7 +45,7 @@ public class FaqController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteFaq(@PathVariable Long id){
-        faqService.deleteFaqById(id);
+        faqService.deleteFaq(id);
     }
 
 }

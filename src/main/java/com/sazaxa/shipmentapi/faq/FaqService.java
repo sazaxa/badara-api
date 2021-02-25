@@ -37,6 +37,7 @@ public class FaqService {
 
         //저장한 값 리턴
         FaqResponseDto faqResponseDto = new FaqResponseDto(faq);
+
         return faqResponseDto;
     }
 
@@ -50,7 +51,7 @@ public class FaqService {
         return faqResponseDto;
     }
 
-    public Faq deleteFaqById(Long id) {
+    public Faq deleteFaq(Long id) {
         Faq faq = faqRepository.findById(id).orElseThrow(() -> new FaqNotFoundException("no id" + id) );
         faqRepository.delete(faq);
         return faq;
