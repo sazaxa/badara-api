@@ -1,6 +1,7 @@
 package com.sazaxa.shipmentapi.faq;
 
 import com.sazaxa.shipmentapi.faq.dto.FaqResponseDto;
+import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,6 +43,15 @@ class FaqServiceTest {
     }
 
     void saveFaq() {
+        FaqSaveRequestDto request = FaqSaveRequestDto.builder()
+                .title("t1")
+                .content("c1")
+                .build();
+
+
+
+        Faq faq = faqService.saveFaq(request);
+
 
     }
 

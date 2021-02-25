@@ -15,6 +15,9 @@ repositories {
 dependencies {
 //	runtimeOnly 'mysql:mysql-connector-java'
 
+	// DozerMapper
+	implementation 'com.github.dozermapper:dozer-core:6.4.0'
+
 	// jwt
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
