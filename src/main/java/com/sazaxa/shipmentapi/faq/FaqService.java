@@ -1,6 +1,5 @@
 package com.sazaxa.shipmentapi.faq;
 
-import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
 import com.sazaxa.shipmentapi.faq.dto.FaqResponseDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
@@ -13,9 +12,12 @@ import java.util.List;
 @Service
 public class FaqService {
 
+
+    private final Mapper mapper;
     private final FaqRepository faqRepository;
 
-    public FaqService(FaqRepository faqRepository) {
+    public FaqService(Mapper mapper, FaqRepository faqRepository) {
+        this.mapper = mapper;
         this.faqRepository = faqRepository;
     }
 
@@ -31,7 +33,6 @@ public class FaqService {
 
     public FaqResponseDto saveFaq(FaqSaveRequestDto faqSaveRequestDto) {
 
-        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
         Faq faq = mapper.map(faqSaveRequestDto, Faq.class);
         faqRepository.save(faq);
 

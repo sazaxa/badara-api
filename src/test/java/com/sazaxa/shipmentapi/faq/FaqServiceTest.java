@@ -1,5 +1,7 @@
 package com.sazaxa.shipmentapi.faq;
 
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
 import com.sazaxa.shipmentapi.faq.dto.FaqResponseDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqUpdateRequestDto;
@@ -24,7 +26,8 @@ class FaqServiceTest {
 
     @BeforeEach
     void setUp(){
-        faqService = new FaqService(faqRepository);
+        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
+        faqService = new FaqService(mapper, faqRepository);
 
         Faq faq = Faq.builder()
                 .title("t1")
