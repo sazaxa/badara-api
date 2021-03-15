@@ -67,7 +67,7 @@ public class ShippingController {
     }
 
     @PostMapping("/api/v1/shipping/dhl/country/price")
-    public double getCountriesOfPrice(@RequestBody ShippingRequestDto requestDto){
+    public double getPriceByCountryWeight(@RequestBody ShippingRequestDto requestDto){
         return 0;
     }
 
