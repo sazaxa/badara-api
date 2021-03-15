@@ -70,7 +70,7 @@ public class Member extends BaseEntity {
     public void updateStatus(String status){
         this.status = status;
     }
-
+    
     public boolean authenticate(String password, PasswordEncoder passwordEncoder) {
         return passwordEncoder.matches(password, this.password);
     }
