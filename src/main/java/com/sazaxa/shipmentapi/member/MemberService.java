@@ -27,7 +27,7 @@ public class MemberService {
 
     public void updateMember(Long id, MemberUpdateRequestDto request) {
         Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
-        member.updateMember(request.getEmail(), request.getPassword(), request.getPhoneNumber(), request.getName());
+        member.updateMember(request.getPassword(), request.getPhoneNumber(), request.getName());
     }
 
     public void deleteMember(Long id) {

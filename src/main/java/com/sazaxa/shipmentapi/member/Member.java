@@ -51,8 +51,7 @@ public class Member extends BaseEntity {
         this.roles = roles;
     }
 
-    public void updateMember(String email, String password, String phoneNumber, String name){
-        this.email = email;
+    public void updateMember(String password, String phoneNumber, String name){
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.name = name;

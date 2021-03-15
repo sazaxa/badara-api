@@ -31,6 +31,12 @@ public class MemberController {
         return "success";
     }
 
+    @PutMapping("/{id}")
+    public String checkPassword(@PathVariable Long id, @RequestBody MemberUpdateRequestDto request){
+        memberService.updateMember(id, request);
+        return "success";
+    }
+
     @PutMapping("/delete/{id}")
     public String deleteMember(@PathVariable Long id){
         memberService.deleteMember(id);
