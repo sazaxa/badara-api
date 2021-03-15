@@ -9,6 +9,7 @@ import javax.persistence.MappedSuperclass;
 
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
+
 public abstract class BaseEntity {
 
     @CreatedDate
