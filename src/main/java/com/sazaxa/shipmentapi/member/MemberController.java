@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.member;
 
+import com.sazaxa.shipmentapi.member.dto.MemberCheckPasswordRequestDto;
 import com.sazaxa.shipmentapi.member.dto.MemberUpdateRequestDto;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,10 +32,9 @@ public class MemberController {
         return "success";
     }
 
-    @PutMapping("/{id}")
-    public String checkPassword(@PathVariable Long id, @RequestBody MemberUpdateRequestDto request){
-        memberService.updateMember(id, request);
-        return "success";
+    @PostMapping("/check/{id}")
+    public boolean checkPassword(@PathVariable Long id, @RequestBody MemberCheckPasswordRequestDto request){
+        return memberService.checkMember(id, request);
     }
 
     @PutMapping("/delete/{id}")

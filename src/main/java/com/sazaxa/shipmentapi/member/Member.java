@@ -5,8 +5,18 @@ import com.sazaxa.shipmentapi.util.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,6 +69,10 @@ public class Member extends BaseEntity {
 
     public void updateStatus(String status){
         this.status = status;
+    }
+
+    public boolean authenticate(String password, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(password, this.password);
     }
 
 }

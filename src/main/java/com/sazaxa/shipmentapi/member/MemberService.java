@@ -1,7 +1,9 @@
 package com.sazaxa.shipmentapi.member;
 
+import com.sazaxa.shipmentapi.member.dto.MemberCheckPasswordRequestDto;
 import com.sazaxa.shipmentapi.member.dto.MemberUpdateRequestDto;
 import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -12,9 +14,12 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public MemberService(MemberRepository memberRepository) {
+
+    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Member> getMembers() {
@@ -45,4 +50,8 @@ public class MemberService {
         return memberRepository.save(resource);
     }
 
+    public boolean checkMember(Long id, MemberCheckPasswordRequestDto request) {
+        Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
+        return member.authenticate(request.getPassword(), passwordEncoder);
+    }
 }
