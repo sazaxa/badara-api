@@ -1,4 +1,4 @@
-package com.sazaxa.shipmentapi.excel;
+package com.sazaxa.shipmentapi.excel.shipping.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,6 +1,7 @@
 package com.sazaxa.shipmentapi.excel.shipping;
 
-import com.sazaxa.shipmentapi.excel.ExcelExtensionException;
+import com.sazaxa.shipmentapi.excel.shipping.exception.CountryNotFoundException;
+import com.sazaxa.shipmentapi.excel.shipping.exception.ExcelExtensionException;
 import com.sazaxa.shipmentapi.excel.shipping.dto.ShippingRequestDto;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -68,4 +69,10 @@ public class ShippingService {
         return shippingRepositorySupport.getCountriesInfo();
     }
 
+    public List<DhlShipping> getPriceByCountryWeight(ShippingRequestDto requestDto) {
+        if (shippingRepository.existsByCountry(requestDto.getCountry())){
+            return shippingRepository.findAllByCountry(requestDto.getCountry());
+        }
+        throw new CountryNotFoundException("no country : " + requestDto.getCountry());
+    }
 }
