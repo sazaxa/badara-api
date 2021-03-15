@@ -9,10 +9,4 @@ import java.util.List;
 public class OrderUpdateRequestDto {
     private double orderPrice;
     private List<Product> products;
-//    private String status;
-//    private String country;
-//    private String recipientAddress;
-//    private String abroadShippingCompany;
-//    private String abroadInvoice;
-//    private String adminMemo;
 }

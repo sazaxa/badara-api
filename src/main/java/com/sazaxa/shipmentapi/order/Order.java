@@ -1,11 +1,21 @@
 package com.sazaxa.shipmentapi.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.util.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 //@ToString(exclude = {"products"})
 @Getter
@@ -24,9 +34,15 @@ public class Order extends BaseEntity {
     @Column
     private double orderPrice;
 
+    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @JoinColumn(name="member_id")
+    private Member member;
+
     @Builder
-    public Order(String orderNumber) {
+    public Order(String orderNumber, Member member) {
         this.orderNumber = orderNumber;
+        this.member = member;
     }
 
     public void updateOrderPrice(double orderPrice){

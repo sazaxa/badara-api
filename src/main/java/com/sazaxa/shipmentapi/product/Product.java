@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sazaxa.shipmentapi.order.Order;
 import com.sazaxa.shipmentapi.util.BaseEntity;
 import lombok.Builder;
@@ -83,6 +84,7 @@ public class Product extends BaseEntity {
     @Column
     private double adminNetWeight;
 
+    @JsonIgnore
     @ManyToOne(targetEntity = Order.class, fetch = FetchType.LAZY)
     @JoinColumn(name="order_id")
     private Order order;

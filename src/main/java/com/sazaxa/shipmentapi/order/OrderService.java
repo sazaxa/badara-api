@@ -1,5 +1,8 @@
 package com.sazaxa.shipmentapi.order;
 
+import com.sazaxa.shipmentapi.member.Member;
+import com.sazaxa.shipmentapi.member.MemberRepository;
+import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderUpdateRequestDto;
@@ -8,6 +11,7 @@ import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
 import com.sazaxa.shipmentapi.product.ProductRepositorySupport;
 import com.sazaxa.shipmentapi.product.exception.ProductNotFoundException;
+import com.sazaxa.shipmentapi.security.UserPrincipalCustom;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +28,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final ProductRepositorySupport productRepositorySupport;
+    private final MemberRepository memberRepository;
 
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, ProductRepositorySupport productRepositorySupport) {
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, ProductRepositorySupport productRepositorySupport, MemberRepository memberRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.productRepositorySupport = productRepositorySupport;
+        this.memberRepository = memberRepository;
     }
 
     public List<OrderResponseDto> getOrders() {
@@ -39,6 +45,7 @@ public class OrderService {
             List<Product> products = productRepositorySupport.getProductsByOrderId(order.getId());
             orderResponseDtoList.add(OrderResponseDto.builder()
                     .id(order.getId())
+                    .member(order.getMember())
                     .orderNumber(order.getOrderNumber())
                     .orderPrice(order.getOrderPrice())
                     .products(products)
@@ -48,10 +55,14 @@ public class OrderService {
         return orderResponseDtoList;
     }
 
-    public void saveOrders(List<OrderSaveRequestDto> request) {
+    public void saveOrders(List<OrderSaveRequestDto> request, UserPrincipalCustom currentUser) {
+
+        Member member = memberRepository.findById(currentUser.getId()).orElseThrow(()-> new MemberNotFoundException("no id : " + currentUser.getId()));
+
         //Order
         String orderNumber = new SimpleDateFormat("yyMMdd").format(new Date()) + "-" + RandomStringUtils.randomAlphanumeric(6).toUpperCase();
         Order order = Order.builder()
+                .member(member)
                 .orderNumber(orderNumber)
                 .build();
         orderRepository.save(order);
@@ -87,6 +98,7 @@ public class OrderService {
 
         return OrderResponseDto.builder()
                 .id(order.getId())
+                .member(order.getMember())
                 .orderPrice(order.getOrderPrice())
                 .orderNumber(order.getOrderNumber())
                 .products(products)

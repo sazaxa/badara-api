@@ -1,8 +1,15 @@
 package com.sazaxa.shipmentapi.member;
 
 import com.sazaxa.shipmentapi.member.dto.MemberCheckPasswordRequestDto;
+import com.sazaxa.shipmentapi.member.dto.MemberOrderResponseListDto;
 import com.sazaxa.shipmentapi.member.dto.MemberUpdateRequestDto;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -17,13 +24,19 @@ public class MemberController {
     }
 
     @GetMapping
-    public List<Member> getMembers(){
-        return memberService.getMembers();
+    public List<Member> getAllMembers(){
+        return memberService.getAllMembers();
     }
 
     @GetMapping("/{id}")
     public Member getMemberById(@PathVariable Long id){
         return memberService.getMemberById(id);
+    }
+
+    @GetMapping("/{id}/order")
+    public MemberOrderResponseListDto getMemberByIdWithOrder(
+            @PathVariable Long id){
+        return memberService.getMemberByIdWithOrder(id);
     }
 
     @PutMapping("/{id}")

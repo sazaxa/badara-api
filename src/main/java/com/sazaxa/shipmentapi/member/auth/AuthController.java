@@ -2,6 +2,7 @@ package com.sazaxa.shipmentapi.member.auth;
 
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberService;
+import com.sazaxa.shipmentapi.member.MemberStatus;
 import com.sazaxa.shipmentapi.member.auth.dto.JwtAuthenticationResponse;
 import com.sazaxa.shipmentapi.member.role.Role;
 import com.sazaxa.shipmentapi.member.role.RoleName;
@@ -70,6 +71,7 @@ public class AuthController {
                 .phoneNumber(resource.getPhoneNumber())
                 .name(resource.getName())
                 .roles(Collections.singleton(userRole))
+                .status(MemberStatus.ACTIVATE.name())
                 .build();
 
         memberService.registerMember(member);

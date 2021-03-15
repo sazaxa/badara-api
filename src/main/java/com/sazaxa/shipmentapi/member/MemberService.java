@@ -1,12 +1,17 @@
 package com.sazaxa.shipmentapi.member;
 
 import com.sazaxa.shipmentapi.member.dto.MemberCheckPasswordRequestDto;
+import com.sazaxa.shipmentapi.member.dto.MemberOrderResponseDto;
+import com.sazaxa.shipmentapi.member.dto.MemberOrderResponseListDto;
 import com.sazaxa.shipmentapi.member.dto.MemberUpdateRequestDto;
 import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
+import com.sazaxa.shipmentapi.order.OrderService;
+import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -14,20 +19,46 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final OrderService orderService;
     private final PasswordEncoder passwordEncoder;
 
 
-    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+    public MemberService(MemberRepository memberRepository, OrderService orderService, PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
+        this.orderService = orderService;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<Member> getMembers() {
+    public List<Member> getAllMembers() {
         return memberRepository.findAll();
     }
 
     public Member getMemberById(Long id) {
         return memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
+    }
+
+    public MemberOrderResponseListDto getMemberByIdWithOrder(Long id) {
+        Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
+
+        List<MemberOrderResponseDto> orders = new ArrayList<>();
+
+        for (OrderResponseDto order : orderService.getOrders()){
+            if (order.getMember().getId() == id){
+                orders.add(MemberOrderResponseDto.builder()
+                        .id(order.getId())
+                        .orderNumber(order.getOrderNumber())
+                        .orderPrice(order.getOrderPrice())
+                        .products(order.getProducts())
+                        .build());
+            }
+        }
+
+        MemberOrderResponseListDto response = MemberOrderResponseListDto.builder()
+                .member(member)
+                .orders(orders)
+                .build();
+
+        return response;
     }
 
     public void updateMember(Long id, MemberUpdateRequestDto request) {
@@ -54,4 +85,6 @@ public class MemberService {
         Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
         return member.authenticate(request.getPassword(), passwordEncoder);
     }
+
+
 }

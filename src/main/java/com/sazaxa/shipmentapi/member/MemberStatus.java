@@ -1,8 +1,8 @@
 package com.sazaxa.shipmentapi.member;
 
 public enum MemberStatus {
-    ACTIVATE("활성화"),
-    DEACTIVATE("비활성화");
+    ACTIVATE("ACTIVATE"),
+    DEACTIVATE("DEACTIVATE");
 
     private String status;
 
