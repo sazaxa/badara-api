@@ -66,6 +66,11 @@ public class ShippingController {
         return shippingService.getPrice(requestDto);
     }
 
+    @PostMapping("/api/v1/shipping/dhl/country/price")
+    public double getCountriesOfPrice(@RequestBody ShippingRequestDto requestDto){
+        return 0;
+    }
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/api/v1/shipping/dhl/countries")
     public List<DhlShipping> getCountriesInfo(){
