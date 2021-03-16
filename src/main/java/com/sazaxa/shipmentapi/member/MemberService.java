@@ -42,7 +42,7 @@ public class MemberService {
 
         List<MemberOrderResponseDto> orders = new ArrayList<>();
 
-        for (OrderResponseDto order : orderService.getOrders()){
+        for (OrderResponseDto order : orderService.getAllOrders()){
             if (order.getMember().getId() == id){
                 orders.add(MemberOrderResponseDto.builder()
                         .id(order.getId())

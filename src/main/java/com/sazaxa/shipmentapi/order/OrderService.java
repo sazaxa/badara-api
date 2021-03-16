@@ -6,6 +6,7 @@ import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderUpdateRequestDto;
+import com.sazaxa.shipmentapi.order.dto.OrderUpdateStatusRequestDto;
 import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
@@ -37,7 +38,7 @@ public class OrderService {
         this.memberRepository = memberRepository;
     }
 
-    public List<OrderResponseDto> getOrders() {
+    public List<OrderResponseDto> getAllOrders() {
         List<OrderResponseDto> orderResponseDtoList = new ArrayList<>();
         List<Order> orders = orderRepository.findAll();
 
@@ -96,7 +97,7 @@ public class OrderService {
         productRepository.saveAll(products);
     }
 
-    public OrderResponseDto getOrdersById(Long id) {
+    public OrderResponseDto getOrder(Long id) {
         Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id : " + id));
         List<Product> products = productRepositorySupport.getProductsByOrderId(order.getId());
 
@@ -109,7 +110,7 @@ public class OrderService {
                 .build();
     }
 
-    public void updateOrderById(Long id, OrderUpdateRequestDto request) {
+    public void updateOrder(Long id, OrderUpdateRequestDto request) {
         Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no id : " + id));
         order.updateOrderPrice(request.getOrderPrice());
 
@@ -131,4 +132,12 @@ public class OrderService {
         newProduct.setShippingPrice(product.getShippingPrice());
     }
 
+    public List<Product> proceedPaymentComplete(Long id, OrderUpdateStatusRequestDto request) {
+        Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id : " + id));
+        List<Product> products = productRepository.findAllByOrder(order);
+        for (Product product : products){
+            product.updateStatus(request.getStatus());
+        }
+        return products;
+    }
 }

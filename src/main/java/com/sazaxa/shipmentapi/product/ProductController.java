@@ -19,12 +19,12 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("{/id}")
+    @GetMapping("/{id}")
     public Product getProduct(@PathVariable Long id){
         return productService.getProduct(id);
     }
 
-    @PutMapping("{/id}")
+    @PutMapping("/{id}")
     public Product updateProductInvoice(@PathVariable Long id, @RequestBody ProductInvoiceRequestDto request){
         return productService.updateProductKoreanInvoice(id, request);
     }
