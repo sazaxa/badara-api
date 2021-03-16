@@ -112,11 +112,18 @@ public class OrderService {
 
     public void updateOrder(Long id, OrderUpdateRequestDto request) {
         Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no id : " + id));
-        order.updateOrderPrice(request.getOrderPrice());
+        double orderPrice = 0;
 
         for (Product product : request.getProducts()){
             updateProduct(product);
+            orderPrice += addShippingPrice(product);
         }
+        order.updateOrderPrice(orderPrice);
+    }
+
+    private double addShippingPrice(Product product) {
+        Product newProduct = productRepository.findById(product.getId()).orElseThrow(()-> new ProductNotFoundException("no id : " + product.getId()));
+        return newProduct.getShippingPrice();
     }
 
     public void updateProduct(Product product){
