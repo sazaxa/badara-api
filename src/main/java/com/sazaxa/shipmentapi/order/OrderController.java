@@ -61,7 +61,7 @@ public class OrderController {
      * @param request 변경하기 원하는 상품의 Status
      * @return status를 변경한 상품들
      */
-    @PutMapping("/payment/{id}/")
+    @PutMapping("/payment/{id}")
     public List<Product> proceedPaymentComplete(@PathVariable Long id, @RequestBody OrderUpdateStatusRequestDto request){
         return orderService.proceedPaymentComplete(id, request);
     }
