@@ -1,7 +1,7 @@
 package com.sazaxa.shipmentapi.order;
 
 public enum OrderStatus {
-    INVOICE("송장입렵"),
+    INVOICE("송장입력"),
     CENTER_INCOME("센터입고중"),
     PAYMENT_REQUEST("결제요청"),
     PAYMENT_COMPLETE("결제완료"),
