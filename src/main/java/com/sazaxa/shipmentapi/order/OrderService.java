@@ -83,7 +83,7 @@ public class OrderService {
                     .recipientName(product.getRecipientName())
                     .recipientPhoneNumber(product.getRecipientPhoneNumber())
                     .recipientAddress(product.getRecipientAddress())
-                    .status(OrderStatus.KOREA_SHIPPING.name())
+                    .status(OrderStatus.CENTER_INCOME.name())
                     .country(product.getCountry())
                     .userMemo(product.getUserMemo())
                     .order(order)
