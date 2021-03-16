@@ -119,8 +119,10 @@ public class Product extends BaseEntity {
     public void updateStatus(String status){
         this.status = status;
     }
-    public void proceedInvoice(String koreanInvoice){
+
+    public void proceedInvoice(String koreanInvoice, String koreanShippingCompany){
         this.koreanInvoice = koreanInvoice;
+        this.koreanShippingCompany = koreanShippingCompany;
         this.status = OrderStatus.CENTER_INCOME.status;
     }
 

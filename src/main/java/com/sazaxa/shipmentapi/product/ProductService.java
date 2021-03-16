@@ -22,7 +22,7 @@ public class ProductService {
 
     public Product updateProductKoreanInvoice(Long id, ProductInvoiceRequestDto request) {
         Product product = productRepository.findById(id).orElseThrow(()-> new ProductNotFoundException("no product id : " + id));
-        product.proceedInvoice(request.getInvoice());
+        product.proceedInvoice(request.getInvoice(), request.getKoreanShippingCompany());
         return product;
     }
 

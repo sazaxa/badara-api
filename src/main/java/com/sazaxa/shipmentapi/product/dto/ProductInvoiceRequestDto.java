@@ -5,4 +5,5 @@ import lombok.Getter;
 @Getter
 public class ProductInvoiceRequestDto {
     private String invoice;
+    private String koreanShippingCompany;
 }
