@@ -16,7 +16,7 @@ class ShipmentApiApplicationTests {
 
 	@Test
 	void testStatus(){
-		System.out.println(OrderStatus.CENTER_INCOME.toString());
+		System.out.println(OrderStatus.CENTER_INCOME.name());
 		System.out.println(OrderStatus.CENTER_INCOME.status);
 	}
 

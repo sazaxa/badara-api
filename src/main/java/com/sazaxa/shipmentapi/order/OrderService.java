@@ -70,7 +70,7 @@ public class OrderService {
         //Product
         List<Product> products = new ArrayList<>();
         for (OrderSaveRequestDto product : request){
-            products.add(Product.builder()
+            Product newProduct = Product.builder()
                     .productName(product.getProductName())
                     .width(product.getWidth())
                     .depth(product.getDepth())
@@ -87,7 +87,11 @@ public class OrderService {
                     .country(product.getCountry())
                     .userMemo(product.getUserMemo())
                     .order(order)
-                    .build());
+                    .build();
+            if (product.getKoreanInvoice().isBlank()){
+                newProduct.updateStatus(OrderStatus.INVOICE.status);
+            }
+            products.add(newProduct);
         }
         productRepository.saveAll(products);
     }
