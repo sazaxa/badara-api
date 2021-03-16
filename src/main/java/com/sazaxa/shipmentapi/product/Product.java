@@ -2,6 +2,7 @@ package com.sazaxa.shipmentapi.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sazaxa.shipmentapi.order.Order;
+import com.sazaxa.shipmentapi.order.OrderStatus;
 import com.sazaxa.shipmentapi.util.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -117,6 +118,10 @@ public class Product extends BaseEntity {
 
     public void updateStatus(String status){
         this.status = status;
+    }
+    public void proceedInvoice(String koreanInvoice){
+        this.koreanInvoice = koreanInvoice;
+        this.status = OrderStatus.CENTER_INCOME.status;
     }
 
 }
