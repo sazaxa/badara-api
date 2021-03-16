@@ -8,7 +8,7 @@ public enum OrderStatus {
     GLOBAL_DELIVERY("해외배송중"),
     GLOBAL_DELIVERY_COMPLETED("해외배송완료");
 
-    String status;
+    public String status;
 
     OrderStatus(String status) {
         this.status = status;
