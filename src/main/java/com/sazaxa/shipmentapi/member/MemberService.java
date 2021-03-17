@@ -6,6 +6,7 @@ import com.sazaxa.shipmentapi.member.dto.MemberUpdateRequestDto;
 import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
 import com.sazaxa.shipmentapi.member.role.Role;
 import com.sazaxa.shipmentapi.member.role.RoleName;
+import com.sazaxa.shipmentapi.member.role.RoleService;
 import com.sazaxa.shipmentapi.order.OrderService;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,12 +23,14 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final OrderService orderService;
     private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
 
-    public MemberService(MemberRepository memberRepository, OrderService orderService, PasswordEncoder passwordEncoder) {
+    public MemberService(MemberRepository memberRepository, OrderService orderService, PasswordEncoder passwordEncoder, RoleService roleService) {
         this.memberRepository = memberRepository;
         this.orderService = orderService;
         this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     public List<Member> getAllMembers() {
@@ -96,7 +99,8 @@ public class MemberService {
     //로그인한 유저의 Role 확인
     public boolean isAdminRole(String email) {
         Member member = memberRepository.findByEmail(email);
-        if (member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())){
+        Role userRole = roleService.findByRoleName(RoleName.ROLE_ADMIN);
+        if (member.getRoles().contains(userRole)){
             return true;
         }
         return false;

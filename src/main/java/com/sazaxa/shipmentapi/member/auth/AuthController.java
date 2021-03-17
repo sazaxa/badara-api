@@ -94,11 +94,7 @@ public class AuthController {
         return new ResponseEntity(member, HttpStatus.CREATED);
     }
 
-    @GetMapping("/current")
-    @PreAuthorize("hasRole('USER')")
-    public Member getCurrentMember(@CurrentUser UserPrincipalCustom userPrincipal){
-        return memberService.getMemberById(userPrincipal.getId());
-    }
+
 
     @PostMapping("/signin/admin")
     public ResponseEntity loginAdmin(@RequestBody Member resource){
@@ -117,10 +113,18 @@ public class AuthController {
         return new ResponseEntity(new JwtAuthenticationResponse(jwt), HttpStatus.OK);
     }
 
+    @GetMapping("/current")
+    @PreAuthorize("hasRole('USER')")
+    public Member getCurrentMember(@CurrentUser UserPrincipalCustom userPrincipal){
+        return memberService.getMemberById(userPrincipal.getId());
+    }
+
     @GetMapping("/current/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public boolean getCurrentAdmin(@CurrentUser UserPrincipalCustom userPrincipal){
-        if (memberService.isAdminRole(userPrincipal.getEmail())){
+        boolean flag = memberService.isAdminRole(userPrincipal.getEmail());
+        System.out.println("flag : " + flag);
+        if (flag){
             return true;
         }
         return false;

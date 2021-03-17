@@ -1,16 +1,24 @@
 package com.sazaxa.shipmentapi.config;
 
+import com.sazaxa.shipmentapi.member.MemberRepository;
 import com.sazaxa.shipmentapi.member.role.RoleRepository;
+import com.sazaxa.shipmentapi.member.role.RoleService;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class InitDataConfig implements CommandLineRunner {
 
-    private final RoleRepository roleRepository;
+    private final RoleService roleService;
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public InitDataConfig(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
+
+    public InitDataConfig(RoleRepository roleRepository, RoleService roleService, MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+        this.roleService = roleService;
+        this.memberRepository = memberRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -22,5 +30,14 @@ public class InitDataConfig implements CommandLineRunner {
 //        Role adminRole = Role.builder().roleName(RoleName.ROLE_ADMIN).build();
 //        roleRepository.save(userRole);
 //        roleRepository.save(adminRole);
+
+//        Role userRole = roleService.findByRoleName(RoleName.ROLE_ADMIN);
+//        Member member = Member.builder()
+//                .email("admin@whosegoods.com")
+//                .password(passwordEncoder.encode("gntmrntm1@"))
+//                .status(MemberStatus.ACTIVATE.name())
+//                .roles(Collections.singleton(userRole))
+//                .build();
+//        memberRepository.save(member);
     }
 }
