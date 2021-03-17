@@ -70,6 +70,7 @@ public class AuthController {
         return new ResponseEntity(new JwtAuthenticationResponse(jwt), HttpStatus.OK);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
     public ResponseEntity registerMember(@RequestBody Member resource ){
 
@@ -101,8 +102,7 @@ public class AuthController {
 
     @PostMapping("/signin/admin")
     public ResponseEntity loginAdmin(@RequestBody Member resource){
-
-        //Role확인
+        
         if (!memberService.isAdminRole(resource.getId())){
             return new ResponseEntity("일반 유저는 접근할 수 없습니다.", HttpStatus.FORBIDDEN);
         }
@@ -117,19 +117,13 @@ public class AuthController {
         return new ResponseEntity(new JwtAuthenticationResponse(jwt), HttpStatus.OK);
     }
 
-//    @GetMapping("/current/admin")
-//    @PreAuthorize("hasRole('USER')")
-//    public boolean getCurrentAdmin(@CurrentUser UserPrincipalCustom userPrincipal){
-//        /*
-//        현재 로인한 계정이 role_admin이면 true
-//        아니면 error
-//         */
-//        return memberService.getMemberById(userPrincipal.getId());
-//    }
-
-    /*
-    1. admin으로 로그인 했을 때 role 확인해서 admin이 아니면 error 맞으면 OK.
-    2. /cuurrent
-    * */
+    @GetMapping("/current/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public boolean getCurrentAdmin(@CurrentUser UserPrincipalCustom userPrincipal){
+        if (memberService.isAdminRole(userPrincipal.getId())){
+            return true;
+        }
+        return false;
+    }
 
 }
