@@ -49,11 +49,15 @@ public class AuthController {
         1. 아이디, 비밀번호 확인
         2. Role확인 : 당신이 관리자여서 로그인이 안된다.
          */
-
         if(!memberService.isExistsByEmail(resource.getEmail())){
             return new ResponseEntity("등록되지 않은 계정입니다.", HttpStatus.UNAUTHORIZED);
         }
-        
+
+        if (!memberService.checkMemberPassword(resource.getId(), resource.getPassword())){
+            return new ResponseEntity("비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED);
+        }
+
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(resource.getEmail(), resource.getPassword())
         );

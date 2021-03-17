@@ -1,6 +1,5 @@
 package com.sazaxa.shipmentapi.member;
 
-import com.sazaxa.shipmentapi.member.dto.MemberCheckPasswordRequestDto;
 import com.sazaxa.shipmentapi.member.dto.MemberOrderResponseDto;
 import com.sazaxa.shipmentapi.member.dto.MemberOrderResponseListDto;
 import com.sazaxa.shipmentapi.member.dto.MemberUpdateRequestDto;
@@ -81,9 +80,9 @@ public class MemberService {
         return memberRepository.save(resource);
     }
 
-    public boolean checkMember(Long id, MemberCheckPasswordRequestDto request) {
+    public boolean checkMemberPassword(Long id, String password) {
         Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
-        return member.authenticate(request.getPassword(), passwordEncoder);
+        return member.authenticate(password, passwordEncoder);
     }
 
 
