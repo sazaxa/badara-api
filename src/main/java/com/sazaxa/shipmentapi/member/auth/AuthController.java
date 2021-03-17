@@ -103,8 +103,8 @@ public class AuthController {
     public ResponseEntity loginAdmin(@RequestBody Member resource){
 
         //Role확인
-        if (memberService.isAdminRole(resource.getId())){
-            return new ResponseEntity("비밀번호가 일치하지 않습니다.", HttpStatus.FORBIDDEN);
+        if (!memberService.isAdminRole(resource.getId())){
+            return new ResponseEntity("일반 유저는 접근할 수 없습니다.", HttpStatus.FORBIDDEN);
         }
 
         Authentication authentication = authenticationManager.authenticate(
@@ -113,10 +113,6 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
-
-        /*
-        * 이 계정이 role_admin이면 통과 아니며 error
-        * */
 
         return new ResponseEntity(new JwtAuthenticationResponse(jwt), HttpStatus.OK);
     }
