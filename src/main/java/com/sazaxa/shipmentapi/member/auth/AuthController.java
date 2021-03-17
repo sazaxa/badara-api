@@ -45,18 +45,20 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity loginUser(@RequestBody Member resource){
 
-        /*
-        1. 아이디, 비밀번호 확인
-        2. Role확인 : 당신이 관리자여서 로그인이 안된다.
-         */
+        //아이디 확인
         if(!memberService.isExistsByEmail(resource.getEmail())){
             return new ResponseEntity("등록되지 않은 계정입니다.", HttpStatus.UNAUTHORIZED);
         }
 
+        //비밀번호 확인
         if (!memberService.checkMemberPassword(resource.getId(), resource.getPassword())){
             return new ResponseEntity("비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED);
         }
 
+        //Role확인
+        if (memberService.isAdminRole(resource.getId())){
+            return new ResponseEntity("관리자는 로그인 할 수 없습니다.", HttpStatus.FORBIDDEN);
+        }
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(resource.getEmail(), resource.getPassword())
@@ -100,6 +102,11 @@ public class AuthController {
     @PostMapping("/signin/admin")
     public ResponseEntity loginAdmin(@RequestBody Member resource){
 
+        //Role확인
+        if (memberService.isAdminRole(resource.getId())){
+            return new ResponseEntity("비밀번호가 일치하지 않습니다.", HttpStatus.FORBIDDEN);
+        }
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(resource.getEmail(), resource.getPassword())
         );
@@ -114,16 +121,15 @@ public class AuthController {
         return new ResponseEntity(new JwtAuthenticationResponse(jwt), HttpStatus.OK);
     }
 
-    @GetMapping("/current/admin")
-    @PreAuthorize("hasRole('USER')")
-    public boolean getCurrentAdmin(@CurrentUser UserPrincipalCustom userPrincipal){
-        /*
-        현재 로인한 계정이 role_admin이면 true
-        아니면 error
-         */
-        return memberService.getMemberById(userPrincipal.getId());
-    }
-
+//    @GetMapping("/current/admin")
+//    @PreAuthorize("hasRole('USER')")
+//    public boolean getCurrentAdmin(@CurrentUser UserPrincipalCustom userPrincipal){
+//        /*
+//        현재 로인한 계정이 role_admin이면 true
+//        아니면 error
+//         */
+//        return memberService.getMemberById(userPrincipal.getId());
+//    }
 
     /*
     1. admin으로 로그인 했을 때 role 확인해서 admin이 아니면 error 맞으면 OK.

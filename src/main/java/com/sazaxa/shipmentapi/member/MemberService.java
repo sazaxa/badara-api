@@ -4,6 +4,8 @@ import com.sazaxa.shipmentapi.member.dto.MemberOrderResponseDto;
 import com.sazaxa.shipmentapi.member.dto.MemberOrderResponseListDto;
 import com.sazaxa.shipmentapi.member.dto.MemberUpdateRequestDto;
 import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
+import com.sazaxa.shipmentapi.member.role.Role;
+import com.sazaxa.shipmentapi.member.role.RoleName;
 import com.sazaxa.shipmentapi.order.OrderService;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -80,10 +82,18 @@ public class MemberService {
         return memberRepository.save(resource);
     }
 
+    //비밀번호 확인 로직
     public boolean checkMemberPassword(Long id, String password) {
         Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
         return member.authenticate(password, passwordEncoder);
     }
 
-
+    //로그인한 유저의 Role 확인
+    public boolean isAdminRole(Long id) {
+        Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
+        if (member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())){
+            return true;
+        }
+        return false;
+    }
 }

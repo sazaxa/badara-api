@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi;
 
+import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.order.OrderStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,11 @@ class ShipmentApiApplicationTests {
 	void testStatus(){
 		System.out.println(OrderStatus.CENTER_INCOME.name());
 		System.out.println(OrderStatus.CENTER_INCOME.status);
+	}
+
+	@Test
+	void memberRole(){
+		Member member = new Member();
 	}
 
 }
