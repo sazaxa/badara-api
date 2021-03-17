@@ -45,6 +45,15 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity loginUser(@RequestBody Member resource){
 
+        /*
+        1. 아이디, 비밀번호 확인
+        2. Role확인 : 당신이 관리자여서 로그인이 안된다.
+         */
+
+        if(!memberService.isExistsByEmail(resource.getEmail())){
+            return new ResponseEntity("등록되지 않은 계정입니다.", HttpStatus.UNAUTHORIZED);
+        }
+        
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(resource.getEmail(), resource.getPassword())
         );
@@ -53,7 +62,6 @@ public class AuthController {
         String jwt = tokenProvider.generateToken(authentication);
 
         return new ResponseEntity(new JwtAuthenticationResponse(jwt), HttpStatus.OK);
-
     }
 
     @PostMapping("/signup")
@@ -84,5 +92,38 @@ public class AuthController {
     public Member getCurrentMember(@CurrentUser UserPrincipalCustom userPrincipal){
         return memberService.getMemberById(userPrincipal.getId());
     }
+
+    @PostMapping("/signin/admin")
+    public ResponseEntity loginAdmin(@RequestBody Member resource){
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(resource.getEmail(), resource.getPassword())
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = tokenProvider.generateToken(authentication);
+
+        /*
+        * 이 계정이 role_admin이면 통과 아니며 error
+        * */
+
+        return new ResponseEntity(new JwtAuthenticationResponse(jwt), HttpStatus.OK);
+    }
+
+    @GetMapping("/current/admin")
+    @PreAuthorize("hasRole('USER')")
+    public boolean getCurrentAdmin(@CurrentUser UserPrincipalCustom userPrincipal){
+        /*
+        현재 로인한 계정이 role_admin이면 true
+        아니면 error
+         */
+        return memberService.getMemberById(userPrincipal.getId());
+    }
+
+
+    /*
+    1. admin으로 로그인 했을 때 role 확인해서 admin이 아니면 error 맞으면 OK.
+    2. /cuurrent
+    * */
 
 }
