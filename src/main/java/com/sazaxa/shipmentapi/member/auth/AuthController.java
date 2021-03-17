@@ -51,12 +51,12 @@ public class AuthController {
         }
 
         //비밀번호 확인
-        if (!memberService.checkMemberPassword(resource.getId(), resource.getPassword())){
+        if (!memberService.checkMemberPasswordWithEmail(resource.getEmail(), resource.getPassword())){
             return new ResponseEntity("비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED);
         }
 
         //Role확인
-        if (memberService.isAdminRole(resource.getId())){
+        if (memberService.isAdminRole(resource.getEmail())){
             return new ResponseEntity("관리자는 로그인 할 수 없습니다.", HttpStatus.FORBIDDEN);
         }
 
@@ -103,7 +103,7 @@ public class AuthController {
     @PostMapping("/signin/admin")
     public ResponseEntity loginAdmin(@RequestBody Member resource){
 
-        if (!memberService.isAdminRole(resource.getId())){
+        if (!memberService.isAdminRole(resource.getEmail())){
             return new ResponseEntity("일반 유저는 접근할 수 없습니다.", HttpStatus.FORBIDDEN);
         }
 
@@ -120,7 +120,7 @@ public class AuthController {
     @GetMapping("/current/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public boolean getCurrentAdmin(@CurrentUser UserPrincipalCustom userPrincipal){
-        if (memberService.isAdminRole(userPrincipal.getId())){
+        if (memberService.isAdminRole(userPrincipal.getEmail())){
             return true;
         }
         return false;

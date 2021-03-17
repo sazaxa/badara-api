@@ -83,14 +83,19 @@ public class MemberService {
     }
 
     //비밀번호 확인 로직
-    public boolean checkMemberPassword(Long id, String password) {
+    public boolean checkMemberPasswordWithId(Long id, String password) {
         Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
         return member.authenticate(password, passwordEncoder);
     }
 
+    public boolean checkMemberPasswordWithEmail(String email, String password) {
+        Member member = memberRepository.findByEmail(email);
+        return member.authenticate(password, passwordEncoder);
+    }
+
     //로그인한 유저의 Role 확인
-    public boolean isAdminRole(Long id) {
-        Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
+    public boolean isAdminRole(String email) {
+        Member member = memberRepository.findByEmail(email);
         if (member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())){
             return true;
         }

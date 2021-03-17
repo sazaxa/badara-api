@@ -47,7 +47,7 @@ public class MemberController {
 
     @PostMapping("/check/{id}")
     public boolean checkPassword(@PathVariable Long id, @RequestBody MemberCheckPasswordRequestDto request){
-        return memberService.checkMemberPassword(id, request.getPassword());
+        return memberService.checkMemberPasswordWithId(id, request.getPassword());
     }
 
     @PutMapping("/delete/{id}")
