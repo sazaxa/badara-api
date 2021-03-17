@@ -102,7 +102,7 @@ public class AuthController {
 
     @PostMapping("/signin/admin")
     public ResponseEntity loginAdmin(@RequestBody Member resource){
-        
+
         if (!memberService.isAdminRole(resource.getId())){
             return new ResponseEntity("일반 유저는 접근할 수 없습니다.", HttpStatus.FORBIDDEN);
         }
