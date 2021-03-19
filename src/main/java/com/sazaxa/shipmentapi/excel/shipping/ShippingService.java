@@ -30,6 +30,7 @@ public class ShippingService {
     }
 
     public void saveDhlShipment(List<DhlShipping> dhlShipmentList){
+        shippingRepository.deleteAll();
         shippingRepository.saveAll(dhlShipmentList);
     }
 
