@@ -48,7 +48,7 @@ public class ShippingController {
         //국가에 따른 배송비 저장
         for (int i = 1; i < sizeColumn; i++) { // 4
             Row row = worksheet.getRow(i);
-            int weight = (int) row.getCell(0).getNumericCellValue();
+            double weight = row.getCell(0).getNumericCellValue();
 
             for (int j = 1; j < sizeRow; j++){
                 double price = (double) Math.round(row.getCell(j).getNumericCellValue() * 100) / 100;
