@@ -14,7 +14,7 @@ public class ShippingRepositorySupport {
         this.queryFactory = queryFactory;
     }
 
-    public List<DhlShipping> getPrice(String country, int weight){
+    public List<DhlShipping> getPrice(String country, double weight){
         QDhlShipping dhlShipping = QDhlShipping.dhlShipping;
 
         List<DhlShipping> list = queryFactory.selectFrom(dhlShipping)
