@@ -69,8 +69,8 @@ class FaqControllerTest {
         given(faqService.getAllFaq()).willReturn(List.of(faq));
         given(faqService.getFaqById(id)).willReturn(faqResponseDto);
         given(faqService.getFaqById(1000L)).willThrow(new FaqNotFoundException("no faq id : " + id));
-        given(faqService.saveFaq(any(FaqSaveRequestDto.class))).willReturn(faqResponseDto);
-        given(faqService.updateFaq(eq(1L), any(FaqUpdateRequestDto.class))).willReturn(faqResponseDto);
+        given(faqService.saveFaq(any(FaqSaveRequestDto.class))).willReturn(faq);
+        given(faqService.updateFaq(eq(1L), any(FaqUpdateRequestDto.class))).willReturn(faq);
         given(faqService.deleteFaq(1000L)).willThrow(new FaqNotFoundException("no faq id : " + id));
     }
 

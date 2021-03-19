@@ -1,6 +1,5 @@
 package com.sazaxa.shipmentapi.faq;
 
-import com.github.dozermapper.core.Mapper;
 import com.sazaxa.shipmentapi.faq.dto.FaqResponseDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqUpdateRequestDto;
@@ -13,11 +12,9 @@ import java.util.List;
 public class FaqService {
 
 
-    private final Mapper mapper;
     private final FaqRepository faqRepository;
 
-    public FaqService(Mapper mapper, FaqRepository faqRepository) {
-        this.mapper = mapper;
+    public FaqService(FaqRepository faqRepository) {
         this.faqRepository = faqRepository;
     }
 
@@ -27,29 +24,27 @@ public class FaqService {
 
     public FaqResponseDto getFaqById(Long id) {
         Faq faq = faqRepository.findById(id).orElseThrow(() -> new FaqNotFoundException("no id" + id) );
-        FaqResponseDto faqResponseDto = new FaqResponseDto(faq);
+        FaqResponseDto faqResponseDto = FaqResponseDto.builder()
+                .title(faq.getTitle())
+                .content(faq.getContent())
+                .build();
         return faqResponseDto;
     }
 
-    public FaqResponseDto saveFaq(FaqSaveRequestDto faqSaveRequestDto) {
+    public Faq saveFaq(FaqSaveRequestDto request) {
 
-        Faq faq = mapper.map(faqSaveRequestDto, Faq.class);
-        faqRepository.save(faq);
-
-        //저장한 값 리턴
-        FaqResponseDto faqResponseDto = new FaqResponseDto(faq);
-
-        return faqResponseDto;
+        Faq faq = Faq.builder()
+                .title(request.getTitle())
+                .content(request.getContent())
+                .build();
+        return faqRepository.save(faq);
     }
 
-    public FaqResponseDto updateFaq(Long id, FaqUpdateRequestDto faqUpdateRequestDto) {
+    public Faq updateFaq(Long id, FaqUpdateRequestDto faqUpdateRequestDto) {
         Faq faq = faqRepository.findById(id).orElseThrow(() -> new FaqNotFoundException("no id" + id) );
         faq.updateFaq(faqUpdateRequestDto.getTitle(), faqUpdateRequestDto.getContent());
-
         faqRepository.save(faq);
-
-        FaqResponseDto faqResponseDto = new FaqResponseDto(faq);
-        return faqResponseDto;
+        return faq;
     }
 
     public Faq deleteFaq(Long id) {

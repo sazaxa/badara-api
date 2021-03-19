@@ -1,7 +1,5 @@
 package com.sazaxa.shipmentapi.faq;
 
-import com.github.dozermapper.core.DozerBeanMapperBuilder;
-import com.github.dozermapper.core.Mapper;
 import com.sazaxa.shipmentapi.faq.dto.FaqResponseDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqUpdateRequestDto;
@@ -26,8 +24,7 @@ class FaqServiceTest {
 
     @BeforeEach
     void setUp(){
-        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
-        faqService = new FaqService(mapper, faqRepository);
+        faqService = new FaqService(faqRepository);
 
         Faq faq = Faq.builder()
                 .title("t1")
@@ -57,8 +54,8 @@ class FaqServiceTest {
                 .title("t1")
                 .content("c1")
                 .build();
-        FaqResponseDto response = faqService.saveFaq(request);
-        assertThat(response.getTitle()).isEqualTo("t1");
+        Faq newFaq = faqService.saveFaq(request);
+        assertThat(newFaq.getTitle()).isEqualTo("t1");
     }
 
     @Test
@@ -68,8 +65,8 @@ class FaqServiceTest {
                 .content("c2")
                 .build();
 
-        FaqResponseDto response = faqService.updateFaq(1L, request);
-        assertThat(response.getTitle()).isEqualTo("t2");
+        Faq updateFaq = faqService.updateFaq(1L, request);
+        assertThat(updateFaq.getTitle()).isEqualTo("t2");
     }
 
     @Test

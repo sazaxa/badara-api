@@ -32,13 +32,13 @@ public class FaqController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public FaqResponseDto saveFaq(@RequestBody FaqSaveRequestDto request){
+    public Faq saveFaq(@RequestBody FaqSaveRequestDto request){
         return faqService.saveFaq(request);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public FaqResponseDto updateFaq(@PathVariable Long id, @RequestBody FaqUpdateRequestDto request){
+    public Faq updateFaq(@PathVariable Long id, @RequestBody FaqUpdateRequestDto request){
         return faqService.updateFaq(id, request);
     }
 
