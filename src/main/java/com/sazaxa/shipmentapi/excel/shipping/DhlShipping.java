@@ -21,13 +21,13 @@ public class DhlShipping extends BaseEntity {
     private String country;
 
     @Column
-    private int weight;
+    private double weight;
 
     @Column
     private double price;
 
     @Builder
-    public DhlShipping(String country, int weight, double price){
+    public DhlShipping(String country, double weight, double price){
         this.country = country;
         this.weight = weight;
         this.price = price;
