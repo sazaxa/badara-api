@@ -4,7 +4,6 @@ import com.sazaxa.shipmentapi.security.jwt.JwtAuthenticationEntryPoint;
 import com.sazaxa.shipmentapi.security.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -94,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/api/v1/auth/**")
                 .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/shipping/**", "/api/v1/faq/**")
+                .antMatchers("/api/v1/shipping/**", "/api/v1/faq/**")
                 .permitAll().anyRequest()
                 .authenticated();
 
