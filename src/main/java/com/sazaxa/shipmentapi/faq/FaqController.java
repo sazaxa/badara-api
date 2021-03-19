@@ -1,10 +1,17 @@
 package com.sazaxa.shipmentapi.faq;
 
-import com.sazaxa.shipmentapi.faq.dto.FaqUpdateRequestDto;
-import com.sazaxa.shipmentapi.faq.dto.FaqResponseDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
+import com.sazaxa.shipmentapi.faq.dto.FaqUpdateRequestDto;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -26,7 +33,7 @@ public class FaqController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public FaqResponseDto getFaqById(@PathVariable Long id){
+    public Faq getFaqById(@PathVariable Long id){
         return faqService.getFaqById(id);
     }
 

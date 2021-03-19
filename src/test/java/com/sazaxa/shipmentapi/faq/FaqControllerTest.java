@@ -52,22 +52,8 @@ class FaqControllerTest {
                 .content("c1")
                 .build();
 
-        faqUpdateRequestDto = FaqUpdateRequestDto.builder()
-                .title("t1")
-                .content("c1")
-                .build();
-        faqSaveRequestDto = FaqSaveRequestDto.builder()
-                .title("t1")
-                .content("c1")
-                .build();
-        faqResponseDto = FaqResponseDto.builder()
-                .id(id)
-                .title("t1")
-                .content("c1")
-                .build();
-
         given(faqService.getAllFaq()).willReturn(List.of(faq));
-        given(faqService.getFaqById(id)).willReturn(faqResponseDto);
+        given(faqService.getFaqById(id)).willReturn(faq);
         given(faqService.getFaqById(1000L)).willThrow(new FaqNotFoundException("no faq id : " + id));
         given(faqService.saveFaq(any(FaqSaveRequestDto.class))).willReturn(faq);
         given(faqService.updateFaq(eq(1L), any(FaqUpdateRequestDto.class))).willReturn(faq);
