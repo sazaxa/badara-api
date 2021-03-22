@@ -31,13 +31,13 @@ public class HapOrderController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<HapOrderResponseDto> getAllOrders(){
+    public List<HapOrderResponseDto> getAllHapOrders(){
         return hapOrderService.getAllOrders();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public String saveOrders(
+    public String saveHapOrders(
             @CurrentUser UserPrincipalCustom currentUser,
             @RequestBody List<HapOrderSaveRequestDto> request){
         hapOrderService.saveOrders(request, currentUser);
@@ -45,12 +45,12 @@ public class HapOrderController {
     }
 
     @GetMapping("/{id}")
-    public HapOrderResponseDto getOrder(@PathVariable Long id){
+    public HapOrderResponseDto getHapOrder(@PathVariable Long id){
         return hapOrderService.getOrder(id);
     }
 
     @PutMapping("/{id}")
-    public String updateOrder(@PathVariable Long id, @RequestBody HapOrderUpdateRequestDto request){
+    public String updateHapOrder(@PathVariable Long id, @RequestBody HapOrderUpdateRequestDto request){
         hapOrderService.updateOrder(id, request);
         return "success";
     }
