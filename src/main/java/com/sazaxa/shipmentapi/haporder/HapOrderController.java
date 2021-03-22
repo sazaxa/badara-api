@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RequestMapping("/api/v1/hapOrders")
+@RequestMapping("/api/v1/haporders")
 @RestController
 public class HapOrderController {
 

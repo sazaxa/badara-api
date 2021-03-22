@@ -123,7 +123,6 @@ public class AuthController {
     @PreAuthorize("hasRole('ADMIN')")
     public boolean getCurrentAdmin(@CurrentUser UserPrincipalCustom userPrincipal){
         boolean flag = memberService.isAdminRole(userPrincipal.getEmail());
-        System.out.println("flag : " + flag);
         if (flag){
             return true;
         }

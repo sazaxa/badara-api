@@ -18,6 +18,12 @@ import javax.persistence.*;
 @Entity
 public class Order extends BaseEntity {
 
+    /*
+    - zipcode 입력
+    - zip
+     */
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
