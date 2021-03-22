@@ -41,6 +41,12 @@ public class Order extends BaseEntity {
     private double netWeight;
 
     @Column
+    private double expectedWeight;
+
+    @Column
+    private double shippingWeight;
+
+    @Column
     private double expectedPrice;
 
     @Column
