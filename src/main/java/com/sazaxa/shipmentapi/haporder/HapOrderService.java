@@ -38,7 +38,7 @@ public class HapOrderService {
         this.memberRepository = memberRepository;
     }
 
-    public List<HapOrderResponseDto> getAllOrders() {
+    public List<HapOrderResponseDto> getAllHapOrders() {
         List<HapOrderResponseDto> hapOrderResponseDtoList = new ArrayList<>();
         List<HapOrder> hapOrders = hapOrderRepository.findAll();
 
@@ -56,7 +56,7 @@ public class HapOrderService {
         return hapOrderResponseDtoList;
     }
 
-    public void saveOrders(List<HapOrderSaveRequestDto> request, UserPrincipalCustom currentUser) {
+    public void saveHapOrders(List<HapOrderSaveRequestDto> request, UserPrincipalCustom currentUser) {
 
         Member member = memberRepository.findById(currentUser.getId()).orElseThrow(()-> new MemberNotFoundException("no id : " + currentUser.getId()));
 
@@ -97,7 +97,7 @@ public class HapOrderService {
         orderRepository.saveAll(orders);
     }
 
-    public HapOrderResponseDto getOrder(Long id) {
+    public HapOrderResponseDto getHapOrder(Long id) {
         HapOrder hapOrder = hapOrderRepository.findById(id).orElseThrow(()-> new HapOrderNotFoundException("no order id : " + id));
         List<Order> orders = orderRepositorySupport.getProductsByOrderId(hapOrder.getId());
 
@@ -110,15 +110,15 @@ public class HapOrderService {
                 .build();
     }
 
-    public void updateOrder(Long id, HapOrderUpdateRequestDto request) {
+    public void updateHapOrder(Long id, HapOrderUpdateRequestDto request) {
         HapOrder hapOrder = hapOrderRepository.findById(id).orElseThrow(()-> new HapOrderNotFoundException("no id : " + id));
-        double orderPrice = 0;
+        double orderHapPrice = 0;
 
         for (Order order : request.getOrders()){
-            updateProduct(order);
-            orderPrice += addShippingPrice(order);
+            updateOrder(order);
+            orderHapPrice += addShippingPrice(order);
         }
-        hapOrder.updateOrderPrice(orderPrice);
+        hapOrder.updateOrderPrice(orderHapPrice);
     }
 
     private double addShippingPrice(Order order) {
@@ -126,7 +126,7 @@ public class HapOrderService {
         return newOrder.getShippingPrice();
     }
 
-    public void updateProduct(Order order){
+    public void updateOrder(Order order){
         Order newOrder = orderRepository.findById(order.getId()).orElseThrow(()-> new OrderNotFoundException("no id : " + order.getId()));
         newOrder.setStatus(order.getStatus());
         newOrder.setRecipientAddress(order.getRecipientAddress());

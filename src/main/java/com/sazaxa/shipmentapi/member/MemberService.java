@@ -46,7 +46,7 @@ public class MemberService {
 
         List<MemberOrderResponseDto> hapOrders = new ArrayList<>();
 
-        for (HapOrderResponseDto hapOrder : hapOrderService.getAllOrders()){
+        for (HapOrderResponseDto hapOrder : hapOrderService.getAllHapOrders()){
             if (hapOrder.getMember().getId() == id){
                 hapOrders.add(MemberOrderResponseDto.builder()
                         .id(hapOrder.getId())
