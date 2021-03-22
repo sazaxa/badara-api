@@ -34,6 +34,9 @@ public class HapOrder extends BaseEntity {
     @Column
     private double hapOrderPrice;
 
+    @Column
+    private double hapOrderWeight;
+
     @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @JoinColumn(name="member_id")
@@ -45,7 +48,7 @@ public class HapOrder extends BaseEntity {
         this.member = member;
     }
 
-    public void updateOrderPrice(double hapOrderPrice){
+    public void updateHapOrderPrice(double hapOrderPrice){
         this.hapOrderPrice = hapOrderPrice;
     }
 
