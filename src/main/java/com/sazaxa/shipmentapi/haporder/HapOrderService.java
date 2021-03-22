@@ -118,7 +118,7 @@ public class HapOrderService {
             updateOrder(order);
             orderHapPrice += addShippingPrice(order);
         }
-        hapOrder.updateOrderPrice(orderHapPrice);
+        hapOrder.updateHapOrderPrice(orderHapPrice);
     }
 
     private double addShippingPrice(Order order) {
