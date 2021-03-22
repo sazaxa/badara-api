@@ -10,5 +10,5 @@ import java.util.List;
 @Getter
 public class MemberOrderResponseListDto {
     private Member member;
-    private List<MemberOrderResponseDto> orders;
+    private List<MemberOrderResponseDto> hapOrders;
 }

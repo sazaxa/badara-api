@@ -7,8 +7,8 @@ import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
 import com.sazaxa.shipmentapi.member.role.Role;
 import com.sazaxa.shipmentapi.member.role.RoleName;
 import com.sazaxa.shipmentapi.member.role.RoleService;
-import com.sazaxa.shipmentapi.order.OrderService;
-import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
+import com.sazaxa.shipmentapi.haporder.HapOrderService;
+import com.sazaxa.shipmentapi.haporder.dto.HapOrderResponseDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +21,14 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final OrderService orderService;
+    private final HapOrderService hapOrderService;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
 
 
-    public MemberService(MemberRepository memberRepository, OrderService orderService, PasswordEncoder passwordEncoder, RoleService roleService) {
+    public MemberService(MemberRepository memberRepository, HapOrderService hapOrderService, PasswordEncoder passwordEncoder, RoleService roleService) {
         this.memberRepository = memberRepository;
-        this.orderService = orderService;
+        this.hapOrderService = hapOrderService;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
     }
@@ -44,22 +44,22 @@ public class MemberService {
     public MemberOrderResponseListDto getMemberByIdWithOrder(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
 
-        List<MemberOrderResponseDto> orders = new ArrayList<>();
+        List<MemberOrderResponseDto> hapOrders = new ArrayList<>();
 
-        for (OrderResponseDto order : orderService.getAllOrders()){
-            if (order.getMember().getId() == id){
-                orders.add(MemberOrderResponseDto.builder()
-                        .id(order.getId())
-                        .orderNumber(order.getOrderNumber())
-                        .orderPrice(order.getOrderPrice())
-                        .products(order.getProducts())
+        for (HapOrderResponseDto hapOrder : hapOrderService.getAllOrders()){
+            if (hapOrder.getMember().getId() == id){
+                hapOrders.add(MemberOrderResponseDto.builder()
+                        .id(hapOrder.getId())
+                        .orderNumber(hapOrder.getHapOrderNumber())
+                        .orderPrice(hapOrder.getHapOrderPrice())
+                        .orders(hapOrder.getOrders())
                         .build());
             }
         }
 
         MemberOrderResponseListDto response = MemberOrderResponseListDto.builder()
                 .member(member)
-                .orders(orders)
+                .hapOrders(hapOrders)
                 .build();
 
         return response;

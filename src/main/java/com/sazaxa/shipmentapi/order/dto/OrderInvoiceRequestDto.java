@@ -1,9 +1,9 @@
-package com.sazaxa.shipmentapi.product.dto;
+package com.sazaxa.shipmentapi.order.dto;
 
 import lombok.Getter;
 
 @Getter
-public class ProductInvoiceRequestDto {
+public class OrderInvoiceRequestDto {
     private String invoice;
     private String koreanShippingCompany;
 }

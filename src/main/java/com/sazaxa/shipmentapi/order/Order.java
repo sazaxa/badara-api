@@ -1,23 +1,17 @@
 package com.sazaxa.shipmentapi.order;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sazaxa.shipmentapi.member.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sazaxa.shipmentapi.haporder.HapOrder;
+import com.sazaxa.shipmentapi.haporder.HapOrderStatus;
 import com.sazaxa.shipmentapi.util.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-//@ToString(exclude = {"products"})
+@Setter
 @Getter
 @NoArgsConstructor
 @Table(name = "zx_order")
@@ -29,24 +23,107 @@ public class Order extends BaseEntity {
     private Long id;
 
     @Column
-    private String orderNumber;
+    private String orderName;
 
     @Column
-    private double orderPrice;
+    private double width;
 
-    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer"})
-    @JoinColumn(name="member_id")
-    private Member member;
+    @Column
+    private double depth;
+
+    @Column
+    private double height;
+
+    @Column
+    private double volumeWeight;
+
+    @Column
+    private double netWeight;
+
+    @Column
+    private double expectedPrice;
+
+    @Column
+    private double shippingPrice;
+
+    @Column
+    private String koreanShippingCompany;
+
+    @Column
+    private String koreanInvoice;
+
+    @Column
+    private String abroadInvoice;
+
+    @Column
+    private String abroadShippingCompany;
+
+    @Column
+    private String recipientName;
+
+    @Column
+    private String recipientPhoneNumber;
+
+    @Column
+    private String recipientAddress;
+
+    @Column
+    private String status;
+
+    @Column
+    private String country;
+
+    @Column
+    private String userMemo;
+
+    @Column
+    private String adminMemo;
+
+    @Column
+    private double adminVolumeWeight;
+
+    @Column
+    private double adminNetWeight;
+
+    @JsonIgnore
+    @ManyToOne(targetEntity = HapOrder.class, fetch = FetchType.LAZY)
+    @JoinColumn(name="order_id")
+    private HapOrder hapOrder;
 
     @Builder
-    public Order(String orderNumber, Member member) {
-        this.orderNumber = orderNumber;
-        this.member = member;
+    public Order(String orderName, double width, double depth, double height, double volumeWeight, double netWeight, double expectedPrice, double shippingPrice, String koreanShippingCompany, String koreanInvoice, String abroadInvoice, String abroadShippingCompany, String recipientName, String recipientPhoneNumber, String recipientAddress, String status, String country, String userMemo, String adminMemo, double adminNetWeight, double adminVolumeWeight, HapOrder hapOrder) {
+        this.orderName = orderName;
+        this.width = width;
+        this.depth = depth;
+        this.height = height;
+        this.volumeWeight = volumeWeight;
+        this.netWeight = netWeight;
+        this.expectedPrice = expectedPrice;
+        this.shippingPrice = shippingPrice;
+        this.koreanShippingCompany = koreanShippingCompany;
+        this.koreanInvoice = koreanInvoice;
+        this.abroadInvoice = abroadInvoice;
+        this.abroadShippingCompany = abroadShippingCompany;
+        this.recipientName = recipientName;
+        this.recipientPhoneNumber = recipientPhoneNumber;
+        this.recipientAddress = recipientAddress;
+        this.status = status;
+        this.country = country;
+        this.userMemo = userMemo;
+        this.adminMemo = adminMemo;
+        this.adminNetWeight = adminNetWeight;
+        this.adminVolumeWeight = adminVolumeWeight;
+        this.hapOrder = hapOrder;
     }
 
-    public void updateOrderPrice(double orderPrice){
-        this.orderPrice = orderPrice;
+    public void updateStatus(String status){
+        this.status = status;
+    }
+
+    public void proceedInvoice(String koreanInvoice, String koreanShippingCompany){
+        this.koreanInvoice = koreanInvoice;
+        this.koreanShippingCompany = koreanShippingCompany;
+        this.status = HapOrderStatus.CENTER_INCOME.status;
     }
 
 }

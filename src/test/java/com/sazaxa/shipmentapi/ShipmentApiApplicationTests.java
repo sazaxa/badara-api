@@ -1,7 +1,7 @@
 package com.sazaxa.shipmentapi;
 
 import com.sazaxa.shipmentapi.member.Member;
-import com.sazaxa.shipmentapi.order.OrderStatus;
+import com.sazaxa.shipmentapi.haporder.HapOrderStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,8 +17,8 @@ class ShipmentApiApplicationTests {
 
 	@Test
 	void testStatus(){
-		System.out.println(OrderStatus.CENTER_INCOME.name());
-		System.out.println(OrderStatus.CENTER_INCOME.status);
+		System.out.println(HapOrderStatus.CENTER_INCOME.name());
+		System.out.println(HapOrderStatus.CENTER_INCOME.status);
 	}
 
 	@Test

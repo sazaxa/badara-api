@@ -1,6 +1,6 @@
-package com.sazaxa.shipmentapi.order;
+package com.sazaxa.shipmentapi.haporder;
 
-public enum OrderStatus {
+public enum HapOrderStatus {
     INVOICE("송장입력"),
     CENTER_INCOME("센터입고중"),
     PAYMENT_REQUEST("결제요청"),
@@ -10,7 +10,7 @@ public enum OrderStatus {
 
     public String status;
 
-    OrderStatus(String status) {
+    HapOrderStatus(String status) {
         this.status = status;
     }
 

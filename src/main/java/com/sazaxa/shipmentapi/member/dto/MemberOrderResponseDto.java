@@ -1,7 +1,7 @@
 package com.sazaxa.shipmentapi.member.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sazaxa.shipmentapi.product.Product;
+import com.sazaxa.shipmentapi.order.Order;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,5 +15,5 @@ public class MemberOrderResponseDto {
     private String orderNumber;
     private double orderPrice;
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
-    private List<Product> products;
+    private List<Order> orders;
 }

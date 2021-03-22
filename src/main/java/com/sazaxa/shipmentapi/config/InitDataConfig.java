@@ -10,12 +10,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class InitDataConfig implements CommandLineRunner {
 
+    private final RoleRepository roleRepository;
     private final RoleService roleService;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
 
     public InitDataConfig(RoleRepository roleRepository, RoleService roleService, MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+        this.roleRepository = roleRepository;
         this.roleService = roleService;
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
@@ -30,13 +32,13 @@ public class InitDataConfig implements CommandLineRunner {
 //        Role adminRole = Role.builder().roleName(RoleName.ROLE_ADMIN).build();
 //        roleRepository.save(userRole);
 //        roleRepository.save(adminRole);
-
-//        Role userRole = roleService.findByRoleName(RoleName.ROLE_ADMIN);
+//
+//        Role initAdminRole = roleService.findByRoleName(RoleName.ROLE_ADMIN);
 //        Member member = Member.builder()
 //                .email("admin@whosegoods.com")
 //                .password(passwordEncoder.encode("gntmrntm1@"))
 //                .status(MemberStatus.ACTIVATE.name())
-//                .roles(Collections.singleton(userRole))
+//                .roles(Collections.singleton(initAdminRole))
 //                .build();
 //        memberRepository.save(member);
     }

@@ -1,10 +1,10 @@
-package com.sazaxa.shipmentapi.order.dto;
+package com.sazaxa.shipmentapi.haporder.dto;
 
 import lombok.Getter;
 
 @Getter
-public class OrderSaveRequestDto {
-    private String productName;
+public class HapOrderSaveRequestDto {
+    private String orderName;
     private double width;
     private double depth;
     private double height;
