@@ -1,6 +1,5 @@
 package com.sazaxa.shipmentapi.order;
 
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +13,7 @@ public class OrderController {
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
-    
+
 //    @GetMapping("/{id}")
 //    public Order getProduct(@PathVariable Long id){
 //        return orderService.getProduct(id);

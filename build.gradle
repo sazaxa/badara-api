@@ -13,16 +13,12 @@ repositories {
 }
 
 dependencies {
-//	runtimeOnly 'mysql:mysql-connector-java'
 
-	// DozerMapper
-//	implementation 'com.github.dozermapper:dozer-core:6.4.0'
+	// Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	// jwt
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
-
-	// Security
-	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	//RandomStringUtils : 임의의 String 값 생성하는 의존성
 	compile 'org.apache.commons:commons-lang3:3.0'
@@ -32,8 +28,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	//lombok-test
-	testCompileOnly 'org.projectlombok:lombok'
-	testAnnotationProcessor 'org.projectlombok:lombok'
+//	testCompileOnly 'org.projectlombok:lombok'
+//	testAnnotationProcessor 'org.projectlombok:lombok'
 
 	//Query DSL 추가
 	implementation group: 'com.querydsl', name: 'querydsl-jpa'
@@ -53,11 +49,16 @@ dependencies {
 	//jpa
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-	//starter-web
+	// Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	//web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	//starter-web-test
+	//Web Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//Security Test
 //	testImplementation 'org.springframework.security:spring-security-test'
 }
 
