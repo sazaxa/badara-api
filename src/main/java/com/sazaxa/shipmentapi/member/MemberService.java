@@ -7,8 +7,6 @@ import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
 import com.sazaxa.shipmentapi.member.role.Role;
 import com.sazaxa.shipmentapi.member.role.RoleName;
 import com.sazaxa.shipmentapi.member.role.RoleService;
-import com.sazaxa.shipmentapi.haporder.HapOrderService;
-import com.sazaxa.shipmentapi.haporder.dto.HapOrderResponseDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +19,12 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final HapOrderService hapOrderService;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
 
 
-    public MemberService(MemberRepository memberRepository, HapOrderService hapOrderService, PasswordEncoder passwordEncoder, RoleService roleService) {
+    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, RoleService roleService) {
         this.memberRepository = memberRepository;
-        this.hapOrderService = hapOrderService;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
     }
@@ -46,16 +42,16 @@ public class MemberService {
 
         List<MemberOrderResponseDto> hapOrders = new ArrayList<>();
 
-        for (HapOrderResponseDto hapOrder : hapOrderService.getAllHapOrders()){
-            if (hapOrder.getMember().getId() == id){
-                hapOrders.add(MemberOrderResponseDto.builder()
-                        .id(hapOrder.getId())
-                        .orderNumber(hapOrder.getHapOrderNumber())
-                        .orderPrice(hapOrder.getHapOrderPrice())
-                        .orders(hapOrder.getOrders())
-                        .build());
-            }
-        }
+//        for (HapOrderResponseDto hapOrder : hapOrderService.getAllHapOrders()){
+//            if (hapOrder.getMember().getId() == id){
+//                hapOrders.add(MemberOrderResponseDto.builder()
+//                        .id(hapOrder.getId())
+//                        .orderNumber(hapOrder.getHapOrderNumber())
+//                        .orderPrice(hapOrder.getHapOrderPrice())
+//                        .orders(hapOrder.getOrders())
+//                        .build());
+//            }
+//        }
 
         MemberOrderResponseListDto response = MemberOrderResponseListDto.builder()
                 .member(member)
