@@ -3,6 +3,7 @@ package com.sazaxa.shipmentapi.box;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sazaxa.shipmentapi.order.Order;
 import com.sazaxa.shipmentapi.order.OrderStatus;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -72,5 +73,23 @@ public class Box {
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @JoinColumn(name="order_id")
     private Order order;
-    
+
+    @Builder
+    public Box(Double expectedWidth, Double expectedDepth, Double expectedHeight, Double expectedVolumeWeight, Double expectedNetWeight, Double width, Double depth, Double height, Double volumeWeight, Double netWeight, Double price, String koreanInvoice, String koreanShippingCompany, OrderStatus koreanShippingStatus, Order order) {
+        this.expectedWidth = expectedWidth;
+        this.expectedDepth = expectedDepth;
+        this.expectedHeight = expectedHeight;
+        this.expectedVolumeWeight = expectedVolumeWeight;
+        this.expectedNetWeight = expectedNetWeight;
+        this.width = width;
+        this.depth = depth;
+        this.height = height;
+        this.volumeWeight = volumeWeight;
+        this.netWeight = netWeight;
+        this.price = price;
+        this.koreanInvoice = koreanInvoice;
+        this.koreanShippingCompany = koreanShippingCompany;
+        this.koreanShippingStatus = koreanShippingStatus;
+        this.order = order;
+    }
 }
