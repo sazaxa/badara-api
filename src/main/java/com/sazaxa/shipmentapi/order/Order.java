@@ -1,7 +1,7 @@
 package com.sazaxa.shipmentapi.order;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sazaxa.shipmentapi.member.Member;
+import com.sazaxa.shipmentapi.recipient.Recipient;
 import com.sazaxa.shipmentapi.util.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -53,13 +53,18 @@ public class Order extends BaseEntity {
     @Column
     private OrderStatus orderStatus;
 
+    //    @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @JoinColumn(name="member_id")
     private Member member;
 
+    //    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @ManyToOne(targetEntity = Recipient.class, fetch = FetchType.LAZY)
+    @JoinColumn(name="recipient_id")
+    private Recipient recipient;
+
     @Builder
-    public Order(String orderNumber, String expectedOrderPrice, String orderPrice, String invoice, String shippingCompany, String adminMemo, String userMemo, OrderStatus orderStatus, Member member) {
+    public Order(String orderNumber, String expectedOrderPrice, String orderPrice, String invoice, String shippingCompany, String adminMemo, String userMemo, OrderStatus orderStatus, Member member, Recipient recipient) {
         this.orderNumber = orderNumber;
         this.expectedOrderPrice = expectedOrderPrice;
         this.orderPrice = orderPrice;
@@ -69,5 +74,6 @@ public class Order extends BaseEntity {
         this.userMemo = userMemo;
         this.orderStatus = orderStatus;
         this.member = member;
+        this.recipient = recipient;
     }
 }

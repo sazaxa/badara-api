@@ -2,6 +2,7 @@ package com.sazaxa.shipmentapi.recipient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sazaxa.shipmentapi.member.Member;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -63,6 +64,7 @@ public class Recipient {
     @JoinColumn(name="member_id")
     private Member member;
 
+    @Builder
     public Recipient(String name, String email, String country, String state, String city, String address1, String address2, String address3, String zipcode, String countryCode, String phoneNumber, Member member) {
         this.name = name;
         this.email = email;

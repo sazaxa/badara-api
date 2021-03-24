@@ -2,6 +2,7 @@ package com.sazaxa.shipmentapi.order;
 
 import com.sazaxa.shipmentapi.member.MemberRepository;
 import com.sazaxa.shipmentapi.product.ProductRepository;
+import com.sazaxa.shipmentapi.recipient.RecipientRepository;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,12 +18,13 @@ class OrderServiceTest {
 
     @Mock
     private OrderRepository orderRepository;
-
     @Mock
     private MemberRepository memberRepository;
-
     @Mock
     private ProductRepository productRepository;
+    @Mock
+    private RecipientRepository recipientRepository;
+
 
     @Test
     void testMakeOrderNumber(){

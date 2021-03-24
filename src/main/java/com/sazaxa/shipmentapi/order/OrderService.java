@@ -6,6 +6,8 @@ import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
+import com.sazaxa.shipmentapi.recipient.Recipient;
+import com.sazaxa.shipmentapi.recipient.RecipientRepository;
 import com.sazaxa.shipmentapi.security.UserPrincipalCustom;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -23,25 +25,42 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
+    private final RecipientRepository recipientRepository;
 
-    public OrderService(OrderRepository orderRepository, MemberRepository memberRepository, ProductRepository productRepository) {
+    public OrderService(OrderRepository orderRepository, MemberRepository memberRepository, ProductRepository productRepository, RecipientRepository recipientRepository) {
         this.orderRepository = orderRepository;
         this.memberRepository = memberRepository;
         this.productRepository = productRepository;
+        this.recipientRepository = recipientRepository;
     }
 
     public Order saveOrder(OrderSaveRequestDto request, UserPrincipalCustom currentUser) {
-        String orderNumber = makeOrderNumber(request, currentUser);
-        Member member = memberRepository.findById(currentUser.getId()).orElseThrow(()-> new MemberNotFoundException("no member id : " + currentUser.getId()));
 
+        Member member = memberRepository.findById(currentUser.getId()).orElseThrow(()-> new MemberNotFoundException("no member id : " + currentUser.getId()));
+        Recipient recipient = Recipient.builder()
+                .name(request.getRecipient().getName())
+                .email(request.getRecipient().getEmail())
+                .country(request.getRecipient().getCountry())
+                .state(request.getRecipient().getState())
+                .city(request.getRecipient().getCity())
+                .address1(request.getRecipient().getAddress1())
+                .address2(request.getRecipient().getAddress2())
+                .address3(request.getRecipient().getAddress3())
+                .zipcode(request.getRecipient().getZipcode())
+                .phoneNumber(request.getRecipient().getPhoneNumber())
+                .member(member)
+                .build();
+        recipientRepository.save(recipient);
+        
+        String orderNumber = makeOrderNumber(request, currentUser);
         Order order = Order.builder()
                 .orderNumber(orderNumber)
                 .expectedOrderPrice(request.getExpectedOrderPrice())
                 .userMemo(request.getUserMemo())
                 .member(member)
+                .recipient(recipient)
                 .build();
         orderRepository.save(order);
-
 
         List<Product> products = new ArrayList<>();
         for (Product product : request.getProducts()){
@@ -54,7 +73,7 @@ public class OrderService {
             products.add(newProduct);
         }
         productRepository.saveAll(products);
-        
+
         return null;
     }
 
@@ -67,7 +86,6 @@ public class OrderService {
     private String makeOrderNumber(OrderSaveRequestDto request, UserPrincipalCustom currentUser) {
         String country = request.getRecipient().getCountry();
         String name = currentUser.getUsername().split(" ")[0];
-        // 국가-수취인-랜덤값
         String orderNumber = country.toUpperCase() + "-" + name.toUpperCase() + "-" + new SimpleDateFormat("yyMMdd").format(new Date()) + "-" + RandomStringUtils.randomAlphanumeric(4).toUpperCase();
         return orderNumber;
     }
