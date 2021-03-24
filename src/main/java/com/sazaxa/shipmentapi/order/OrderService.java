@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.order;
 
+import com.sazaxa.shipmentapi.box.Box;
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberRepository;
 import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
@@ -51,7 +52,7 @@ public class OrderService {
                 .member(member)
                 .build();
         recipientRepository.save(recipient);
-        
+
         String orderNumber = makeOrderNumber(request, currentUser);
         Order order = Order.builder()
                 .orderNumber(orderNumber)
@@ -73,6 +74,26 @@ public class OrderService {
             products.add(newProduct);
         }
         productRepository.saveAll(products);
+
+        List<Box> boxes = new ArrayList<>();
+        for (Box box : request.getBoxes()){
+            Box newBox = Box.builder()
+                    .expectedWidth(box.getExpectedWidth())
+                    .expectedDepth(box.getExpectedDepth())
+                    .expectedHeight(box.getExpectedHeight())
+                    .expectedVolumeWeight(box.getExpectedVolumeWeight())
+                    .expectedNetWeight(box.getExpectedNetWeight())
+                    .expectedPrice(box.getExpectedPrice())
+                    .koreanInvoice(box.getKoreanInvoice())
+                    .koreanShippingCompany(box.getKoreanShippingCompany())
+                    .koreanShippingStatus(OrderStatus.CENTER_INCOME)
+                    .build();
+
+            if (newBox.getKoreanInvoice().isBlank() || newBox.getKoreanInvoice() == null){
+                newBox.updateKoreanShippingStatus(OrderStatus.INVOICE);
+            }
+
+        }
 
         return null;
     }

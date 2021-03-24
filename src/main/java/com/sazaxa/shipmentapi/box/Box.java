@@ -43,6 +43,9 @@ public class Box {
     private Double expectedNetWeight;
 
     @Column
+    private Double expectedPrice;
+
+    @Column
     private Double width;
 
     @Column
@@ -75,12 +78,13 @@ public class Box {
     private Order order;
 
     @Builder
-    public Box(Double expectedWidth, Double expectedDepth, Double expectedHeight, Double expectedVolumeWeight, Double expectedNetWeight, Double width, Double depth, Double height, Double volumeWeight, Double netWeight, Double price, String koreanInvoice, String koreanShippingCompany, OrderStatus koreanShippingStatus, Order order) {
+    public Box(Double expectedWidth, Double expectedDepth, Double expectedHeight, Double expectedVolumeWeight, Double expectedNetWeight, Double expectedPrice, Double width, Double depth, Double height, Double volumeWeight, Double netWeight, Double price, String koreanInvoice, String koreanShippingCompany, OrderStatus koreanShippingStatus, Order order) {
         this.expectedWidth = expectedWidth;
         this.expectedDepth = expectedDepth;
         this.expectedHeight = expectedHeight;
         this.expectedVolumeWeight = expectedVolumeWeight;
         this.expectedNetWeight = expectedNetWeight;
+        this.expectedPrice = expectedPrice;
         this.width = width;
         this.depth = depth;
         this.height = height;
@@ -91,5 +95,9 @@ public class Box {
         this.koreanShippingCompany = koreanShippingCompany;
         this.koreanShippingStatus = koreanShippingStatus;
         this.order = order;
+    }
+
+    public void updateKoreanShippingStatus(OrderStatus koreanShippingStatus){
+        this.koreanShippingStatus = koreanShippingStatus;
     }
 }

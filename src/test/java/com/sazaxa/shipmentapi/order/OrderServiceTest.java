@@ -25,7 +25,6 @@ class OrderServiceTest {
     @Mock
     private RecipientRepository recipientRepository;
 
-
     @Test
     void testMakeOrderNumber(){
         String country = "mexico";
