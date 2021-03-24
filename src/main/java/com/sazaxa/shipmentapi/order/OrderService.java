@@ -54,9 +54,7 @@ public class OrderService {
             products.add(newProduct);
         }
         productRepository.saveAll(products);
-
-
-
+        
         return null;
     }
 
@@ -70,7 +68,8 @@ public class OrderService {
         String country = request.getRecipient().getCountry();
         String name = currentUser.getUsername().split(" ")[0];
         // 국가-수취인-랜덤값
-        return new SimpleDateFormat("yyMMdd").format(country + "-" + name + "-" + new Date()) + "-" + RandomStringUtils.randomAlphanumeric(4).toUpperCase();
+        String orderNumber = country.toUpperCase() + "-" + name.toUpperCase() + "-" + new SimpleDateFormat("yyMMdd").format(new Date()) + "-" + RandomStringUtils.randomAlphanumeric(4).toUpperCase();
+        return orderNumber;
     }
 
 //    public Order getProduct(Long id) {
