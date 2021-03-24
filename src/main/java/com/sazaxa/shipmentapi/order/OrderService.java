@@ -7,6 +7,7 @@ import com.sazaxa.shipmentapi.member.MemberRepository;
 import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
+import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
 import com.sazaxa.shipmentapi.recipient.Recipient;
@@ -39,9 +40,27 @@ public class OrderService {
         this.boxRepository = boxRepository;
     }
 
+    public OrderResponseDto getOrder(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id : " + id));
+        List<Product> products = productRepository.findAllByOrder(order);
+        List<Box> boxes = boxRepository.findAllByOrder(order);
 
+        OrderResponseDto response = OrderResponseDto.builder()
+                .orderNumber(order.getOrderNumber())
+                .expectedOrderPrice(order.getExpectedOrderPrice())
+                .orderPrice(order.getOrderPrice())
+                .invoice(order.getInvoice())
+                .shippingCompany(order.getShippingCompany())
+                .adminMemo(order.getAdminMemo())
+                .userMemo(order.getUserMemo())
+                .orderStatus(order.getOrderStatus())
+                .products(products)
+                .boxes(boxes)
+                .recipient(order.getRecipient())
+                .build();
 
-
+        return response;
+    }
 
     /**
      * 주문을 처리합니다.
@@ -108,7 +127,6 @@ public class OrderService {
         }
         boxRepository.saveAll(boxes);
 
-
         OrderResponseDto response = OrderResponseDto.builder()
                 .orderNumber(order.getOrderNumber())
                 .expectedOrderPrice(order.getExpectedOrderPrice())
@@ -122,6 +140,7 @@ public class OrderService {
         return response;
     }
 
+
     /**
      * OrderNumber를 생성합니다.
      * @param request
@@ -134,14 +153,4 @@ public class OrderService {
         String orderNumber = country.toUpperCase() + "-" + name.toUpperCase() + "-" + new SimpleDateFormat("yyMMdd").format(new Date()) + "-" + RandomStringUtils.randomAlphanumeric(4).toUpperCase();
         return orderNumber;
     }
-
-//    public Order getProduct(Long id) {
-//        return orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no product id : " + id));
-//    }
-//
-//    public Order updateProductKoreanInvoice(Long id, OrderInvoiceRequestDto request) {
-//        Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no product id : " + id));
-//        order.proceedInvoice(request.getInvoice(), request.getKoreanShippingCompany());
-//        return order;
-//    }
 }

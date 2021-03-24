@@ -25,7 +25,8 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public void getOrder(@PathVariable Long id){
+    public OrderResponseDto getOrder(@PathVariable Long id){
+        return orderService.getOrder(id);
     }
 
     @PostMapping
