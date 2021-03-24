@@ -2,6 +2,7 @@ package com.sazaxa.shipmentapi.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sazaxa.shipmentapi.order.Order;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -42,5 +43,12 @@ public class Product {
     @JoinColumn(name="order_id")
     private Order order;
 
-
+    @Builder
+    public Product(String productDetail, Integer quantity, Double price, Double weight, Order order) {
+        this.productDetail = productDetail;
+        this.quantity = quantity;
+        this.price = price;
+        this.weight = weight;
+        this.order = order;
+    }
 }
