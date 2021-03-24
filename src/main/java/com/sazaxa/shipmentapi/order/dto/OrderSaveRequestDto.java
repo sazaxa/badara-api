@@ -3,6 +3,7 @@ package com.sazaxa.shipmentapi.order.dto;
 import com.sazaxa.shipmentapi.box.Box;
 import com.sazaxa.shipmentapi.order.OrderStatus;
 import com.sazaxa.shipmentapi.product.Product;
+import com.sazaxa.shipmentapi.recipient.Recipient;
 import lombok.Getter;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public class OrderSaveRequestDto {
     private OrderStatus orderStatus;
     private List<Product> products;
     private List<Box> boxes;
+    private Recipient recipient;
 }
