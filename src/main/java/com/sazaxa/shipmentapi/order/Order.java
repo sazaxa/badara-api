@@ -65,7 +65,8 @@ public class Order extends BaseEntity {
     private Recipient recipient;
 
     @Builder
-    public Order(String orderNumber, String expectedOrderPrice, String orderPrice, String invoice, String shippingCompany, String adminMemo, String userMemo, OrderStatus orderStatus, Member member, Recipient recipient) {
+    public Order(Long id, String orderNumber, String expectedOrderPrice, String orderPrice, String invoice, String shippingCompany, String adminMemo, String userMemo, OrderStatus orderStatus, Member member, Recipient recipient) {
+        this.id = id;
         this.orderNumber = orderNumber;
         this.expectedOrderPrice = expectedOrderPrice;
         this.orderPrice = orderPrice;

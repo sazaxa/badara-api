@@ -81,21 +81,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/",
-                        "/favicon.ico",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js")
-                .permitAll()
-                .antMatchers("/api/v1/auth/**")
-                .permitAll()
-                .antMatchers("/api/v1/shipping/**", "/api/v1/faq/**")
-                .permitAll().anyRequest()
-                .authenticated();
+                .anyRequest().permitAll();
+//                .antMatchers("/",
+//                        "/favicon.ico",
+//                        "/**/*.png",
+//                        "/**/*.gif",
+//                        "/**/*.svg",
+//                        "/**/*.jpg",
+//                        "/**/*.html",
+//                        "/**/*.css",
+//                        "/**/*.js")
+//                .permitAll()
+//                .antMatchers("/api/v1/auth/**")
+//                .permitAll()
+//                .antMatchers("/api/v1/shipping/**", "/api/v1/faq/**")
+//                .permitAll().anyRequest()
+//                .authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // jwt 인증필터 넣기
     }
