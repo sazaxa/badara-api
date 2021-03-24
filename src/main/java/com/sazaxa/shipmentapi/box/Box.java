@@ -100,4 +100,10 @@ public class Box {
     public void updateKoreanShippingStatus(OrderStatus koreanShippingStatus){
         this.koreanShippingStatus = koreanShippingStatus;
     }
+
+    public void updateCenterIncome(String koreanInvoice, String koreanShippingCompany) {
+        this.koreanInvoice = koreanInvoice;
+        this.koreanShippingCompany = koreanShippingCompany;
+        this.koreanShippingStatus = OrderStatus.CENTER_INCOME;
+    }
 }
