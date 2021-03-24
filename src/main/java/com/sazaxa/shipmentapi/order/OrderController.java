@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.order;
 
+import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.security.CurrentUser;
 import com.sazaxa.shipmentapi.security.UserPrincipalCustom;
@@ -22,8 +23,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public Order saveOrder(@Valid @RequestBody OrderSaveRequestDto request,
-                           @CurrentUser UserPrincipalCustom currentUser) {
+    public OrderResponseDto saveOrder(@Valid @RequestBody OrderSaveRequestDto request,
+                                      @CurrentUser UserPrincipalCustom currentUser) {
         return orderService.saveOrder(request, currentUser);
     }
 

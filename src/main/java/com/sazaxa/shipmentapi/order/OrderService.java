@@ -5,6 +5,7 @@ import com.sazaxa.shipmentapi.box.BoxRepository;
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberRepository;
 import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
+import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
@@ -38,7 +39,7 @@ public class OrderService {
         this.boxRepository = boxRepository;
     }
 
-    public Order saveOrder(OrderSaveRequestDto request, UserPrincipalCustom currentUser) {
+    public OrderResponseDto saveOrder(OrderSaveRequestDto request, UserPrincipalCustom currentUser) {
 
         Member member = memberRepository.findById(currentUser.getId()).orElseThrow(()-> new MemberNotFoundException("no member id : " + currentUser.getId()));
         Recipient recipient = Recipient.builder()
@@ -96,7 +97,19 @@ public class OrderService {
             }
         }
         boxRepository.saveAll(boxes);
-        return null;
+
+
+        OrderResponseDto response = OrderResponseDto.builder()
+                .orderNumber(order.getOrderNumber())
+                .expectedOrderPrice(order.getExpectedOrderPrice())
+                .userMemo(order.getUserMemo())
+                .orderStatus(order.getOrderStatus())
+                .products(products)
+                .boxes(boxes)
+                .recipient(recipient)
+                .build();
+
+        return response;
     }
 
     /**
