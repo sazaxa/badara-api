@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.order;
 
+import com.sazaxa.shipmentapi.box.BoxRepository;
 import com.sazaxa.shipmentapi.member.MemberRepository;
 import com.sazaxa.shipmentapi.product.ProductRepository;
 import com.sazaxa.shipmentapi.recipient.RecipientRepository;
@@ -24,6 +25,8 @@ class OrderServiceTest {
     private ProductRepository productRepository;
     @Mock
     private RecipientRepository recipientRepository;
+    @Mock
+    private BoxRepository boxRepository;
 
     @Test
     void testMakeOrderNumber(){

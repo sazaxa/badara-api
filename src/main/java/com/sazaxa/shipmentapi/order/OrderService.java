@@ -1,6 +1,7 @@
 package com.sazaxa.shipmentapi.order;
 
 import com.sazaxa.shipmentapi.box.Box;
+import com.sazaxa.shipmentapi.box.BoxRepository;
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberRepository;
 import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
@@ -27,12 +28,14 @@ public class OrderService {
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
     private final RecipientRepository recipientRepository;
+    private final BoxRepository boxRepository;
 
-    public OrderService(OrderRepository orderRepository, MemberRepository memberRepository, ProductRepository productRepository, RecipientRepository recipientRepository) {
+    public OrderService(OrderRepository orderRepository, MemberRepository memberRepository, ProductRepository productRepository, RecipientRepository recipientRepository, BoxRepository boxRepository) {
         this.orderRepository = orderRepository;
         this.memberRepository = memberRepository;
         this.productRepository = productRepository;
         this.recipientRepository = recipientRepository;
+        this.boxRepository = boxRepository;
     }
 
     public Order saveOrder(OrderSaveRequestDto request, UserPrincipalCustom currentUser) {
@@ -88,13 +91,11 @@ public class OrderService {
                     .koreanShippingCompany(box.getKoreanShippingCompany())
                     .koreanShippingStatus(OrderStatus.CENTER_INCOME)
                     .build();
-
             if (newBox.getKoreanInvoice().isBlank() || newBox.getKoreanInvoice() == null){
                 newBox.updateKoreanShippingStatus(OrderStatus.INVOICE);
             }
-
         }
-
+        boxRepository.saveAll(boxes);
         return null;
     }
 
