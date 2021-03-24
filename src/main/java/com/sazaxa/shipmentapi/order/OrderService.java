@@ -39,6 +39,16 @@ public class OrderService {
         this.boxRepository = boxRepository;
     }
 
+
+
+
+
+    /**
+     * 주문을 처리합니다.
+     * @param request
+     * @param currentUser
+     * @return
+     */
     public OrderResponseDto saveOrder(OrderSaveRequestDto request, UserPrincipalCustom currentUser) {
 
         Member member = memberRepository.findById(currentUser.getId()).orElseThrow(()-> new MemberNotFoundException("no member id : " + currentUser.getId()));

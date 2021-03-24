@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -49,7 +50,7 @@ public class Order extends BaseEntity {
     @Column
     private String userMemo;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column
     private OrderStatus orderStatus;
 
