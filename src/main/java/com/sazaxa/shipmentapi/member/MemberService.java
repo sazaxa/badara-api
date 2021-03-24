@@ -1,12 +1,17 @@
 package com.sazaxa.shipmentapi.member;
 
-import com.sazaxa.shipmentapi.member.dto.MemberOrderResponseDto;
-import com.sazaxa.shipmentapi.member.dto.MemberOrderResponseListDto;
+import com.sazaxa.shipmentapi.box.Box;
+import com.sazaxa.shipmentapi.box.BoxRepository;
 import com.sazaxa.shipmentapi.member.dto.MemberUpdateRequestDto;
 import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
 import com.sazaxa.shipmentapi.member.role.Role;
 import com.sazaxa.shipmentapi.member.role.RoleName;
 import com.sazaxa.shipmentapi.member.role.RoleService;
+import com.sazaxa.shipmentapi.order.Order;
+import com.sazaxa.shipmentapi.order.OrderRepository;
+import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
+import com.sazaxa.shipmentapi.product.Product;
+import com.sazaxa.shipmentapi.product.ProductRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +26,17 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
+    private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
+    private final BoxRepository boxRepository;
 
-
-    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, RoleService roleService) {
+    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, RoleService roleService, OrderRepository orderRepository, ProductRepository productRepository, BoxRepository boxRepository) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
+        this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
+        this.boxRepository = boxRepository;
     }
 
     public List<Member> getAllMembers() {
@@ -37,28 +47,30 @@ public class MemberService {
         return memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
     }
 
-    public MemberOrderResponseListDto getMemberByIdWithOrder(Long id) {
+    public List<OrderResponseDto> getMemberByIdWithOrder(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
+        List<Order> orders = orderRepository.findByMember(member);
+        List<OrderResponseDto> responses = new ArrayList<>();
+        for (Order order : orders){
+            List<Product> products = productRepository.findAllByOrder(order);
+            List<Box> boxes = boxRepository.findAllByOrder(order);
 
-        List<MemberOrderResponseDto> hapOrders = new ArrayList<>();
-
-//        for (HapOrderResponseDto hapOrder : hapOrderService.getAllHapOrders()){
-//            if (hapOrder.getMember().getId() == id){
-//                hapOrders.add(MemberOrderResponseDto.builder()
-//                        .id(hapOrder.getId())
-//                        .orderNumber(hapOrder.getHapOrderNumber())
-//                        .orderPrice(hapOrder.getHapOrderPrice())
-//                        .orders(hapOrder.getOrders())
-//                        .build());
-//            }
-//        }
-
-        MemberOrderResponseListDto response = MemberOrderResponseListDto.builder()
-                .member(member)
-                .hapOrders(hapOrders)
-                .build();
-
-        return response;
+            OrderResponseDto response = OrderResponseDto.builder()
+                    .orderNumber(order.getOrderNumber())
+                    .expectedOrderPrice(order.getExpectedOrderPrice())
+                    .orderPrice(order.getOrderPrice())
+                    .invoice(order.getInvoice())
+                    .shippingCompany(order.getShippingCompany())
+                    .adminMemo(order.getAdminMemo())
+                    .userMemo(order.getUserMemo())
+                    .orderStatus(order.getOrderStatus())
+                    .products(products)
+                    .boxes(boxes)
+                    .recipient(order.getRecipient())
+                    .build();
+            responses.add(response);
+        }
+        return responses;
     }
 
     public void updateMember(Long id, MemberUpdateRequestDto request) {
