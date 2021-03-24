@@ -4,6 +4,8 @@ import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.security.CurrentUser;
 import com.sazaxa.shipmentapi.security.UserPrincipalCustom;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,10 @@ public class OrderController {
 
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
+    }
+
+    @GetMapping("/{id}")
+    public void getOrder(@PathVariable Long id){
     }
 
     @PostMapping

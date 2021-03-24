@@ -35,7 +35,7 @@ class OrderControllerTest {
 
     @BeforeEach
     void setUp(){
-        BASE_URL = "/api/orders";
+        BASE_URL = "/api/v1/orders";
     }
 
     @Test
