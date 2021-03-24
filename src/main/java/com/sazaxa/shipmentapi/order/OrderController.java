@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RequestMapping("/api/v1/orders")
@@ -22,6 +23,11 @@ public class OrderController {
 
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
+    }
+
+    @GetMapping
+    public List<OrderResponseDto> getAllOrder(){
+        return orderService.getAllOrder();
     }
 
     @GetMapping("/{id}")

@@ -4,6 +4,7 @@ import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberService;
 import com.sazaxa.shipmentapi.member.MemberStatus;
 import com.sazaxa.shipmentapi.member.auth.dto.JwtAuthenticationResponse;
+import com.sazaxa.shipmentapi.member.dto.MemberSigninRequestDto;
 import com.sazaxa.shipmentapi.member.role.Role;
 import com.sazaxa.shipmentapi.member.role.RoleName;
 import com.sazaxa.shipmentapi.member.role.RoleService;
@@ -21,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collections;
 
 @RequestMapping("/api/v1/auth")
@@ -42,8 +44,13 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
     }
 
+    @GetMapping("/hue")
+    public String test(){
+        return "HUE..";
+    }
+
     @PostMapping("/signin")
-    public ResponseEntity loginUser(@RequestBody Member resource){
+    public ResponseEntity loginUser(@Valid @RequestBody MemberSigninRequestDto resource){
 
         //아이디 확인
         if(!memberService.isExistsByEmail(resource.getEmail())){

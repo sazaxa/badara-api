@@ -40,6 +40,31 @@ public class OrderService {
         this.boxRepository = boxRepository;
     }
 
+    public List<OrderResponseDto> getAllOrder() {
+        List<Order> orders = orderRepository.findAll();
+        List<OrderResponseDto> responses = new ArrayList<>();
+        for (Order order : orders){
+            List<Product> products = productRepository.findAllByOrder(order);
+            List<Box> boxes = boxRepository.findAllByOrder(order);
+
+            OrderResponseDto response = OrderResponseDto.builder()
+                    .orderNumber(order.getOrderNumber())
+                    .expectedOrderPrice(order.getExpectedOrderPrice())
+                    .orderPrice(order.getOrderPrice())
+                    .invoice(order.getInvoice())
+                    .shippingCompany(order.getShippingCompany())
+                    .adminMemo(order.getAdminMemo())
+                    .userMemo(order.getUserMemo())
+                    .orderStatus(order.getOrderStatus())
+                    .products(products)
+                    .boxes(boxes)
+                    .recipient(order.getRecipient())
+                    .build();
+            responses.add(response);
+        }
+        return responses;
+    }
+
     public OrderResponseDto getOrder(Long id) {
         Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id : " + id));
         List<Product> products = productRepository.findAllByOrder(order);

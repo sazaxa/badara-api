@@ -33,6 +33,11 @@ class OrderControllerTest {
 
     private String BASE_URL;
 
+//    {
+//        "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1IiwiaWF0IjoxNjE2NTU4MjcwLCJleHAiOjE2MTcxNjMwNzB9.pPuRdqNh9m7AKLyCB86XIawiColY-pOhwUMx2cyLNnU1NMbuF6LhJxcdAmg49BrrE5eypO6DCMseBuoHGVgywA",
+//            "tokenType": "Bearer"
+//    }
+
     @BeforeEach
     void setUp(){
         BASE_URL = "/api/v1/orders";
