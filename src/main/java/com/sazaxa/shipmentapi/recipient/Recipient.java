@@ -2,6 +2,7 @@ package com.sazaxa.shipmentapi.recipient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sazaxa.shipmentapi.member.Member;
+import com.sazaxa.shipmentapi.util.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Table(name = "zx_recipient")
 @Entity
-public class Recipient {
+public class Recipient extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
