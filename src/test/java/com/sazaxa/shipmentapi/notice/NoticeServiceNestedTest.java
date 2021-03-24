@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.notice;
 
+import com.sazaxa.shipmentapi.notice.dto.NoticeResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ public class NoticeServiceNestedTest {
             @Test
             @DisplayName("List는 비어있다.")
             void it_returns_Empty_list(){
-                List<Notice> result = noticeService.getAllNotice();
+                List<NoticeResponseDto> result = noticeService.getAllNotice();
                 assertThat(result).isEmpty();
             }
         }
@@ -42,7 +43,7 @@ public class NoticeServiceNestedTest {
             @Test
             @DisplayName("List는 비어있지 않다.")
             void it_returns_Not_Empty_List(){
-                List<Notice> result = noticeService.getAllNotice();
+                List<NoticeResponseDto> result = noticeService.getAllNotice();
                 assertThat(result).isNotEmpty();
             }
         }

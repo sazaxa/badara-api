@@ -1,6 +1,7 @@
 package com.sazaxa.shipmentapi;
 
 import com.sazaxa.shipmentapi.member.Member;
+import com.sazaxa.shipmentapi.notice.Notice;
 import com.sazaxa.shipmentapi.order.Order;
 import com.sazaxa.shipmentapi.order.OrderStatus;
 import org.junit.jupiter.api.DisplayName;
@@ -22,12 +23,26 @@ class ShipmentApiApplicationTests {
 	}
 
 	@Test
-	void testEnum(){
+	void testEnumOutput(){
 		Order order = Order.builder()
 				.orderNumber("ABC-1234")
 				.orderStatus(OrderStatus.PAYMENT_HOLDING)
 				.build();
 		System.out.println(order.getOrderStatus().status);
 	}
+
+	@Test
+	void testEnumInput(){
+		String name = "결제대기";
+
+		Notice notice = Notice.builder()
+				.title("t1")
+				.orderStatus(OrderStatus.findByKorean(name))
+				.build();
+
+		System.out.println(notice.getOrderStatus().status);
+	}
+
+
 
 }

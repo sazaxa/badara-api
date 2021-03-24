@@ -1,11 +1,9 @@
 package com.sazaxa.shipmentapi.notice;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -23,13 +21,6 @@ class NoticeServiceTest {
                 .content("c1")
                 .build();
         given(noticeRepository.findAll()).willReturn(List.of(notice));
-    }
-
-    @Test
-    void testGetAllNotices(){
-        List<Notice> noticeList = noticeService.getAllNotice();
-        assertThat(noticeList).isNotEmpty();
-        assertThat(noticeList.get(0).getTitle()).isEqualTo("t1");
     }
 
 }

@@ -194,7 +194,7 @@ public class OrderService {
                 request.getInvoice(),
                 request.getShippingCompany(),
                 request.getAdminMemo(),
-                request.getOrderStatus());
+                OrderStatus.findByKorean(request.getOrderStatus()));
 
         recipient.updateRecipient(request.getRecipient().getName(),
                 request.getRecipient().getEmail(),
