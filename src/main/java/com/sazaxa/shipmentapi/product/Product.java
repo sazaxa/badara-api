@@ -51,4 +51,11 @@ public class Product {
         this.weight = weight;
         this.order = order;
     }
+
+    public void updateProduct(String productDetail, Integer quantity, Double price, Double weight) {
+        this.productDetail = productDetail;
+        this.quantity = quantity;
+        this.price = price;
+        this.weight = weight;
+    }
 }

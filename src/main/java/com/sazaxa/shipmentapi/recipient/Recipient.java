@@ -80,4 +80,18 @@ public class Recipient extends BaseEntity {
         this.phoneNumber = phoneNumber;
         this.member = member;
     }
+
+    public void updateRecipient(String name, String email, String country, String state, String city, String address1, String address2, String address3, String zipcode, String countryCode, String phoneNumber) {
+        this.name = name;
+        this.email = email;
+        this.country = country;
+        this.state = state;
+        this.city = city;
+        this.address1 = address1;
+        this.address2 = address2;
+        this.address3 = address3;
+        this.zipcode = zipcode;
+        this.countryCode = countryCode;
+        this.phoneNumber = phoneNumber;
+    }
 }

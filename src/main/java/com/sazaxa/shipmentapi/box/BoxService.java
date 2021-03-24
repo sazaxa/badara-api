@@ -19,7 +19,7 @@ public class BoxService {
     public Box updateCenterIncome(Long id, BoxUpdateRequestDto request) {
         Box box = boxRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id : " + id));
         box.updateCenterIncome(request.getKoreanInvoice(), request.getKoreanShippingCompany());
-        return box;
+        return boxRepository.save(box);
     }
 
 }

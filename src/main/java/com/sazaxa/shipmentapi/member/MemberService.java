@@ -63,7 +63,7 @@ public class MemberService {
                     .shippingCompany(order.getShippingCompany())
                     .adminMemo(order.getAdminMemo())
                     .userMemo(order.getUserMemo())
-                    .orderStatus(order.getOrderStatus())
+                    .orderStatus(order.getOrderStatus().status)
                     .products(products)
                     .boxes(boxes)
                     .recipient(order.getRecipient())
