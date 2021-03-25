@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.recipient.Recipient;
 import com.sazaxa.shipmentapi.util.BaseEntity;
@@ -59,7 +60,7 @@ public class Order extends BaseEntity {
     @JoinColumn(name="member_id")
     private Member member;
 
-    //    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @ManyToOne(targetEntity = Recipient.class, fetch = FetchType.LAZY)
     @JoinColumn(name="recipient_id")
     private Recipient recipient;

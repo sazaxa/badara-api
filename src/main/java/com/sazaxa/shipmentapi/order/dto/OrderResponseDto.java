@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.order.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sazaxa.shipmentapi.box.dto.BoxResponseDto;
 import com.sazaxa.shipmentapi.order.Order;
 import com.sazaxa.shipmentapi.product.dto.ProductResponseDto;
@@ -22,6 +23,7 @@ public class OrderResponseDto {
     private String orderStatus;
     private List<ProductResponseDto> productResponses;
     private List<BoxResponseDto> boxResponses;
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private Recipient recipient;
 
     public static OrderResponseDto of(Order order, List<ProductResponseDto> productResponses, List<BoxResponseDto> boxResponses){
