@@ -1,11 +1,17 @@
 package com.sazaxa.shipmentapi.config;
 
+import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberRepository;
+import com.sazaxa.shipmentapi.member.MemberStatus;
+import com.sazaxa.shipmentapi.member.role.Role;
+import com.sazaxa.shipmentapi.member.role.RoleName;
 import com.sazaxa.shipmentapi.member.role.RoleRepository;
 import com.sazaxa.shipmentapi.member.role.RoleService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Collections;
 
 @Component
 public class InitDataConfig implements CommandLineRunner {
