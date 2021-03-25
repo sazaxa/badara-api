@@ -2,6 +2,7 @@ package com.sazaxa.shipmentapi.member;
 
 import com.sazaxa.shipmentapi.box.Box;
 import com.sazaxa.shipmentapi.box.BoxRepository;
+import com.sazaxa.shipmentapi.box.dto.BoxResponseDto;
 import com.sazaxa.shipmentapi.member.dto.MemberUpdateRequestDto;
 import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
 import com.sazaxa.shipmentapi.member.role.Role;
@@ -12,6 +13,7 @@ import com.sazaxa.shipmentapi.order.OrderRepository;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
+import com.sazaxa.shipmentapi.product.dto.ProductResponseDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -64,8 +66,8 @@ public class MemberService {
                     .adminMemo(order.getAdminMemo())
                     .userMemo(order.getUserMemo())
                     .orderStatus(order.getOrderStatus().status)
-                    .products(products)
-                    .boxes(boxes)
+                    .productResponses(ProductResponseDto.ofList(products))
+                    .boxResponses(BoxResponseDto.ofList(boxes))
                     .recipient(order.getRecipient())
                     .build();
             responses.add(response);

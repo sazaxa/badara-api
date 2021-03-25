@@ -2,6 +2,7 @@ package com.sazaxa.shipmentapi.order;
 
 import com.sazaxa.shipmentapi.box.Box;
 import com.sazaxa.shipmentapi.box.BoxRepository;
+import com.sazaxa.shipmentapi.box.dto.BoxResponseDto;
 import com.sazaxa.shipmentapi.box.exception.BoxNotFoundException;
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberRepository;
@@ -11,6 +12,7 @@ import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
+import com.sazaxa.shipmentapi.product.dto.ProductResponseDto;
 import com.sazaxa.shipmentapi.product.exception.ProductNotFoundException;
 import com.sazaxa.shipmentapi.recipient.Recipient;
 import com.sazaxa.shipmentapi.recipient.RecipientRepository;
@@ -46,24 +48,16 @@ public class OrderService {
     public List<OrderResponseDto> getAllOrder() {
         List<Order> orders = orderRepository.findAll();
         List<OrderResponseDto> responses = new ArrayList<>();
-        for (Order order : orders){
-            List<Product> products = productRepository.findAllByOrder(order);
-            List<Box> boxes = boxRepository.findAllByOrder(order);
 
-            OrderResponseDto response = OrderResponseDto.builder()
-                    .id(order.getId())
-                    .orderNumber(order.getOrderNumber())
-                    .expectedOrderPrice(order.getExpectedOrderPrice())
-                    .orderPrice(order.getOrderPrice())
-                    .invoice(order.getInvoice())
-                    .shippingCompany(order.getShippingCompany())
-                    .adminMemo(order.getAdminMemo())
-                    .userMemo(order.getUserMemo())
-                    .orderStatus(order.getOrderStatus().status)
-                    .products(products)
-                    .boxes(boxes)
-                    .recipient(order.getRecipient())
-                    .build();
+        for (Order order : orders){
+
+            List<Product> products = productRepository.findAllByOrder(order);
+            List<ProductResponseDto> productResponses = ProductResponseDto.ofList(products);
+
+            List<Box> boxes = boxRepository.findAllByOrder(order);
+            List<BoxResponseDto> boxResponses = BoxResponseDto.ofList(boxes);
+
+            OrderResponseDto response = OrderResponseDto.of(order, productResponses, boxResponses);
             responses.add(response);
         }
         return responses;
@@ -71,24 +65,14 @@ public class OrderService {
 
     public OrderResponseDto getOrder(Long id) {
         Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id : " + id));
+
         List<Product> products = productRepository.findAllByOrder(order);
+        List<ProductResponseDto> productResponses = ProductResponseDto.ofList(products);
+
         List<Box> boxes = boxRepository.findAllByOrder(order);
+        List<BoxResponseDto> boxResponses = BoxResponseDto.ofList(boxes);
 
-        OrderResponseDto response = OrderResponseDto.builder()
-                .id(order.getId())
-                .orderNumber(order.getOrderNumber())
-                .expectedOrderPrice(order.getExpectedOrderPrice())
-                .orderPrice(order.getOrderPrice())
-                .invoice(order.getInvoice())
-                .shippingCompany(order.getShippingCompany())
-                .adminMemo(order.getAdminMemo())
-                .userMemo(order.getUserMemo())
-                .orderStatus(order.getOrderStatus().status)
-                .products(products)
-                .boxes(boxes)
-                .recipient(order.getRecipient())
-                .build();
-
+        OrderResponseDto response = OrderResponseDto.of(order, productResponses, boxResponses);
         return response;
     }
 
@@ -163,8 +147,8 @@ public class OrderService {
                 .expectedOrderPrice(order.getExpectedOrderPrice())
                 .userMemo(order.getUserMemo())
                 .orderStatus(order.getOrderStatus().status)
-                .products(products)
-                .boxes(boxes)
+                .productResponses(ProductResponseDto.ofList(products))
+                .boxResponses(BoxResponseDto.ofList(boxes))
                 .recipient(recipient)
                 .build();
 
@@ -188,13 +172,13 @@ public class OrderService {
     public OrderResponseDto updateOrder(Long id, OrderSaveRequestDto request) {
         Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id" + id));
         Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
-        List<Box> boxes = boxRepository.findAllByOrder(order);
 
         order.updateOrder(request.getOrderPrice(),
                 request.getInvoice(),
                 request.getShippingCompany(),
                 request.getAdminMemo(),
                 OrderStatus.findByKorean(request.getOrderStatus()));
+        orderRepository.save(order);
 
         recipient.updateRecipient(request.getRecipient().getName(),
                 request.getRecipient().getEmail(),
@@ -208,6 +192,7 @@ public class OrderService {
                 request.getRecipient().getCountryCode(),
                 request.getRecipient().getPhoneNumber()
         );
+        recipientRepository.save(recipient);
 
         for (Product newProduct : request.getProducts()){
             Product product = productRepository.findById(newProduct.getId()).orElseThrow(()-> new ProductNotFoundException("no product id : " + newProduct.getId()));
@@ -217,9 +202,39 @@ public class OrderService {
 
         for (Box newBox : request.getBoxes()){
             Box box = boxRepository.findById(newBox.getId()).orElseThrow(()-> new BoxNotFoundException("no box id : " + newBox.getId()));
-//            box.updateBox();
+            box.updateBox(
+                    newBox.getExpectedWidth(),
+                    newBox.getExpectedDepth(),
+                    newBox.getExpectedHeight(),
+                    newBox.getExpectedVolumeWeight(),
+                    newBox.getExpectedNetWeight(),
+                    newBox.getExpectedPrice(),
+                    newBox.getWidth(),
+                    newBox.getDepth(),
+                    newBox.getHeight(),
+                    newBox.getVolumeWeight(),
+                    newBox.getNetWeight(),
+                    newBox.getPrice(),
+                    newBox.getKoreanInvoice(),
+                    newBox.getKoreanShippingCompany(),
+                    newBox.getKoreanShippingStatus()
+                    );
+            boxRepository.save(box);
         }
 
-        return null;
+        List<Product> products = productRepository.findAllByOrder(order);
+        List<Box> boxes = boxRepository.findAllByOrder(order);
+
+        OrderResponseDto response = OrderResponseDto.builder()
+                .orderNumber(order.getOrderNumber())
+                .expectedOrderPrice(order.getExpectedOrderPrice())
+                .userMemo(order.getUserMemo())
+                .orderStatus(order.getOrderStatus().status)
+                .productResponses(ProductResponseDto.ofList(products))
+                .boxResponses(BoxResponseDto.ofList(boxes))
+                .recipient(recipient)
+                .build();
+
+        return response;
     }
 }

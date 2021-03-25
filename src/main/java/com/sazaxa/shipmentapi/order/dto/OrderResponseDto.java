@@ -1,13 +1,14 @@
 package com.sazaxa.shipmentapi.order.dto;
 
-import com.sazaxa.shipmentapi.box.Box;
-import com.sazaxa.shipmentapi.product.Product;
+import com.sazaxa.shipmentapi.box.dto.BoxResponseDto;
+import com.sazaxa.shipmentapi.order.Order;
+import com.sazaxa.shipmentapi.product.dto.ProductResponseDto;
 import com.sazaxa.shipmentapi.recipient.Recipient;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
-
+@Builder
 @Getter
 public class OrderResponseDto {
     private Long id;
@@ -19,23 +20,23 @@ public class OrderResponseDto {
     private String adminMemo;
     private String userMemo;
     private String orderStatus;
-    private List<Product> products;
-    private List<Box> boxes;
+    private List<ProductResponseDto> productResponses;
+    private List<BoxResponseDto> boxResponses;
     private Recipient recipient;
 
-    @Builder
-    public OrderResponseDto(Long id,String orderNumber, String expectedOrderPrice, String orderPrice, String invoice, String shippingCompany, String adminMemo, String userMemo, String orderStatus, List<Product> products, List<Box> boxes, Recipient recipient) {
-        this.id = id;
-        this.orderNumber = orderNumber;
-        this.expectedOrderPrice = expectedOrderPrice;
-        this.orderPrice = orderPrice;
-        this.invoice = invoice;
-        this.shippingCompany = shippingCompany;
-        this.adminMemo = adminMemo;
-        this.userMemo = userMemo;
-        this.orderStatus = orderStatus;
-        this.products = products;
-        this.boxes = boxes;
-        this.recipient = recipient;
+    public static OrderResponseDto of(Order order, List<ProductResponseDto> productResponses, List<BoxResponseDto> boxResponses){
+        return OrderResponseDto.builder()
+                .id(order.getId())
+                .orderNumber(order.getOrderNumber())
+                .expectedOrderPrice(order.getExpectedOrderPrice())
+                .orderPrice(order.getOrderPrice())
+                .invoice(order.getInvoice())
+                .shippingCompany(order.getShippingCompany())
+                .adminMemo(order.getAdminMemo())
+                .userMemo(order.getUserMemo())
+                .orderStatus(order.getOrderStatus().status)
+                .productResponses(productResponses)
+                .boxResponses(boxResponses)
+                .build();
     }
 }
