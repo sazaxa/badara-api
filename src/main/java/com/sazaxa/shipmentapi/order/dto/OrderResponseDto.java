@@ -37,6 +37,7 @@ public class OrderResponseDto {
                 .orderStatus(order.getOrderStatus().status)
                 .productResponses(productResponses)
                 .boxResponses(boxResponses)
+                .recipient(order.getRecipient())
                 .build();
     }
 }

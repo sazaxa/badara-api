@@ -135,10 +135,14 @@ public class OrderService {
                     .koreanInvoice(box.getKoreanInvoice())
                     .koreanShippingCompany(box.getKoreanShippingCompany())
                     .koreanShippingStatus(OrderStatus.CENTER_INCOME)
+                    .order(order)
                     .build();
-            if (newBox.getKoreanInvoice().isBlank() || newBox.getKoreanInvoice() == null){
+
+            if (newBox.getKoreanInvoice() == null){
                 newBox.updateKoreanShippingStatus(OrderStatus.INVOICE);
             }
+
+            boxes.add(newBox);
         }
         boxRepository.saveAll(boxes);
 

@@ -1,6 +1,8 @@
 package com.sazaxa.shipmentapi.product.dto;
 
 
+import com.sazaxa.shipmentapi.box.Box;
+import com.sazaxa.shipmentapi.box.dto.BoxResponseDto;
 import com.sazaxa.shipmentapi.product.Product;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,4 +36,5 @@ public class ProductResponseDto {
         }
         return productResponses;
     }
+
 }
