@@ -96,6 +96,7 @@ public class OrderService {
                 .address2(request.getRecipient().getAddress2())
                 .address3(request.getRecipient().getAddress3())
                 .zipcode(request.getRecipient().getZipcode())
+                .countryCode(request.getRecipient().getCountryCode())
                 .phoneNumber(request.getRecipient().getPhoneNumber())
                 .member(member)
                 .build();
@@ -116,6 +117,7 @@ public class OrderService {
         for (Product product : request.getProducts()){
             Product newProduct = Product.builder()
                     .productDetail(product.getProductDetail())
+                    .quantity(product.getQuantity())
                     .price(product.getPrice())
                     .weight(product.getWeight())
                     .order(order)
