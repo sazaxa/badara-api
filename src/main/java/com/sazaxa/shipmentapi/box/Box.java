@@ -127,4 +127,5 @@ public class Box {
         this.koreanShippingCompany = koreanShippingCompany;
         this.koreanShippingStatus = koreanShippingStatus;
     }
+
 }

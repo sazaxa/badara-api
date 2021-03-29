@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.order;
 
+import com.sazaxa.shipmentapi.order.dto.OrderPaymentRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.security.CurrentUser;
@@ -44,6 +45,11 @@ public class OrderController {
     @PutMapping("/{id}")
     public OrderResponseDto updateOrder(@PathVariable Long id, @RequestBody OrderSaveRequestDto request){
         return orderService.updateOrder(id, request);
+    }
+
+    @PutMapping("/{id}")
+    public OrderResponseDto updatePayment(@PathVariable Long id, @RequestBody OrderPaymentRequestDto request){
+        return orderService.updatePayment(id, request);
     }
 
 }

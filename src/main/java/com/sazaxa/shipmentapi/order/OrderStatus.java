@@ -7,6 +7,7 @@ public enum OrderStatus {
     CENTER_INCOME("센터입고중"),
     PAYMENT_HOLDING("결제대기"),
     PAYMENT_REQUEST("결제요청"),
+    PAYMENT_BANK("무통장입금"),
     PAYMENT_COMPLETE("결제완료"),
     GLOBAL_DELIVERY("해외배송중"),
     GLOBAL_DELIVERY_COMPLETED("해외배송완료"),

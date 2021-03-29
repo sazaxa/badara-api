@@ -7,6 +7,7 @@ import com.sazaxa.shipmentapi.box.exception.BoxNotFoundException;
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberRepository;
 import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
+import com.sazaxa.shipmentapi.order.dto.OrderPaymentRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
@@ -228,6 +229,41 @@ public class OrderService {
 
         List<Product> products = productRepository.findAllByOrder(order);
         List<Box> boxes = boxRepository.findAllByOrder(order);
+
+        OrderResponseDto response = OrderResponseDto.builder()
+                .orderNumber(order.getOrderNumber())
+                .expectedOrderPrice(order.getExpectedOrderPrice())
+                .userMemo(order.getUserMemo())
+                .orderStatus(order.getOrderStatus().status)
+                .productResponses(ProductResponseDto.ofList(products))
+                .boxResponses(BoxResponseDto.ofList(boxes))
+                .recipient(recipient)
+                .build();
+
+        return response;
+    }
+
+    public OrderResponseDto updatePayment(Long id, OrderPaymentRequestDto request) {
+        Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id : " + id));
+        List<Box> boxes = boxRepository.findAllByOrder(order);
+        List<Product> products = productRepository.findAllByOrder(order);
+        Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
+
+        if (request.getPaymentMethod().equals(OrderStatus.PAYMENT_BANK.status)){
+            order.updateOrderStatus(OrderStatus.PAYMENT_BANK);
+            for (Box box : boxes){
+                box.updateKoreanShippingStatus(OrderStatus.PAYMENT_BANK);
+                boxRepository.save(box);
+            }
+        }
+        if (request.getPaymentMethod().equals(OrderStatus.PAYMENT_COMPLETE.status)){
+            order.updateOrderStatus(OrderStatus.PAYMENT_COMPLETE);
+            for (Box box : boxes){
+                box.updateKoreanShippingStatus(OrderStatus.PAYMENT_COMPLETE);
+                boxRepository.save(box);
+            }
+        }
+        orderRepository.save(order);
 
         OrderResponseDto response = OrderResponseDto.builder()
                 .orderNumber(order.getOrderNumber())
