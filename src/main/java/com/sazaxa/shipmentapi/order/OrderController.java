@@ -47,7 +47,7 @@ public class OrderController {
         return orderService.updateOrder(id, request);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/payment/{id}")
     public OrderResponseDto updatePayment(@PathVariable Long id, @RequestBody OrderPaymentRequestDto request){
         return orderService.updatePayment(id, request);
     }

@@ -43,6 +43,4 @@ class ShipmentApiApplicationTests {
 		System.out.println(notice.getOrderStatus().status);
 	}
 
-
-
 }
