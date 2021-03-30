@@ -81,7 +81,7 @@ public class Order extends BaseEntity {
     }
 
     public void updateOrder(String orderPrice, String invoice, String shippingCompany, String adminMemo, OrderStatus orderStatus) {
-        this.orderNumber = orderPrice;
+        this.orderPrice = orderPrice;
         this.invoice = invoice;
         this.shippingCompany = shippingCompany;
         this.adminMemo = adminMemo;

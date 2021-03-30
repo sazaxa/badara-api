@@ -1,6 +1,5 @@
 package com.sazaxa.shipmentapi.box.dto;
 
-
 import com.sazaxa.shipmentapi.box.Box;
 import lombok.Builder;
 import lombok.Getter;

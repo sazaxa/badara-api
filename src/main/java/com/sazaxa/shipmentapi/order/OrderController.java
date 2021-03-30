@@ -3,6 +3,7 @@ package com.sazaxa.shipmentapi.order;
 import com.sazaxa.shipmentapi.order.dto.OrderPaymentRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
+import com.sazaxa.shipmentapi.order.dto.OrderUpdateRequestDto;
 import com.sazaxa.shipmentapi.security.CurrentUser;
 import com.sazaxa.shipmentapi.security.UserPrincipalCustom;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +44,7 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public OrderResponseDto updateOrder(@PathVariable Long id, @RequestBody OrderSaveRequestDto request){
+    public OrderResponseDto updateOrder(@PathVariable Long id, @RequestBody OrderUpdateRequestDto request){
         return orderService.updateOrder(id, request);
     }
 

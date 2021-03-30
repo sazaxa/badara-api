@@ -2,7 +2,9 @@ package com.sazaxa.shipmentapi.order;
 
 import com.sazaxa.shipmentapi.box.Box;
 import com.sazaxa.shipmentapi.box.BoxRepository;
+import com.sazaxa.shipmentapi.box.dto.BoxRequestDto;
 import com.sazaxa.shipmentapi.box.dto.BoxResponseDto;
+import com.sazaxa.shipmentapi.box.dto.BoxUpdateRequestDto;
 import com.sazaxa.shipmentapi.box.exception.BoxNotFoundException;
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberRepository;
@@ -10,6 +12,7 @@ import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
 import com.sazaxa.shipmentapi.order.dto.OrderPaymentRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
+import com.sazaxa.shipmentapi.order.dto.OrderUpdateRequestDto;
 import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
@@ -176,7 +179,8 @@ public class OrderService {
         return orderNumber;
     }
 
-    public OrderResponseDto updateOrder(Long id, OrderSaveRequestDto request) {
+    public OrderResponseDto updateOrder(Long id, OrderUpdateRequestDto request) {
+
         Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id" + id));
         Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
 
@@ -201,13 +205,17 @@ public class OrderService {
         );
         recipientRepository.save(recipient);
 
+
         for (Product newProduct : request.getProducts()){
             Product product = productRepository.findById(newProduct.getId()).orElseThrow(()-> new ProductNotFoundException("no product id : " + newProduct.getId()));
             product.updateProduct(newProduct.getProductDetail(), newProduct.getQuantity(), newProduct.getPrice(), newProduct.getWeight());
             productRepository.save(product);
         }
 
-        for (Box newBox : request.getBoxes()){
+        List<Box> boxList = BoxRequestDto.toEntityList(request.getBoxes());
+
+
+        for (Box newBox : boxList){
             Box box = boxRepository.findById(newBox.getId()).orElseThrow(()-> new BoxNotFoundException("no box id : " + newBox.getId()));
             box.updateBox(
                     newBox.getExpectedWidth(),
