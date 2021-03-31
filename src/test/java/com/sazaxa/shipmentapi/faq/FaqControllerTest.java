@@ -1,10 +1,12 @@
 package com.sazaxa.shipmentapi.faq;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sazaxa.shipmentapi.faq.dto.FaqResponseDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqUpdateRequestDto;
 import com.sazaxa.shipmentapi.faq.exception.FaqNotFoundException;
+import com.sazaxa.shipmentapi.security.CustomUserDetailsService;
+import com.sazaxa.shipmentapi.security.jwt.JwtAuthenticationEntryPoint;
+import com.sazaxa.shipmentapi.security.jwt.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +22,31 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(FaqController.class)
 class FaqControllerTest {
 
-    @MockBean
-    private FaqService faqService;
-
     @Autowired
     private MockMvc mockMvc;
 
-    ObjectMapper objectMapper;
+    @MockBean
+    private FaqService faqService;
+
+    @MockBean
+    private CustomUserDetailsService customUserDetailsService;
+
+    @MockBean
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    @MockBean
+    private JwtTokenProvider jwtTokenProvider;
+
     String BASE_URL;
     Long id;
     Faq faq;
@@ -43,7 +56,6 @@ class FaqControllerTest {
 
     @BeforeEach
     void setUp(){
-        objectMapper = new ObjectMapper();
         BASE_URL = "/api/v1/faq";
         id =  1L;
 
@@ -88,7 +100,7 @@ class FaqControllerTest {
      void testSaveFaq() throws Exception {
         mockMvc.perform(post(BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(faqSaveRequestDto)))
+                .content("{\"title\" : \"t1\", \"content\" : \"c1\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().string(containsString("t1")));
 
@@ -99,7 +111,7 @@ class FaqControllerTest {
     void testUpdateFaq() throws Exception {
         mockMvc.perform(put(BASE_URL + "/" + id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(faqUpdateRequestDto)))
+                .content("{\"title\" : \"t1\", \"content\" : \"c1\"}"))
                 .andExpect(status().isOk());
 
         verify(faqService).updateFaq(eq(id), any(FaqUpdateRequestDto.class));
@@ -111,7 +123,6 @@ class FaqControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(faqService).deleteFaq(id);
-//        verify(faqService).deleteFaq(eq(id));
     }
 
     @Test

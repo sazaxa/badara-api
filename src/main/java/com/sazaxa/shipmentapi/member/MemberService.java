@@ -58,6 +58,7 @@ public class MemberService {
             List<Box> boxes = boxRepository.findAllByOrder(order);
 
             OrderResponseDto response = OrderResponseDto.builder()
+                    .id(order.getId())
                     .orderNumber(order.getOrderNumber())
                     .expectedOrderPrice(order.getExpectedOrderPrice())
                     .orderPrice(order.getOrderPrice())

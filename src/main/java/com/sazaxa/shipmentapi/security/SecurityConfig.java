@@ -29,7 +29,7 @@ import java.util.Arrays;
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtAuthenticationEntryPoint unauthorizedHandler; // 인증 EntryPoint
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final CustomUserDetailsService customUserDetailsService;
 
     public SecurityConfig(JwtAuthenticationEntryPoint unauthorizedHandler, CustomUserDetailsService customUserDetailsService) {
@@ -62,7 +62,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .headers()
@@ -73,8 +72,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 )
                 .frameOptions().sameOrigin()
                 .and()
-                .httpBasic().disable()
+//                .httpBasic().disable()
                 .cors().and().csrf().disable()
+
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(unauthorizedHandler)
                 .and()
@@ -98,6 +99,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .permitAll().anyRequest()
 //                .authenticated();
 
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // jwt 인증필터 넣기
+//        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // jwt 인증필터 넣기
     }
 }

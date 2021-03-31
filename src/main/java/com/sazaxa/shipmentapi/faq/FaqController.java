@@ -25,7 +25,6 @@ public class FaqController {
         this.faqService = faqService;
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<Faq> getAllFaq(){
         return faqService.getAllFaq();
