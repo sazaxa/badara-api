@@ -55,7 +55,7 @@ public class Order extends BaseEntity {
     @Column
     private OrderStatus orderStatus;
 
-    //    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+        @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;

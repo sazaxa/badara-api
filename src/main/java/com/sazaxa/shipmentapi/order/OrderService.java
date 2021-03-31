@@ -5,6 +5,7 @@ import com.sazaxa.shipmentapi.box.BoxRepository;
 import com.sazaxa.shipmentapi.box.dto.BoxRequestDto;
 import com.sazaxa.shipmentapi.box.dto.BoxResponseDto;
 import com.sazaxa.shipmentapi.box.dto.BoxUpdateRequestDto;
+import com.sazaxa.shipmentapi.box.dto.BoxWeightRequestDto;
 import com.sazaxa.shipmentapi.box.exception.BoxNotFoundException;
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberRepository;
@@ -227,7 +228,7 @@ public class OrderService {
                     newBox.getWidth(),
                     newBox.getDepth(),
                     newBox.getHeight(),
-                    newBox.getVolumeWeight(),
+                    weightVolumeWeight(newBox.getWidth(), newBox.getDepth(), newBox.getHeight()),
                     newBox.getNetWeight(),
                     newBox.getPrice(),
                     newBox.getKoreanInvoice(),
@@ -287,4 +288,9 @@ public class OrderService {
 
         return response;
     }
+
+    public Double weightVolumeWeight(Double width, Double depth, Double height ) {
+        return width * depth * height / 5000;
+    }
+
 }
