@@ -4,7 +4,6 @@ import com.sazaxa.shipmentapi.box.Box;
 import com.sazaxa.shipmentapi.box.BoxRepository;
 import com.sazaxa.shipmentapi.box.dto.BoxRequestDto;
 import com.sazaxa.shipmentapi.box.dto.BoxResponseDto;
-import com.sazaxa.shipmentapi.box.dto.BoxUpdateRequestDto;
 import com.sazaxa.shipmentapi.box.exception.BoxNotFoundException;
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberRepository;
@@ -113,6 +112,7 @@ public class OrderService {
                 .orderStatus(OrderStatus.PAYMENT_HOLDING)
                 .member(member)
                 .recipient(recipient)
+                .depositName("")
                 .build();
         orderRepository.save(order);
 
@@ -261,6 +261,7 @@ public class OrderService {
 
         if (request.getPaymentMethod().equals(OrderStatus.PAYMENT_BANK.status)){
             order.updateOrderStatus(OrderStatus.PAYMENT_BANK);
+            order.updateDepositName(request.getDepositName());
             for (Box box : boxes){
                 box.updateKoreanShippingStatus(OrderStatus.PAYMENT_BANK);
                 boxRepository.save(box);

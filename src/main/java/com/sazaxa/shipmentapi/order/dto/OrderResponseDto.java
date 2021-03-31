@@ -21,6 +21,7 @@ public class OrderResponseDto {
     private String adminMemo;
     private String userMemo;
     private String orderStatus;
+    private String depositName;
     private List<ProductResponseDto> productResponses;
     private List<BoxResponseDto> boxResponses;
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
@@ -37,6 +38,7 @@ public class OrderResponseDto {
                 .adminMemo(order.getAdminMemo())
                 .userMemo(order.getUserMemo())
                 .orderStatus(order.getOrderStatus().status)
+                .depositName(order.getDepositName())
                 .productResponses(productResponses)
                 .boxResponses(boxResponses)
                 .recipient(order.getRecipient())

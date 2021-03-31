@@ -51,6 +51,9 @@ public class Order extends BaseEntity {
     @Column
     private String userMemo;
 
+    @Column
+    private String depositName;
+
     @Enumerated(EnumType.STRING)
     @Column
     private OrderStatus orderStatus;
@@ -66,7 +69,9 @@ public class Order extends BaseEntity {
     private Recipient recipient;
 
     @Builder
-    public Order(Long id, String orderNumber, String expectedOrderPrice, String orderPrice, String invoice, String shippingCompany, String adminMemo, String userMemo, OrderStatus orderStatus, Member member, Recipient recipient) {
+    public Order(Long id, String orderNumber, String expectedOrderPrice, String orderPrice,
+                 String invoice, String shippingCompany, String adminMemo, String userMemo,
+                 OrderStatus orderStatus, Member member, Recipient recipient, String depositName) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.expectedOrderPrice = expectedOrderPrice;
@@ -78,6 +83,7 @@ public class Order extends BaseEntity {
         this.orderStatus = orderStatus;
         this.member = member;
         this.recipient = recipient;
+        this.depositName = depositName;
     }
 
     public void updateOrder(String orderPrice, String invoice, String shippingCompany, String adminMemo, OrderStatus orderStatus) {
@@ -92,4 +98,7 @@ public class Order extends BaseEntity {
         this.orderStatus = orderStatus;
     }
 
+    public void updateDepositName(String depositName) {
+        this.depositName = depositName;
+    }
 }

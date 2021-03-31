@@ -5,4 +5,5 @@ import lombok.Getter;
 @Getter
 public class OrderPaymentRequestDto {
     private String paymentMethod;
+    private String depositName;
 }
