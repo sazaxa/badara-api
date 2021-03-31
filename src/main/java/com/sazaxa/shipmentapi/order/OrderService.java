@@ -215,7 +215,6 @@ public class OrderService {
 
         List<Box> boxList = BoxRequestDto.toEntityList(request.getBoxes());
 
-
         for (Box newBox : boxList){
             Box box = boxRepository.findById(newBox.getId()).orElseThrow(()-> new BoxNotFoundException("no box id : " + newBox.getId()));
             box.updateBox(
@@ -233,7 +232,7 @@ public class OrderService {
                     newBox.getPrice(),
                     newBox.getKoreanInvoice(),
                     newBox.getKoreanShippingCompany(),
-                    newBox.getKoreanShippingStatus()
+                    OrderStatus.findByKorean(request.getOrderStatus())
                     );
             boxRepository.save(box);
         }
