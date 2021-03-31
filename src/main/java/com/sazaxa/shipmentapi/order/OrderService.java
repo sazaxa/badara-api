@@ -214,7 +214,6 @@ public class OrderService {
 
         List<Box> boxList = BoxRequestDto.toEntityList(request.getBoxes());
 
-
         for (Box newBox : boxList){
             Box box = boxRepository.findById(newBox.getId()).orElseThrow(()-> new BoxNotFoundException("no box id : " + newBox.getId()));
             box.updateBox(
@@ -227,12 +226,12 @@ public class OrderService {
                     newBox.getWidth(),
                     newBox.getDepth(),
                     newBox.getHeight(),
-                    newBox.getVolumeWeight(),
+                    weightVolumeWeight(newBox.getWidth(), newBox.getDepth(), newBox.getHeight()),
                     newBox.getNetWeight(),
                     newBox.getPrice(),
                     newBox.getKoreanInvoice(),
                     newBox.getKoreanShippingCompany(),
-                    newBox.getKoreanShippingStatus()
+                    OrderStatus.findByKorean(request.getOrderStatus())
                     );
             boxRepository.save(box);
         }
@@ -288,4 +287,9 @@ public class OrderService {
 
         return response;
     }
+
+    public Double weightVolumeWeight(Double width, Double depth, Double height ) {
+        return width * depth * height / 5000;
+    }
+
 }
