@@ -1,6 +1,5 @@
 package com.sazaxa.shipmentapi.order.dto;
 
-import com.sazaxa.shipmentapi.box.Box;
 import com.sazaxa.shipmentapi.box.dto.BoxRequestDto;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.recipient.Recipient;
