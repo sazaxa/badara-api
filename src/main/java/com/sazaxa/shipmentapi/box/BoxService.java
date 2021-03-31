@@ -1,6 +1,7 @@
 package com.sazaxa.shipmentapi.box;
 
 import com.sazaxa.shipmentapi.box.dto.BoxUpdateRequestDto;
+import com.sazaxa.shipmentapi.box.dto.BoxWeightRequestDto;
 import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,10 @@ public class BoxService {
         Box box = boxRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id : " + id));
         box.updateCenterIncome(request.getKoreanInvoice(), request.getKoreanShippingCompany());
         return boxRepository.save(box);
+    }
+
+    public Double weightVolumeWeight(BoxWeightRequestDto boxWeightRequest) {
+        return boxWeightRequest.getDepth() * boxWeightRequest.getHeight() * boxWeightRequest.getHeight() / 5000;
     }
 
 }

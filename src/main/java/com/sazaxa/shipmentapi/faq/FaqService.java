@@ -27,7 +27,6 @@ public class FaqService {
     }
 
     public Faq saveFaq(FaqSaveRequestDto request) {
-
         Faq faq = Faq.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
