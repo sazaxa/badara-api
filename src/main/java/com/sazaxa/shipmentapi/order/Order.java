@@ -37,7 +37,7 @@ public class Order extends BaseEntity {
     private String expectedOrderPrice;
 
     @Column
-    private String orderPrice;
+    private Double orderPrice;
 
     @Column
     private String invoice;
@@ -69,7 +69,7 @@ public class Order extends BaseEntity {
     private Recipient recipient;
 
     @Builder
-    public Order(Long id, String orderNumber, String expectedOrderPrice, String orderPrice,
+    public Order(Long id, String orderNumber, String expectedOrderPrice, Double orderPrice,
                  String invoice, String shippingCompany, String adminMemo, String userMemo,
                  OrderStatus orderStatus, Member member, Recipient recipient, String depositName) {
         this.id = id;
@@ -86,7 +86,7 @@ public class Order extends BaseEntity {
         this.depositName = depositName;
     }
 
-    public void updateOrder(String orderPrice, String invoice, String shippingCompany, String adminMemo, OrderStatus orderStatus) {
+    public void updateOrder(Double orderPrice, String invoice, String shippingCompany, String adminMemo, OrderStatus orderStatus) {
         this.orderPrice = orderPrice;
         this.invoice = invoice;
         this.shippingCompany = shippingCompany;

@@ -70,6 +70,12 @@ public class Box {
     private String koreanShippingCompany;
 
     @Column
+    private Boolean isVolumeWeight;
+
+    @Column
+    private Double resultWeight;
+
+    @Column
     private OrderStatus koreanShippingStatus;
 
     @ManyToOne(targetEntity = Order.class, fetch = FetchType.LAZY)
@@ -110,7 +116,7 @@ public class Box {
 
     public void updateBox(Double expectedWidth, Double expectedDepth, Double expectedHeight, Double expectedVolumeWeight, Double expectedNetWeight,
                           Double expectedPrice, Double width, Double depth, Double height, Double volumeWeight, Double netWeight, Double price,
-                          String koreanInvoice, String koreanShippingCompany, OrderStatus koreanShippingStatus) {
+                          String koreanInvoice, String koreanShippingCompany, Boolean isVolumeWeight, Double resultWeight, OrderStatus koreanShippingStatus) {
         this.expectedWidth = expectedWidth;
         this.expectedDepth = expectedDepth;
         this.expectedHeight = expectedHeight;
@@ -125,6 +131,8 @@ public class Box {
         this.price = price;
         this.koreanInvoice = koreanInvoice;
         this.koreanShippingCompany = koreanShippingCompany;
+        this.isVolumeWeight = isVolumeWeight;
+        this.resultWeight = resultWeight;
         this.koreanShippingStatus = koreanShippingStatus;
     }
 

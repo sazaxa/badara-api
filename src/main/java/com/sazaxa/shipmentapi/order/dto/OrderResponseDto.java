@@ -15,7 +15,7 @@ public class OrderResponseDto {
     private Long id;
     private String orderNumber;
     private String expectedOrderPrice;
-    private String orderPrice;
+    private Double orderPrice;
     private String invoice;
     private String shippingCompany;
     private String adminMemo;

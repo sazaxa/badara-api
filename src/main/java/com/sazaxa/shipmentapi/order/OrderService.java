@@ -5,6 +5,8 @@ import com.sazaxa.shipmentapi.box.BoxRepository;
 import com.sazaxa.shipmentapi.box.dto.BoxRequestDto;
 import com.sazaxa.shipmentapi.box.dto.BoxResponseDto;
 import com.sazaxa.shipmentapi.box.exception.BoxNotFoundException;
+import com.sazaxa.shipmentapi.excel.shipping.ShippingService;
+import com.sazaxa.shipmentapi.excel.shipping.dto.ShippingRequestDto;
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberRepository;
 import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
@@ -39,13 +41,15 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final RecipientRepository recipientRepository;
     private final BoxRepository boxRepository;
+    private final ShippingService shippingService;
 
-    public OrderService(OrderRepository orderRepository, MemberRepository memberRepository, ProductRepository productRepository, RecipientRepository recipientRepository, BoxRepository boxRepository) {
+    public OrderService(OrderRepository orderRepository, MemberRepository memberRepository, ProductRepository productRepository, RecipientRepository recipientRepository, BoxRepository boxRepository, ShippingService shippingService) {
         this.orderRepository = orderRepository;
         this.memberRepository = memberRepository;
         this.productRepository = productRepository;
         this.recipientRepository = recipientRepository;
         this.boxRepository = boxRepository;
+        this.shippingService = shippingService;
     }
 
     public List<OrderResponseDto> getAllOrder() {
@@ -184,13 +188,6 @@ public class OrderService {
         Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id" + id));
         Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
 
-        order.updateOrder(request.getOrderPrice(),
-                request.getInvoice(),
-                request.getShippingCompany(),
-                request.getAdminMemo(),
-                OrderStatus.findByKorean(request.getOrderStatus()));
-        orderRepository.save(order);
-
         recipient.updateRecipient(request.getRecipient().getName(),
                 request.getRecipient().getEmail(),
                 request.getRecipient().getCountry(),
@@ -231,13 +228,28 @@ public class OrderService {
                     newBox.getPrice(),
                     newBox.getKoreanInvoice(),
                     newBox.getKoreanShippingCompany(),
+                    isVolumeWeight(weightVolumeWeight(newBox.getWidth(), newBox.getDepth(), newBox.getHeight()), newBox.getNetWeight()),
+                    compareWeight(weightVolumeWeight(newBox.getWidth(), newBox.getDepth(), newBox.getHeight()), newBox.getNetWeight()),
                     OrderStatus.findByKorean(request.getOrderStatus())
                     );
             boxRepository.save(box);
         }
 
+
         List<Product> products = productRepository.findAllByOrder(order);
         List<Box> boxes = boxRepository.findAllByOrder(order);
+
+
+        order.updateOrder(calculateOrderPrice(boxes, recipient.getCountry()),
+                request.getInvoice(),
+                request.getShippingCompany(),
+                request.getAdminMemo(),
+                OrderStatus.findByKorean(request.getOrderStatus()));
+        orderRepository.save(order);
+
+
+
+
 
         OrderResponseDto response = OrderResponseDto.builder()
                 .orderNumber(order.getOrderNumber())
@@ -290,6 +302,28 @@ public class OrderService {
 
     public Double weightVolumeWeight(Double width, Double depth, Double height ) {
         return width * depth * height / 5000;
+    }
+
+    public Boolean isVolumeWeight(Double volumeWeight, Double NetWeight){
+        if (volumeWeight >= NetWeight){
+            return true;
+        }
+        return false;
+    }
+
+    public Double compareWeight(Double volumeWeight, Double NetWeight){
+        if (volumeWeight >= NetWeight){
+            return volumeWeight;
+        }
+        return NetWeight;
+    }
+
+    public Double calculateOrderPrice( List<Box> boxes, String country){
+        Double orderWeight = boxes.stream().mapToDouble(Box::getResultWeight).sum();
+        return shippingService.getPrice(ShippingRequestDto.builder()
+                .weight(orderWeight)
+                .country(country)
+                .build());
     }
 
 }
