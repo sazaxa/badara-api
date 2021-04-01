@@ -235,10 +235,8 @@ public class OrderService {
             boxRepository.save(box);
         }
 
-
         List<Product> products = productRepository.findAllByOrder(order);
         List<Box> boxes = boxRepository.findAllByOrder(order);
-
 
         order.updateOrder(calculateOrderPrice(boxes, recipient.getCountry()),
                 request.getInvoice(),
@@ -246,11 +244,7 @@ public class OrderService {
                 request.getAdminMemo(),
                 OrderStatus.findByKorean(request.getOrderStatus()));
         orderRepository.save(order);
-
-
-
-
-
+        
         OrderResponseDto response = OrderResponseDto.builder()
                 .orderNumber(order.getOrderNumber())
                 .expectedOrderPrice(order.getExpectedOrderPrice())

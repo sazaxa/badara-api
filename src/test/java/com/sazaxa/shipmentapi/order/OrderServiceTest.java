@@ -12,7 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -49,25 +49,17 @@ class OrderServiceTest {
 
     @Test
     public void calculateOrderPrice(){
-
         Box box1 = Box.builder()
                 .resultWeight(1D)
                 .build();
-
         Box box2 = Box.builder()
                 .resultWeight(2D)
                 .build();
 
-        List<Box> boxes = new ArrayList<>();
-        boxes.add(box1);
-        boxes.add(box2);
-
-        System.out.println(boxes.get(0).getResultWeight());
-        System.out.println(boxes.get(1).getResultWeight());
+        List<Box> boxes = Arrays.asList(box1, box2);
 
         Double orderWeight = boxes.stream().mapToDouble(Box::getResultWeight).sum();
         assertThat(orderWeight).isEqualTo(3D);
-
     }
 
 }
