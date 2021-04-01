@@ -67,6 +67,7 @@ public class MemberService {
                     .adminMemo(order.getAdminMemo())
                     .userMemo(order.getUserMemo())
                     .orderStatus(order.getOrderStatus().status)
+                    .depositName(order.getDepositName())
                     .productResponses(ProductResponseDto.ofList(products))
                     .boxResponses(BoxResponseDto.ofList(boxes))
                     .recipient(order.getRecipient())
