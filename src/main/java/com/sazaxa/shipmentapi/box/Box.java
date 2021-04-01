@@ -84,7 +84,10 @@ public class Box {
     private Order order;
 
     @Builder
-    public Box(Long id,Double expectedWidth, Double expectedDepth, Double expectedHeight, Double expectedVolumeWeight, Double expectedNetWeight, Double expectedPrice, Double width, Double depth, Double height, Double volumeWeight, Double netWeight, Double price, String koreanInvoice, String koreanShippingCompany, OrderStatus koreanShippingStatus, Order order) {
+    public Box(Long id,Double expectedWidth, Double expectedDepth, Double expectedHeight, Double expectedVolumeWeight,
+               Double expectedNetWeight, Double expectedPrice, Double width, Double depth, Double height, Double volumeWeight,
+               Double netWeight, Double price, String koreanInvoice, Double resultWeight,
+               String koreanShippingCompany, OrderStatus koreanShippingStatus, Order order) {
         this.id = id;
         this.expectedWidth = expectedWidth;
         this.expectedDepth = expectedDepth;
@@ -99,6 +102,7 @@ public class Box {
         this.netWeight = netWeight;
         this.price = price;
         this.koreanInvoice = koreanInvoice;
+        this.resultWeight = resultWeight;
         this.koreanShippingCompany = koreanShippingCompany;
         this.koreanShippingStatus = koreanShippingStatus;
         this.order = order;
