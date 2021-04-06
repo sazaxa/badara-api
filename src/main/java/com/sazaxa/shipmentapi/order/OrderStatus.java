@@ -11,6 +11,9 @@ public enum OrderStatus {
     PAYMENT_COMPLETE("결제완료"),
     GLOBAL_DELIVERY("해외배송중"),
     GLOBAL_DELIVERY_COMPLETED("해외배송완료"),
+    REFUND("환불"),
+    REFUND_WAITING("환불대기"),
+    CANCEL("취소"),
     ERROR("상태오류");
 
     public String status;
