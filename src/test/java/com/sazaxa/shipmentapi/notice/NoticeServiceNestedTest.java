@@ -31,22 +31,7 @@ public class NoticeServiceNestedTest {
             }
         }
 
-        @Nested
-        @DisplayName("만약 List가 비어 있지 않다면")
-        class Context_with_Not_Empty{
 
-            private Notice notice = Notice.builder()
-                    .title("dummy-title-1")
-                    .content("dummy-content-1")
-                    .build();
-
-            @Test
-            @DisplayName("List는 비어있지 않다.")
-            void it_returns_Not_Empty_List(){
-                List<NoticeResponseDto> result = noticeService.getAllNotice();
-                assertThat(result).isNotEmpty();
-            }
-        }
 
     }
 

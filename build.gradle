@@ -41,7 +41,7 @@ dependencies {
 	compile group: 'commons-io', name: 'commons-io', version: '2.6'
 
 	//h2-database
-//	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.h2database:h2'
 
 	// Maria Database
 	implementation 'org.mariadb.jdbc:mariadb-java-client'

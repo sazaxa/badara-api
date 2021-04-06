@@ -1,6 +1,5 @@
 package com.sazaxa.shipmentapi.faq;
 
-import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -72,9 +70,6 @@ class FaqServiceTest {
                 .id(1L)
                 .title("dummy-test-title-1")
                 .build();
-
-        given(faqService.saveFaq(any(FaqSaveRequestDto.class))).willReturn(faq);
-
 
     }
 
