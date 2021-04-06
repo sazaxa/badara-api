@@ -244,7 +244,7 @@ public class OrderService {
                 request.getAdminMemo(),
                 OrderStatus.findByKorean(request.getOrderStatus()));
         orderRepository.save(order);
-        
+
         OrderResponseDto response = OrderResponseDto.builder()
                 .orderNumber(order.getOrderNumber())
                 .expectedOrderPrice(order.getExpectedOrderPrice())
