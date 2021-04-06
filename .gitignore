@@ -5,3 +5,7 @@ out
 gradlew
 gradlew.bat
 src/main/generated
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
