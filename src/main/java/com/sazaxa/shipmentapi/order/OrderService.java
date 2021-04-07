@@ -260,7 +260,7 @@ public class OrderService {
         return response;
     }
 
-    public OrderResponseDto updateStatue(Long id, OrderPaymentRequestDto request) {
+    public OrderResponseDto updateStatus(Long id, OrderPaymentRequestDto request) {
         Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id : " + id));
         List<Box> boxes = boxRepository.findAllByOrder(order);
         List<Product> products = productRepository.findAllByOrder(order);
@@ -285,6 +285,13 @@ public class OrderService {
             order.updateOrderStatus(OrderStatus.REFUND_WAITING);
             for (Box box : boxes){
                 box.updateKoreanShippingStatus(OrderStatus.REFUND_WAITING);
+                boxRepository.save(box);
+            }
+        }
+        if (request.getPaymentMethod().equals(OrderStatus.CANCEL.status)){
+            order.updateOrderStatus(OrderStatus.CANCEL);
+            for (Box box : boxes){
+                box.updateKoreanShippingStatus(OrderStatus.CANCEL);
                 boxRepository.save(box);
             }
         }
