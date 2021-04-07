@@ -53,4 +53,9 @@ public class OrderController {
         return orderService.updatePayment(id, request);
     }
 
+    @PutMapping("/cancel/{id}")
+    public OrderResponseDto cancelOrder(@PathVariable Long id){
+        return orderService.cancelOrder(id);
+    }
+
 }
