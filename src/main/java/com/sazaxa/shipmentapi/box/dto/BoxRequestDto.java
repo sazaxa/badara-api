@@ -25,6 +25,7 @@ public class BoxRequestDto {
     private String koreanInvoice;
     private String koreanShippingCompany;
     private String koreanShippingStatus;
+    private String userMemo;
 
     public static Box toEntity(BoxRequestDto boxRequest){
         return Box.builder()
@@ -44,6 +45,7 @@ public class BoxRequestDto {
                 .koreanInvoice(boxRequest.getKoreanInvoice())
                 .koreanShippingCompany(boxRequest.getKoreanShippingCompany())
                 .koreanShippingStatus(OrderStatus.findByKorean(boxRequest.getKoreanShippingStatus()))
+                .userMemo(boxRequest.getUserMemo())
                 .build();
     }
 
@@ -68,6 +70,7 @@ public class BoxRequestDto {
                     .koreanInvoice(boxRequest.getKoreanInvoice())
                     .koreanShippingCompany(boxRequest.getKoreanShippingCompany())
                     .koreanShippingStatus(OrderStatus.findByKorean(boxRequest.getKoreanShippingStatus()))
+                    .userMemo(boxRequest.getUserMemo())
                     .build()
             );
         }

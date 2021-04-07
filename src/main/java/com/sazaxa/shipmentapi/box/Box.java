@@ -76,6 +76,9 @@ public class Box {
     private Double resultWeight;
 
     @Column
+    private String userMemo;
+
+    @Column
     private OrderStatus koreanShippingStatus;
 
     @ManyToOne(targetEntity = Order.class, fetch = FetchType.LAZY)
@@ -87,7 +90,7 @@ public class Box {
     public Box(Long id,Double expectedWidth, Double expectedDepth, Double expectedHeight, Double expectedVolumeWeight,
                Double expectedNetWeight, Double expectedPrice, Double width, Double depth, Double height, Double volumeWeight,
                Double netWeight, Double price, String koreanInvoice, Double resultWeight,
-               String koreanShippingCompany, OrderStatus koreanShippingStatus, Order order) {
+               String koreanShippingCompany, OrderStatus koreanShippingStatus, String userMemo, Order order) {
         this.id = id;
         this.expectedWidth = expectedWidth;
         this.expectedDepth = expectedDepth;
@@ -105,6 +108,7 @@ public class Box {
         this.resultWeight = resultWeight;
         this.koreanShippingCompany = koreanShippingCompany;
         this.koreanShippingStatus = koreanShippingStatus;
+        this.userMemo = userMemo;
         this.order = order;
     }
 
@@ -120,7 +124,7 @@ public class Box {
 
     public void updateBox(Double expectedWidth, Double expectedDepth, Double expectedHeight, Double expectedVolumeWeight, Double expectedNetWeight,
                           Double expectedPrice, Double width, Double depth, Double height, Double volumeWeight, Double netWeight, Double price,
-                          String koreanInvoice, String koreanShippingCompany, Boolean isVolumeWeight, Double resultWeight, OrderStatus koreanShippingStatus) {
+                          String koreanInvoice, String koreanShippingCompany, Boolean isVolumeWeight, Double resultWeight, String userMemo, OrderStatus koreanShippingStatus) {
         this.expectedWidth = expectedWidth;
         this.expectedDepth = expectedDepth;
         this.expectedHeight = expectedHeight;
@@ -137,6 +141,7 @@ public class Box {
         this.koreanShippingCompany = koreanShippingCompany;
         this.isVolumeWeight = isVolumeWeight;
         this.resultWeight = resultWeight;
+        this.userMemo = userMemo;
         this.koreanShippingStatus = koreanShippingStatus;
     }
 

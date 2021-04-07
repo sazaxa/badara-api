@@ -26,6 +26,7 @@ public class BoxResponseDto {
     private String koreanInvoice;
     private String koreanShippingCompany;
     private String koreanShippingStatus;
+    private String userMemo;
 
     public static BoxResponseDto of(Box box) {
         return BoxResponseDto.builder()
@@ -45,6 +46,7 @@ public class BoxResponseDto {
                 .koreanInvoice(box.getKoreanInvoice())
                 .koreanShippingCompany(box.getKoreanShippingCompany())
                 .koreanShippingStatus(box.getKoreanShippingStatus().status)
+                .userMemo(box.getUserMemo())
                 .build();
     }
 
