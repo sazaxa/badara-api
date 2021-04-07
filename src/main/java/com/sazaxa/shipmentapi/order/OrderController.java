@@ -48,14 +48,14 @@ public class OrderController {
         return orderService.updateOrder(id, request);
     }
 
-    @PutMapping("/payment/{id}")
-    public OrderResponseDto updatePayment(@PathVariable Long id, @RequestBody OrderPaymentRequestDto request){
-        return orderService.updatePayment(id, request);
+    @PutMapping("/status/{id}")
+    public OrderResponseDto updateStatue(@PathVariable Long id, @RequestBody OrderPaymentRequestDto request){
+        return orderService.updateStatue(id, request);
     }
 
-    @PutMapping("/cancel/{id}")
-    public OrderResponseDto cancelOrder(@PathVariable Long id){
-        return orderService.cancelOrder(id);
-    }
+//    @PutMapping("/cancel/{id}")
+//    public OrderResponseDto cancelOrder(@PathVariable Long id){
+//        return orderService.cancelOrder(id);
+//    }
 
 }

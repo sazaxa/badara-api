@@ -260,7 +260,7 @@ public class OrderService {
         return response;
     }
 
-    public OrderResponseDto updatePayment(Long id, OrderPaymentRequestDto request) {
+    public OrderResponseDto updateStatue(Long id, OrderPaymentRequestDto request) {
         Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id : " + id));
         List<Box> boxes = boxRepository.findAllByOrder(order);
         List<Product> products = productRepository.findAllByOrder(order);
@@ -303,25 +303,24 @@ public class OrderService {
         return response;
     }
 
-
-    public OrderResponseDto cancelOrder(Long id) {
-        Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id :" + id));
-        order.updateOrderStatus(OrderStatus.CANCEL);
-
-        List<Product> products = productRepository.findAllByOrder(order);
-        List<Box> boxes = boxRepository.findAllByOrder(order);
-        Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
-
-        return OrderResponseDto.builder()
-                .orderNumber(order.getOrderNumber())
-                .expectedOrderPrice(order.getExpectedOrderPrice())
-                .userMemo(order.getUserMemo())
-                .orderStatus(order.getOrderStatus().status)
-                .productResponses(ProductResponseDto.ofList(products))
-                .boxResponses(BoxResponseDto.ofList(boxes))
-                .recipient(recipient)
-                .build();
-    }
+//    public OrderResponseDto cancelOrder(Long id) {
+//        Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id :" + id));
+//        order.updateOrderStatus(OrderStatus.CANCEL);
+//
+//        List<Product> products = productRepository.findAllByOrder(order);
+//        List<Box> boxes = boxRepository.findAllByOrder(order);
+//        Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
+//
+//        return OrderResponseDto.builder()
+//                .orderNumber(order.getOrderNumber())
+//                .expectedOrderPrice(order.getExpectedOrderPrice())
+//                .userMemo(order.getUserMemo())
+//                .orderStatus(order.getOrderStatus().status)
+//                .productResponses(ProductResponseDto.ofList(products))
+//                .boxResponses(BoxResponseDto.ofList(boxes))
+//                .recipient(recipient)
+//                .build();
+//    }
 
     public Double weightVolumeWeight(Double width, Double depth, Double height ) {
         return width * depth * height / 5000;
