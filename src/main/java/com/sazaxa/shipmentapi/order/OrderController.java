@@ -48,9 +48,9 @@ public class OrderController {
         return orderService.updateOrder(id, request);
     }
 
-    @PutMapping("/status/{id}")
-    public OrderResponseDto updateStatus(@PathVariable Long id, @RequestBody OrderPaymentRequestDto request){
-        return orderService.updateStatus(id, request);
+    @PutMapping("/status/{orderNumber}")
+    public OrderResponseDto updateStatus(@PathVariable String orderNumber, @RequestBody OrderPaymentRequestDto request){
+        return orderService.updateStatus(orderNumber, request);
     }
 
 //    @PutMapping("/cancel/{id}")

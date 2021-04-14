@@ -260,8 +260,9 @@ public class OrderService {
         return response;
     }
 
-    public OrderResponseDto updateStatus(Long id, OrderPaymentRequestDto request) {
-        Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id : " + id));
+    public OrderResponseDto updateStatus(String orderNumber, OrderPaymentRequestDto request) {
+        Order order = orderRepository.findByOrderNumber(orderNumber).orElseThrow(()->new OrderNotFoundException("no ordernumber : " + orderNumber));
+
         List<Box> boxes = boxRepository.findAllByOrder(order);
         List<Product> products = productRepository.findAllByOrder(order);
         Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
