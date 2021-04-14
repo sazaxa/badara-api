@@ -1,8 +1,8 @@
 package com.sazaxa.shipmentapi.order;
 
-import com.sazaxa.shipmentapi.order.dto.OrderPaymentRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
+import com.sazaxa.shipmentapi.order.dto.OrderStatusRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderUpdateRequestDto;
 import com.sazaxa.shipmentapi.security.CurrentUser;
 import com.sazaxa.shipmentapi.security.UserPrincipalCustom;
@@ -49,7 +49,7 @@ public class OrderController {
     }
 
     @PutMapping("/status/{orderNumber}")
-    public OrderResponseDto updateStatus(@PathVariable String orderNumber, @RequestBody OrderPaymentRequestDto request){
+    public OrderResponseDto updateStatus(@PathVariable String orderNumber, @RequestBody OrderStatusRequestDto request){
         return orderService.updateStatus(orderNumber, request);
     }
 

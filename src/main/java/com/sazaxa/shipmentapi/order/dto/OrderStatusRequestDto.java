@@ -3,7 +3,7 @@ package com.sazaxa.shipmentapi.order.dto;
 import lombok.Getter;
 
 @Getter
-public class OrderPaymentRequestDto {
+public class OrderStatusRequestDto {
     private String paymentMethod;
     private String depositName;
 }

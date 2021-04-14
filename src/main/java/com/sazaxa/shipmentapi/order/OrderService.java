@@ -10,9 +10,9 @@ import com.sazaxa.shipmentapi.excel.shipping.dto.ShippingRequestDto;
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberRepository;
 import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
-import com.sazaxa.shipmentapi.order.dto.OrderPaymentRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
+import com.sazaxa.shipmentapi.order.dto.OrderStatusRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderUpdateRequestDto;
 import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
 import com.sazaxa.shipmentapi.product.Product;
@@ -260,7 +260,7 @@ public class OrderService {
         return response;
     }
 
-    public OrderResponseDto updateStatus(String orderNumber, OrderPaymentRequestDto request) {
+    public OrderResponseDto updateStatus(String orderNumber, OrderStatusRequestDto request) {
         Order order = orderRepository.findByOrderNumber(orderNumber).orElseThrow(()->new OrderNotFoundException("no ordernumber : " + orderNumber));
 
         List<Box> boxes = boxRepository.findAllByOrder(order);
