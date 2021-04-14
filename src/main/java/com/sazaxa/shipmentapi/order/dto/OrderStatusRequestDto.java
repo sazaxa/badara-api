@@ -11,5 +11,5 @@ public class OrderStatusRequestDto {
     private String cardNumber;
     private String cardOwnerType;
     private String paymentKey;
-    private String requestedAt;
+    private String cardRequestedDate;
 }

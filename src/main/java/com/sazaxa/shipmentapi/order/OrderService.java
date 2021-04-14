@@ -28,6 +28,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -276,7 +278,14 @@ public class OrderService {
             }
         }
         if (request.getPaymentMethod().equals(OrderStatus.PAYMENT_COMPLETE.status)){
+
             order.updateOrderStatus(OrderStatus.PAYMENT_COMPLETE);
+            order.updateOrderPayment(request.getCardType(),
+                    request.getCardCompany(),
+                    request.getCardOwnerType(),
+                    request.getPaymentKey(),
+                    LocalDateTime.parse(request.getCardRequestedDate(),DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+
             for (Box box : boxes){
                 box.updateKoreanShippingStatus(OrderStatus.PAYMENT_COMPLETE);
                 boxRepository.save(box);

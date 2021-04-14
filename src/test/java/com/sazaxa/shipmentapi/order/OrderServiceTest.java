@@ -12,6 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -60,6 +62,22 @@ class OrderServiceTest {
 
         Double orderWeight = boxes.stream().mapToDouble(Box::getResultWeight).sum();
         assertThat(orderWeight).isEqualTo(3D);
+    }
+
+    @Test
+    public void convertStringToLocalDateTime(){
+        String date = "2021-04-14 10:30:33";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
+        System.out.println(date);
+        System.out.println(dateTime);
+    }
+
+    @Test
+    public void convertISO_OFFSET_DATE_TIMEToLocalDateTime(){
+        String date = "2021-04-14T10:30:33+09:00";
+        LocalDateTime dateTime = LocalDateTime.parse(date, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        System.out.println(dateTime);
     }
 
 }

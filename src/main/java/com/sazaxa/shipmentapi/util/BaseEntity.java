@@ -21,7 +21,6 @@ public abstract class BaseEntity {
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
-
     public LocalDateTime getModifiedDate() {
         return modifiedDate;
     }

@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -54,11 +55,26 @@ public class Order extends BaseEntity {
     @Column
     private String depositName;
 
+    @Column
+    private String cardType;
+
+    @Column
+    private String cardCompany;
+
+    @Column
+    private String cardOwnerType;
+
+    @Column
+    private String paymentKey;
+
+    @Column
+    private LocalDateTime cardRequestedDate;
+
     @Enumerated(EnumType.STRING)
     @Column
     private OrderStatus orderStatus;
 
-        @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
@@ -101,4 +117,14 @@ public class Order extends BaseEntity {
     public void updateDepositName(String depositName) {
         this.depositName = depositName;
     }
+
+    public void updateOrderPayment(String cardType, String cardCompany, String cardOwnerType, String paymentKey, LocalDateTime cardRequestedDate) {
+        this.cardType = cardType;
+        this.cardCompany = cardCompany;
+        this.cardOwnerType = cardOwnerType;
+        this.paymentKey = paymentKey;
+        this.cardRequestedDate = cardRequestedDate;
+    }
+
+
 }
