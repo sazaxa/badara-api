@@ -179,9 +179,9 @@ public class OrderService {
      * @aram currentUser
      * @return
      */
-    private String makeOrderNumber(OrderSaveRequestDto request, UserPrincipalCustom currentUser) {
+    private String makeOrderNumber(OrderSaveRequestDto request) {
         String country = request.getRecipient().getCountry();
-        String name = currentUser.getUsername().split(" ")[0];
+        String name = request.getRecipient().getName().split(" ")[0];
         String orderNumber = country.toUpperCase() + "-" + name.toUpperCase() + "-" + new SimpleDateFormat("yyMMdd").format(new Date()) + "-" + RandomStringUtils.randomAlphanumeric(4).toUpperCase();
         return orderNumber;
     }
