@@ -110,7 +110,7 @@ public class OrderService {
                 .build();
         recipientRepository.save(recipient);
 
-        String orderNumber = makeOrderNumber(request, currentUser);
+        String orderNumber = makeOrderNumber(request);
         Order order = Order.builder()
                 .orderNumber(orderNumber)
                 .expectedOrderPrice(request.getExpectedOrderPrice())
