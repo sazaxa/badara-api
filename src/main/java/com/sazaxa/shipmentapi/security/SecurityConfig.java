@@ -15,10 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.header.writers.frameoptions.WhiteListedAllowFromStrategy;
-import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
-
-import java.util.Arrays;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
 @EnableWebSecurity
 @Configuration
@@ -65,12 +62,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .headers()
-                .addHeaderWriter(
-                        new XFrameOptionsHeaderWriter(
-                                new WhiteListedAllowFromStrategy(Arrays.asList("localhost"))
-                        )
-                )
-                .frameOptions().sameOrigin()
+//                .addHeaderWriter(
+//                        new XFrameOptionsHeaderWriter(
+//                                new WhiteListedAllowFromStrategy(Arrays.asList("localhost"))
+//                        )
+//                )
+                .frameOptions().disable()
+                .addHeaderWriter(new StaticHeadersWriter("X-Frame-Options", "ALLOW-FROM " + "https://www.facebook.com"))
                 .and()
 //                .httpBasic().disable()
                 .cors().and().csrf().disable()
