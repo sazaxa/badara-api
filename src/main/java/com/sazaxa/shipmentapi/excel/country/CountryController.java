@@ -26,6 +26,9 @@ public class CountryController {
         if (file.isEmpty()){
             throw new ExcelNotFoundException("no excel file");
         }
+
+        countryService.create(file);
+
         return null;
     }
 }
