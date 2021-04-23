@@ -28,15 +28,11 @@ public class Country {
     @Column
     private String code;
 
-    @Column
-    private String tax;
-
     @Builder
-    public Country(Long id, String name, Integer number, String code, String tax) {
+    public Country(Long id, String name, Integer number, String code) {
         this.id = id;
         this.name = name;
         this.number = number;
         this.code = code;
-        this.tax = tax;
     }
 }
