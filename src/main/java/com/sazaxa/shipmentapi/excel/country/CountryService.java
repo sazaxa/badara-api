@@ -3,6 +3,7 @@ package com.sazaxa.shipmentapi.excel.country;
 import com.sazaxa.shipmentapi.excel.ExcelExtension;
 import com.sazaxa.shipmentapi.excel.country.dto.CountryResponseDto;
 import com.sazaxa.shipmentapi.excel.dto.ExcelSuccessResponseDto;
+import com.sazaxa.shipmentapi.excel.errors.CountryNotFoundException;
 import com.sazaxa.shipmentapi.excel.errors.ExcelExtensionException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -48,6 +49,11 @@ public class CountryService {
         return new ExcelSuccessResponseDto();
     }
 
+    public CountryResponseDto detail(String name) {
+        Country country = countryRepository.findByName(name).orElseThrow(()-> new CountryNotFoundException("no name : " + name));
+        return CountryResponseDto.of(country);
+    }
+
     private Workbook createWorkbook(MultipartFile file) throws IOException {
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         if (extension.equals(ExcelExtension.XLSX.getExtension())) {
@@ -59,7 +65,4 @@ public class CountryService {
         throw new ExcelExtensionException(extension);
     }
 
-    public CountryResponseDto detail(String name) {
-        return null;
-    }
 }

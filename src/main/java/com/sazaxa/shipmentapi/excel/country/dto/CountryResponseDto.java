@@ -21,7 +21,7 @@ public class CountryResponseDto {
         this.code = code;
     }
 
-    public static CountryResponseDto toEntity(Country country){
+    public static CountryResponseDto of(Country country){
         return CountryResponseDto.builder()
                 .id(country.getId())
                 .name(country.getName())

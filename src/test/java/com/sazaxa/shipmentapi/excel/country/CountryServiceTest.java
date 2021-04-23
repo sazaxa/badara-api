@@ -65,6 +65,5 @@ class CountryServiceTest {
         given(countryRepository.findByName("Taiwan")).willReturn(Optional.of(country));
         CountryResponseDto countryResponseDto = countryService.detail("Taiwan");
         assertThat(countryResponseDto.getNumber()).isEqualTo(513);
-
     }
 }
