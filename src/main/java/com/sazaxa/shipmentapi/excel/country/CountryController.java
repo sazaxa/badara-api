@@ -14,13 +14,18 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class CountryController {
 
+    private final CountryService countryService;
+
+    public CountryController(CountryService countryService) {
+        this.countryService = countryService;
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/country")
     public ExcelSuccessResponseDto create(@RequestParam("file") MultipartFile file){
         if (file.isEmpty()){
             throw new ExcelNotFoundException("no excel file");
         }
-
         return null;
     }
 }

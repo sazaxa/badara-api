@@ -23,6 +23,9 @@ class CountryControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
+    private CountryService countryService;
+
+    @MockBean
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @MockBean
