@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.nio.charset.StandardCharsets;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CountryController.class)
@@ -36,11 +37,15 @@ class CountryControllerTest {
 
     @Test
     void testCreate() throws Exception {
-
         MockMultipartFile file = new MockMultipartFile("file", "excel.xlsx", MediaType.TEXT_PLAIN_VALUE, "USA".getBytes(StandardCharsets.UTF_8));
-
         mockMvc.perform(multipart("/excel/country").file(file))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    void testDetail() throws Exception {
+        mockMvc.perform(get("/excel/country" + "/Taiwan"))
+                .andExpect(status().isOk());
     }
 
 }
