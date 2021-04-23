@@ -1,7 +1,7 @@
 package com.sazaxa.shipmentapi.excel.shipping;
 
-import com.sazaxa.shipmentapi.excel.shipping.exception.CountryNotFoundException;
-import com.sazaxa.shipmentapi.excel.shipping.exception.ExcelExtensionException;
+import com.sazaxa.shipmentapi.excel.errors.CountryNotFoundException;
+import com.sazaxa.shipmentapi.excel.errors.ExcelExtensionException;
 import com.sazaxa.shipmentapi.excel.shipping.dto.ShippingRequestDto;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
