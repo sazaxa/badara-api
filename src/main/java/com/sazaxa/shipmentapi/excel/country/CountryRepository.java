@@ -1,4 +1,4 @@
-package com.sazaxa.shipmentapi.excel.nation;
+package com.sazaxa.shipmentapi.excel.country;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
