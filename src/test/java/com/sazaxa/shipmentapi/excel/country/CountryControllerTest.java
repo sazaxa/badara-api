@@ -44,7 +44,7 @@ class CountryControllerTest {
 
     @Test
     void testDetail() throws Exception {
-        mockMvc.perform(get("/excel/country" + "/Taiwan"))
+        mockMvc.perform(get("/country" + "/Taiwan"))
                 .andExpect(status().isOk());
     }
 
