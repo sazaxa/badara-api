@@ -13,7 +13,7 @@ public class CountryController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/country")
-    public ExcelSuccessResponseDto createCountry(){
+    public ExcelSuccessResponseDto create(){
         return null;
     }
 }
