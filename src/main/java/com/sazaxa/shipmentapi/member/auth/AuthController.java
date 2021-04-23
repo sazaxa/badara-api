@@ -20,7 +20,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Collections;
@@ -31,7 +36,6 @@ public class AuthController {
 
     @Autowired
     private JwtTokenProvider tokenProvider;
-
     private final MemberService memberService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
@@ -95,6 +99,7 @@ public class AuthController {
                 .roles(Collections.singleton(userRole))
                 .status(MemberStatus.ACTIVATE.name())
                 .build();
+
 
         memberService.registerMember(member);
 
