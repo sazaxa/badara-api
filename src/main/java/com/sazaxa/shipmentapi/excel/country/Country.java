@@ -1,4 +1,4 @@
-package com.sazaxa.shipmentapi.excel.nation;
+package com.sazaxa.shipmentapi.excel.country;
 
 import lombok.Builder;
 import lombok.Getter;
