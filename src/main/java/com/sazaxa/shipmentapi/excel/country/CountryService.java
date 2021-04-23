@@ -65,4 +65,8 @@ public class CountryService {
         throw new ExcelExtensionException(extension);
     }
 
+    public List<CountryResponseDto> list() {
+        List<Country> countryList = countryRepository.findAll();
+        return CountryResponseDto.ofList(countryList);
+    }
 }

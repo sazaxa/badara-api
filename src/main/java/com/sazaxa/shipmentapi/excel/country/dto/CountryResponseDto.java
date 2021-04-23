@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor
 @Getter
 public class CountryResponseDto {
@@ -28,6 +31,14 @@ public class CountryResponseDto {
                 .number(country.getNumber())
                 .code(country.getCode())
                 .build();
+    }
+
+    public static List<CountryResponseDto> ofList(List<Country> countryList){
+        List<CountryResponseDto> countryResponseDtoList = new ArrayList<>();
+        for (Country country : countryList){
+            countryResponseDtoList.add(CountryResponseDto.of(country));
+        }
+        return countryResponseDtoList;
     }
 
 }
