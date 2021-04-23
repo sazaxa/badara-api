@@ -34,7 +34,7 @@ public class CountryController {
 
     @GetMapping("/country/{name}")
     public CountryResponseDto detail(@PathVariable String name){
-        return countryService.detail();
+        return countryService.detail(name);
     }
 
 }

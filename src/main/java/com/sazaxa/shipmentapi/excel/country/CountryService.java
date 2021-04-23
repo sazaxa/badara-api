@@ -1,6 +1,7 @@
 package com.sazaxa.shipmentapi.excel.country;
 
 import com.sazaxa.shipmentapi.excel.ExcelExtension;
+import com.sazaxa.shipmentapi.excel.country.dto.CountryResponseDto;
 import com.sazaxa.shipmentapi.excel.dto.ExcelSuccessResponseDto;
 import com.sazaxa.shipmentapi.excel.errors.ExcelExtensionException;
 import org.apache.commons.io.FilenameUtils;
@@ -56,5 +57,9 @@ public class CountryService {
             return new HSSFWorkbook(file.getInputStream());
         }
         throw new ExcelExtensionException(extension);
+    }
+
+    public CountryResponseDto detail(String name) {
+        return null;
     }
 }

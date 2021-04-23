@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.excel.country;
 
+import com.sazaxa.shipmentapi.excel.country.dto.CountryResponseDto;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -11,8 +12,10 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 class CountryServiceTest {
@@ -49,5 +52,19 @@ class CountryServiceTest {
                     .build());
         }
         assertThat(countryList.size()).isEqualTo(233);
+    }
+
+    @Test
+    void testDetail(){
+        Country country = Country.builder()
+                .id(1L)
+                .name("Taiwan")
+                .number(513)
+                .build();
+
+        given(countryRepository.findByName("Taiwan")).willReturn(Optional.of(country));
+        CountryResponseDto countryResponseDto = countryService.detail("Taiwan");
+        assertThat(countryResponseDto.getNumber()).isEqualTo(513);
+
     }
 }
