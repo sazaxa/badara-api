@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @RequestMapping("/excel")
 @RestController
 public class CountryController {
@@ -22,7 +24,7 @@ public class CountryController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/country")
-    public ExcelSuccessResponseDto create(@RequestParam("file") MultipartFile file){
+    public ExcelSuccessResponseDto create(@RequestParam("file") MultipartFile file) throws IOException {
         if (file.isEmpty()){
             throw new ExcelNotFoundException("no excel file");
         }
