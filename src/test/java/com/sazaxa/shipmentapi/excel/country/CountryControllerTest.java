@@ -7,9 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import java.nio.charset.StandardCharsets;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CountryController.class)
@@ -29,7 +33,10 @@ class CountryControllerTest {
 
     @Test
     void testCreate() throws Exception {
-        mockMvc.perform(post("/excel/country"))
+
+        MockMultipartFile file = new MockMultipartFile("file", "excel.xlsx", MediaType.TEXT_PLAIN_VALUE, "USA".getBytes(StandardCharsets.UTF_8));
+
+        mockMvc.perform(multipart("/excel/country").file(file))
                 .andExpect(status().isCreated());
     }
 
