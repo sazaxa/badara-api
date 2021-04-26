@@ -51,7 +51,7 @@ public class MemberService {
 
     public List<OrderResponseDto> getMemberByIdWithOrder(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
-        List<Order> orders = orderRepository.findByMember(member);
+        List<Order> orders = orderRepository.findByMemberOrderByCreatedDateDesc(member);
         List<OrderResponseDto> responses = new ArrayList<>();
         for (Order order : orders){
             List<Product> products = productRepository.findAllByOrder(order);
