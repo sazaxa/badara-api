@@ -19,7 +19,7 @@ public class Faq extends BaseEntity {
     @Column
     private String title;
 
-    @Column
+    @Lob
     private String content;
 
     @Builder
