@@ -55,12 +55,13 @@ public class OrderService {
     }
 
     public List<OrderResponseDto> getAllOrder() {
-        List<Order> orders = orderRepository.findAll();
+        List<Order> orders = orderRepository.findAllByOrderByCreatedDateDesc();
         List<OrderResponseDto> responses = new ArrayList<>();
 
         for (Order order : orders){
 
             List<Product> products = productRepository.findAllByOrder(order);
+
             List<ProductResponseDto> productResponses = ProductResponseDto.ofList(products);
 
             List<Box> boxes = boxRepository.findAllByOrder(order);
