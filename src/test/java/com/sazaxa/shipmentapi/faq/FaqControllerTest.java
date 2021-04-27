@@ -12,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -24,6 +26,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -47,12 +50,14 @@ class FaqControllerTest {
     @MockBean
     private JwtTokenProvider jwtTokenProvider;
 
-    String BASE_URL;
-    Long id;
-    Faq faq;
-    FaqUpdateRequestDto faqUpdateRequestDto;
-    FaqSaveRequestDto faqSaveRequestDto;
-    FaqResponseDto faqResponseDto;
+    private String BASE_URL;
+    private Long id;
+    private Faq faq;
+    private FaqUpdateRequestDto faqUpdateRequestDto;
+    private FaqSaveRequestDto faqSaveRequestDto;
+    private FaqResponseDto faqResponseDto;
+
+    private ClassPathResource IMAGE;
 
     @BeforeEach
     void setUp(){
@@ -70,6 +75,8 @@ class FaqControllerTest {
         given(faqService.saveFaq(any(FaqSaveRequestDto.class))).willReturn(faq);
         given(faqService.updateFaq(eq(1L), any(FaqUpdateRequestDto.class))).willReturn(faq);
         given(faqService.deleteFaq(1000L)).willThrow(new FaqNotFoundException("no faq id : " + id));
+
+        IMAGE = new ClassPathResource("국가정보_210423.xlsx");
     }
 
     @Test
@@ -131,6 +138,13 @@ class FaqControllerTest {
                 .andExpect(status().isNotFound());
 
         verify(faqService).deleteFaq(1000L);
+    }
+
+    @Test
+    void testUploadImage() throws Exception {
+        MockMultipartFile image = new MockMultipartFile("image", "green.PNG", MediaType.IMAGE_PNG_VALUE, IMAGE.getInputStream());
+        mockMvc.perform(multipart(BASE_URL + "/" +"/upload").file(image))
+                .andExpect(status().isCreated());
     }
 
 }
