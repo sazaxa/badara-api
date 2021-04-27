@@ -1,0 +1,25 @@
+server:
+  port: 5000
+
+spring:
+  datasource:
+    url: jdbc:mariadb://badara.cboaub5k7ggc.ap-northeast-2.rds.amazonaws.com:3306/badara?serverTimezone=UTC&useLegacyDatetimeCode=false
+    username: badara
+    password: qkekfkgntmrntm
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        show_sql: true
+        format_sql: true
+        ddl-auto: update
+
+jwtSecret : GoraeJwtToken
+jwtExpirationInMs : 604800000
+
+aws:
+  access_key_id: AKIAVKWUIEYXXNPIJJ7K
+  secret_access_key: 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
