@@ -4,6 +4,7 @@ import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqUpdateRequestDto;
 import com.sazaxa.shipmentapi.faq.exception.FaqNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -49,4 +50,7 @@ public class FaqService {
         return faq;
     }
 
+    public void uploadImage(MultipartFile image) {
+
+    }
 }

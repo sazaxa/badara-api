@@ -1,8 +1,21 @@
 package com.sazaxa.shipmentapi.faq;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
+import com.amazonaws.services.s3.transfer.Upload;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -17,18 +30,20 @@ class FaqServiceTest {
 
     private FaqService faqService;
     private FaqRepository faqRepository;
+    private ClassPathResource IMAGE;
+    private final Regions region = Regions.AP_NORTHEAST_2;
+    private final String bucketName = "badara-image";
+    private final String keyName = "/faq";
 
     @BeforeEach
     void setUp() {
         faqRepository = mock(FaqRepository.class);
         faqService = new FaqService(faqRepository);
+        IMAGE = new ClassPathResource("green.PNG");
     }
 
     @Test
     void testMockito(){
-//        Faq faq = Faq.builder()
-//                .title("dummy-test-title-1")
-//                .build();
        Faq mockedFaq = mock(Faq.class);
 
        when(mockedFaq.getTitle()).thenReturn("dummy-test-title-1");
@@ -65,19 +80,46 @@ class FaqServiceTest {
     }
 
     @Test
-    void saveFaq() {
-        Faq faq = Faq.builder()
-                .id(1L)
-                .title("dummy-test-title-1")
-                .build();
-
+    void testFileName(){
+        assertThat(IMAGE.getFilename()).isEqualTo("green.PNG");
     }
 
     @Test
-    void updateFaq() {
+    void testUploadImg(){
+        BasicAWSCredentials awsCreds = new BasicAWSCredentials("access_key_id", "secret_key_id");
+        try {
+            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                    .withRegion(region)
+                    .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                    .build();
+            TransferManager tm = TransferManagerBuilder.standard()
+                    .withS3Client(s3Client)
+                    .build();
+
+            // TransferManager processes all transfers asynchronously,
+            // so this call returns immediately.
+            File image = IMAGE.getFile();
+            Upload upload = tm.upload(bucketName, keyName, image);
+            System.out.println("Object upload started");
+
+            // Optionally, wait for the upload to finish before continuing.
+            upload.waitForCompletion();
+            System.out.println("Object upload complete");
+        } catch (AmazonServiceException e) {
+            // The call was transmitted successfully, but Amazon S3 couldn't process
+            // it, so it returned an error response.
+            e.printStackTrace();
+        } catch (SdkClientException e) {
+            // Amazon S3 couldn't be contacted for a response, or the client
+            // couldn't parse the response from Amazon S3.
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Test
-    void deleteFaq() {
-    }
+
+
 }
