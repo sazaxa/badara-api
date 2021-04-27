@@ -10,8 +10,11 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.amazonaws.services.s3.transfer.Upload;
+import com.sazaxa.shipmentapi.config.AwsConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
@@ -26,14 +29,20 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 class FaqServiceTest {
 
     private FaqService faqService;
     private FaqRepository faqRepository;
     private ClassPathResource IMAGE;
+
+    @Autowired
+    private AwsConfig awsConfig;
+
     private final Regions region = Regions.AP_NORTHEAST_2;
     private final String bucketName = "badara-image";
     private final String keyName = "/faq";
+
 
     @BeforeEach
     void setUp() {
@@ -85,13 +94,19 @@ class FaqServiceTest {
     }
 
     @Test
+    void testGetKey(){
+        System.out.println(awsConfig.getAccessKeyId());
+    }
+
+    @Test
     void testUploadImg(){
-        BasicAWSCredentials awsCreds = new BasicAWSCredentials("access_key_id", "secret_key_id");
+        BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsConfig.getAccessKeyId(), awsConfig.getSecretAccessKey());
         try {
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                     .withRegion(region)
                     .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                     .build();
+
             TransferManager tm = TransferManagerBuilder.standard()
                     .withS3Client(s3Client)
                     .build();

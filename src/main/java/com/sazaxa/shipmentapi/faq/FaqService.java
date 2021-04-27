@@ -3,6 +3,7 @@ package com.sazaxa.shipmentapi.faq;
 import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqUpdateRequestDto;
 import com.sazaxa.shipmentapi.faq.exception.FaqNotFoundException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,7 +13,6 @@ import java.util.List;
 @Transactional
 @Service
 public class FaqService {
-
 
     private final FaqRepository faqRepository;
 
