@@ -35,13 +35,13 @@ class FaqServiceTest {
     private FaqService faqService;
     private FaqRepository faqRepository;
     private ClassPathResource IMAGE;
-
+    
     @Autowired
     private AwsConfig awsConfig;
 
     private final Regions region = Regions.AP_NORTHEAST_2;
     private final String bucketName = "badara-image";
-    private final String keyName = "/faq";
+    private final String keyName = "faq/";
 
 
     @BeforeEach
@@ -98,6 +98,7 @@ class FaqServiceTest {
         System.out.println(awsConfig.getAccessKeyId());
     }
 
+
     @Test
     void testUploadImg(){
         BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsConfig.getAccessKeyId(), awsConfig.getSecretAccessKey());
@@ -114,7 +115,7 @@ class FaqServiceTest {
             // TransferManager processes all transfers asynchronously,
             // so this call returns immediately.
             File image = IMAGE.getFile();
-            Upload upload = tm.upload(bucketName, keyName, image);
+            Upload upload = tm.upload(bucketName,keyName + IMAGE.getFilename(),image);
             System.out.println("Object upload started");
 
             // Optionally, wait for the upload to finish before continuing.
