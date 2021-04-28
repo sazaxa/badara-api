@@ -36,19 +36,17 @@ class FaqServiceTest {
     private FaqService faqService;
     private FaqRepository faqRepository;
     private ClassPathResource IMAGE;
-    
+
     @Autowired
     private AwsConfig awsConfig;
 
-    private final Regions region = Regions.AP_NORTHEAST_2;
     private final String bucketName = "badara-image";
     private final String keyName = "faq/";
-
 
     @BeforeEach
     void setUp() {
         faqRepository = mock(FaqRepository.class);
-        faqService = new FaqService(faqRepository);
+        faqService = new FaqService(faqRepository, awsConfig);
         IMAGE = new ClassPathResource("green.PNG");
     }
 
@@ -99,13 +97,12 @@ class FaqServiceTest {
         System.out.println(awsConfig.getAccessKeyId());
     }
 
-
     @Test
     void testUploadImg(){
         BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsConfig.getAccessKeyId(), awsConfig.getSecretAccessKey());
         try {
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                    .withRegion(region)
+                    .withRegion(Regions.AP_NORTHEAST_2)
                     .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                     .build();
 

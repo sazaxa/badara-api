@@ -23,3 +23,5 @@ jwtExpirationInMs : 604800000
 aws:
   access_key_id: AKIAVKWUIEYXXNPIJJ7K
   secret_access_key: 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
+  s3:
+    bucketName: badara-image
