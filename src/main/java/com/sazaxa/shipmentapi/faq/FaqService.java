@@ -21,6 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Transactional
@@ -80,16 +84,32 @@ public class FaqService {
                     .withS3Client(s3Client)
                     .build();
 
-            Upload upload = tm.upload(awsConfig.getBucketName(), keyName + imgUrl, (File) image);
+            File uploadImg = createUploadImg(image);
+
+            Upload upload = tm.upload(awsConfig.getBucketName(), keyName + imgUrl, uploadImg);
             upload.waitForCompletion();
+
+            Files.delete(Paths.get(image.getOriginalFilename()));
+
         } catch (AmazonServiceException e) {
             e.printStackTrace();
         } catch (SdkClientException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return new ImgResponseDto(imgUrl);
+    }
+
+    private File createUploadImg(MultipartFile image) throws IOException {
+        File file = new File(image.getOriginalFilename());
+        file.createNewFile();
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(image.getBytes());
+        fos.close();
+        return file;
     }
 }

@@ -59,9 +59,8 @@ public class FaqController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/upload")
-    public ImgResponseDto uploadImage(@RequestParam MultipartFile image){
-        faqService.uploadImage(image);
-        return null;
+    public ImgResponseDto uploadImage(@RequestParam("image") MultipartFile image){
+        return faqService.uploadImage(image);
     }
 
 }
