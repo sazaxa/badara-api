@@ -11,6 +11,7 @@ import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.amazonaws.services.s3.transfer.Upload;
 import com.sazaxa.shipmentapi.config.AwsConfig;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,15 +113,18 @@ class FaqServiceTest {
                     .withS3Client(s3Client)
                     .build();
 
+            String imageUrl = RandomStringUtils.randomAlphanumeric(12);
+
             // TransferManager processes all transfers asynchronously,
             // so this call returns immediately.
             File image = IMAGE.getFile();
-            Upload upload = tm.upload(bucketName,keyName + IMAGE.getFilename(),image);
+            Upload upload = tm.upload(bucketName,keyName + imageUrl ,image);
             System.out.println("Object upload started");
 
             // Optionally, wait for the upload to finish before continuing.
             upload.waitForCompletion();
             System.out.println("Object upload complete");
+
         } catch (AmazonServiceException e) {
             // The call was transmitted successfully, but Amazon S3 couldn't process
             // it, so it returned an error response.
@@ -135,7 +139,5 @@ class FaqServiceTest {
             e.printStackTrace();
         }
     }
-
-
 
 }
