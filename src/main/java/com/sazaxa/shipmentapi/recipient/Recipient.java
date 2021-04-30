@@ -42,13 +42,13 @@ public class Recipient extends BaseEntity {
     @Column
     private String city;
 
-    @Column(length = 90)
+    @Column
     private String address1;
 
-    @Column(length = 90)
+    @Column
     private String address2;
 
-    @Column(length = 90)
+    @Column
     private String address3;
 
     @Column
