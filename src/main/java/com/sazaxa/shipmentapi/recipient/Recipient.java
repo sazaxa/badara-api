@@ -60,13 +60,16 @@ public class Recipient extends BaseEntity {
     @Column
     private String phoneNumber;
 
+    @Column
+    private String memo;
+
     @OneToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @JoinColumn(name="member_id")
     private Member member;
 
     @Builder
-    public Recipient(String name, String email, String country, String state, String city, String address1, String address2, String address3, String zipcode, String countryCode, String phoneNumber, Member member) {
+    public Recipient(String name, String email, String country, String state, String city, String address1, String address2, String address3, String zipcode, String countryCode, String phoneNumber, String memo, Member member) {
         this.name = name;
         this.email = email;
         this.country = country;
@@ -78,10 +81,11 @@ public class Recipient extends BaseEntity {
         this.zipcode = zipcode;
         this.countryCode = countryCode;
         this.phoneNumber = phoneNumber;
+        this.memo = memo;
         this.member = member;
     }
 
-    public void updateRecipient(String name, String email, String country, String state, String city, String address1, String address2, String address3, String zipcode, String countryCode, String phoneNumber) {
+    public void updateRecipient(String name, String email, String country, String state, String city, String address1, String address2, String address3, String zipcode, String countryCode, String phoneNumber, String memo) {
         this.name = name;
         this.email = email;
         this.country = country;
@@ -93,5 +97,6 @@ public class Recipient extends BaseEntity {
         this.zipcode = zipcode;
         this.countryCode = countryCode;
         this.phoneNumber = phoneNumber;
+        this.memo = memo;
     }
 }

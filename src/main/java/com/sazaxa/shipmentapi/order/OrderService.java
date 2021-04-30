@@ -107,6 +107,7 @@ public class OrderService {
                 .zipcode(request.getRecipient().getZipcode())
                 .countryCode(request.getRecipient().getCountryCode())
                 .phoneNumber(request.getRecipient().getPhoneNumber())
+                .memo(request.getRecipient().getMemo())
                 .member(member)
                 .build();
         recipientRepository.save(recipient);
@@ -202,7 +203,8 @@ public class OrderService {
                 request.getRecipient().getAddress3(),
                 request.getRecipient().getZipcode(),
                 request.getRecipient().getCountryCode(),
-                request.getRecipient().getPhoneNumber()
+                request.getRecipient().getPhoneNumber(),
+                request.getRecipient().getMemo()
         );
         recipientRepository.save(recipient);
 
