@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://badara.cboaub5k7ggc.ap-northeast-2.rds.amazonaws.com:3306/badara?serverTimezone=UTC&useLegacyDatetimeCode=false
+    url: jdbc:mariadb://badara.cboaub5k7ggc.ap-northeast-2.rds.amazonaws.com:3306/badara?useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
     username: badara
     password: qkekfkgntmrntm
     driver-class-name: org.mariadb.jdbc.Driver

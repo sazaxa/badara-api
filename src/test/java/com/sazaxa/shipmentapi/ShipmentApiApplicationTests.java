@@ -1,13 +1,24 @@
 package com.sazaxa.shipmentapi;
 
+import com.sazaxa.shipmentapi.faq.Faq;
+import com.sazaxa.shipmentapi.faq.FaqService;
+import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.notice.Notice;
 import com.sazaxa.shipmentapi.order.Order;
 import com.sazaxa.shipmentapi.order.OrderStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
+
+@SpringBootTest
 class ShipmentApiApplicationTests {
+
+	@Autowired
+	private FaqService faqService;
 
 	@DisplayName("소숫점 확인 테스트")
 	@Test
@@ -41,6 +52,23 @@ class ShipmentApiApplicationTests {
 				.build();
 
 		System.out.println(notice.getOrderStatus().status);
+	}
+
+	@Test
+	void testLocalDateTime(){
+		LocalDateTime localDateTime = LocalDateTime.now();
+		System.out.println(localDateTime);
+	}
+
+	@Test
+	void testFaq(){
+		Faq faq = faqService.saveFaq(FaqSaveRequestDto.builder()
+				.title("test-title-1")
+				.content("test-contest-2")
+				.build());
+
+		System.out.println(faq.getCreatedDate());
+
 	}
 
 }
