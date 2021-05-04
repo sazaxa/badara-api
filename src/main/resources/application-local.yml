@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/shipment?serverTimezone=UTC&useLegacyDatetimeCode=false
+    url: jdbc:mariadb://localhost:3306/badara_dump_0503?serverTimezone=UTC&useLegacyDatetimeCode=false
     username: root
     password: whosegoods
     driver-class-name: org.mariadb.jdbc.Driver
