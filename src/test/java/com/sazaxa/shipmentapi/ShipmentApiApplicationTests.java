@@ -68,7 +68,6 @@ class ShipmentApiApplicationTests {
 				.build());
 
 		System.out.println(faq.getCreatedDate());
-
 	}
 
 }
