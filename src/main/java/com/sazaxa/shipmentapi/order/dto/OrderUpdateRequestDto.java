@@ -11,7 +11,8 @@ import java.util.List;
 public class OrderUpdateRequestDto {
     private String orderNumber;
     private String expectedOrderPrice;
-    private String orderPrice;
+    private Double orderPrice;
+    private Double extraPrice;
     private String invoice;
     private String shippingCompany;
     private String adminMemo;

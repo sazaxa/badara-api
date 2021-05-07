@@ -41,6 +41,9 @@ public class Order extends BaseEntity {
     private Double orderPrice;
 
     @Column
+    private Double extraPrice;
+
+    @Column
     private String invoice;
 
     @Column
@@ -85,13 +88,14 @@ public class Order extends BaseEntity {
     private Recipient recipient;
 
     @Builder
-    public Order(Long id, String orderNumber, String expectedOrderPrice, Double orderPrice,
+    public Order(Long id, String orderNumber, String expectedOrderPrice, Double orderPrice, Double extraPrice,
                  String invoice, String shippingCompany, String adminMemo, String userMemo,
                  OrderStatus orderStatus, Member member, Recipient recipient, String depositName) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.expectedOrderPrice = expectedOrderPrice;
         this.orderPrice = orderPrice;
+        this.extraPrice = extraPrice;
         this.invoice = invoice;
         this.shippingCompany = shippingCompany;
         this.adminMemo = adminMemo;
@@ -102,7 +106,8 @@ public class Order extends BaseEntity {
         this.depositName = depositName;
     }
 
-    public void updateOrder(Double orderPrice, String invoice, String shippingCompany, String adminMemo, OrderStatus orderStatus) {
+    public void updateOrder(Double extraPrice, Double orderPrice, String invoice, String shippingCompany, String adminMemo, OrderStatus orderStatus) {
+        this.extraPrice = extraPrice;
         this.orderPrice = orderPrice;
         this.invoice = invoice;
         this.shippingCompany = shippingCompany;

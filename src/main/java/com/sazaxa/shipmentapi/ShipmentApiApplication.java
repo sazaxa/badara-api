@@ -13,7 +13,7 @@ public class ShipmentApiApplication {
 	public void started() {
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 	}
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(ShipmentApiApplication.class, args);
 	}

@@ -245,7 +245,9 @@ public class OrderService {
         List<Product> products = productRepository.findAllByOrder(order);
         List<Box> boxes = boxRepository.findAllByOrder(order);
 
-        order.updateOrder(calculateOrderPrice(boxes, recipient.getCountry()),
+        order.updateOrder(
+                request.getExtraPrice(),
+                calculateOrderPrice(boxes, recipient.getCountry()),
                 request.getInvoice(),
                 request.getShippingCompany(),
                 request.getAdminMemo(),

@@ -16,6 +16,7 @@ public class OrderResponseDto {
     private String orderNumber;
     private String expectedOrderPrice;
     private Double orderPrice;
+    private Double extraPrice;
     private String invoice;
     private String shippingCompany;
     private String adminMemo;
@@ -33,6 +34,7 @@ public class OrderResponseDto {
                 .orderNumber(order.getOrderNumber())
                 .expectedOrderPrice(order.getExpectedOrderPrice())
                 .orderPrice(order.getOrderPrice())
+                .extraPrice(order.getExtraPrice())
                 .invoice(order.getInvoice())
                 .shippingCompany(order.getShippingCompany())
                 .adminMemo(order.getAdminMemo())
