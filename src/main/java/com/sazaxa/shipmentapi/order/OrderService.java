@@ -193,18 +193,19 @@ public class OrderService {
         Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id" + id));
         Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
 
-        recipient.updateRecipient(request.getRecipient().getName(),
-                request.getRecipient().getEmail(),
-                request.getRecipient().getCountry(),
-                request.getRecipient().getState(),
-                request.getRecipient().getCity(),
-                request.getRecipient().getAddress1(),
-                request.getRecipient().getAddress2(),
-                request.getRecipient().getAddress3(),
-                request.getRecipient().getZipcode(),
-                request.getRecipient().getCountryCode(),
-                request.getRecipient().getPhoneNumber(),
-                request.getRecipient().getMemo()
+        recipient.updateRecipient(
+                request.getRecipient().getName() == null ? recipient.getName() : request.getRecipient().getName(),
+                request.getRecipient().getEmail() == null ? recipient.getEmail() : request.getRecipient().getEmail(),
+                request.getRecipient().getCountry() == null ? recipient.getCountry() : request.getRecipient().getCountry(),
+                request.getRecipient().getState() == null ? recipient.getState() : request.getRecipient().getState(),
+                request.getRecipient().getCity() == null ? recipient.getCity() : request.getRecipient().getCity(),
+                request.getRecipient().getAddress1() == null ? recipient.getAddress1() : request.getRecipient().getAddress1(),
+                request.getRecipient().getAddress2() == null ? recipient.getAddress2() : request.getRecipient().getAddress2(),
+                request.getRecipient().getAddress3() == null ? recipient.getAddress3() : request.getRecipient().getAddress3(),
+                request.getRecipient().getZipcode() == null ? recipient.getZipcode() : request.getRecipient().getZipcode(),
+                request.getRecipient().getCountryCode() == null ? recipient.getCountryCode() : request.getRecipient().getCountryCode(),
+                request.getRecipient().getPhoneNumber() == null ? recipient.getPhoneNumber() : request.getRecipient().getPhoneNumber(),
+                request.getRecipient().getMemo() == null ? recipient.getMemo() : request.getRecipient().getMemo()
         );
         recipientRepository.save(recipient);
 
@@ -345,24 +346,41 @@ public class OrderService {
 //    }
 
     public Double weightVolumeWeight(Double width, Double depth, Double height ) {
+        if (width == null || depth == null || height == null){
+            return null;
+        }
         return width * depth * height / 5000;
     }
 
-    public Boolean isVolumeWeight(Double volumeWeight, Double NetWeight){
-        if (volumeWeight >= NetWeight){
+    public Boolean isVolumeWeight(Double volumeWeight, Double netWeight){
+        if (volumeWeight == null || netWeight == null){
+            return null;
+        }
+
+        if (volumeWeight >= netWeight){
             return true;
         }
         return false;
     }
 
-    public Double compareWeight(Double volumeWeight, Double NetWeight){
-        if (volumeWeight >= NetWeight){
+    public Double compareWeight(Double volumeWeight, Double netWeight){
+        if (volumeWeight == null || netWeight == null){
+            return null;
+        }
+        if (volumeWeight >= netWeight){
             return volumeWeight;
         }
-        return NetWeight;
+        return netWeight;
     }
 
     public Double calculateOrderPrice( List<Box> boxes, String country){
+
+        for (Box box : boxes){
+            if (box.getResultWeight() == null){
+                return null;
+            }
+        }
+
         Double orderWeight = boxes.stream().mapToDouble(Box::getResultWeight).sum();
         return shippingService.getPrice(ShippingRequestDto.builder()
                 .weight(orderWeight)
