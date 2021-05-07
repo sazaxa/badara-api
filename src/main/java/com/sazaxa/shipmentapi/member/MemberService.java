@@ -61,6 +61,7 @@ public class MemberService {
                     .id(order.getId())
                     .orderNumber(order.getOrderNumber())
                     .expectedOrderPrice(order.getExpectedOrderPrice())
+                    .extraPrice(order.getExtraPrice())
                     .orderPrice(order.getOrderPrice())
                     .invoice(order.getInvoice())
                     .shippingCompany(order.getShippingCompany())
