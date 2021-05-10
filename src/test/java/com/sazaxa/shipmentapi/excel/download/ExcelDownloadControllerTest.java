@@ -1,0 +1,23 @@
+package com.sazaxa.shipmentapi.excel.download;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(ExcelDownloadController.class)
+class ExcelDownloadControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    void testDownloadAllOrder() throws Exception {
+        mockMvc.perform(get("/excel/download/order"))
+                .andExpect(status().isOk());
+    }
+    
+}
