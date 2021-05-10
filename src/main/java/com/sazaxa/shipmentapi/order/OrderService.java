@@ -102,7 +102,7 @@ public class OrderService {
      * 주문을 처리합니다.
      * @param request
      * @param currentUser
-     * @return
+     * @return order를 돌려줍니다.
      */
     public OrderResponseDto saveOrder(OrderSaveRequestDto request, UserPrincipalCustom currentUser) {
 
@@ -376,12 +376,22 @@ public class OrderService {
     }
 
     public Double compareWeight(Double volumeWeight, Double netWeight){
-        if (volumeWeight == null || netWeight == null){
+        if (volumeWeight == null && netWeight == null){
             return null;
         }
+
+        if (volumeWeight == null && netWeight != null ){
+            return netWeight;
+        }
+
+        if (volumeWeight != null && netWeight == null ){
+            return volumeWeight;
+        }
+
         if (volumeWeight >= netWeight){
             return volumeWeight;
         }
+
         return netWeight;
     }
 
