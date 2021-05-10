@@ -24,6 +24,7 @@ public class OrderResponseDto {
     private String userMemo;
     private String orderStatus;
     private String depositName;
+    private String cardType;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     private List<ProductResponseDto> productResponses;
@@ -44,6 +45,7 @@ public class OrderResponseDto {
                 .userMemo(order.getUserMemo())
                 .orderStatus(order.getOrderStatus().status)
                 .depositName(order.getDepositName())
+                .cardType(order.getCardType())
                 .createdDate(order.getCreatedDate())
                 .modifiedDate(order.getModifiedDate())
                 .productResponses(productResponses)
