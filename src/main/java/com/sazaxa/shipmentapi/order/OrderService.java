@@ -86,6 +86,18 @@ public class OrderService {
         return response;
     }
 
+    public OrderResponseDto getOrderByOrderNumber(String orderNumber) {
+        Order order = orderRepository.findByOrderNumber(orderNumber).orElseThrow(() -> new OrderNotFoundException(("no orderNumber :" + orderNumber)));
+        List<Product> products = productRepository.findAllByOrder(order);
+        List<ProductResponseDto> productResponses = ProductResponseDto.ofList(products);
+
+        List<Box> boxes = boxRepository.findAllByOrder(order);
+        List<BoxResponseDto> boxResponses = BoxResponseDto.ofList(boxes);
+
+        OrderResponseDto response = OrderResponseDto.of(order, productResponses, boxResponses);
+        return response;
+    }
+
     /**
      * 주문을 처리합니다.
      * @param request
