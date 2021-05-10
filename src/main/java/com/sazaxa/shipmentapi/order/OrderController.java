@@ -33,8 +33,13 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public OrderResponseDto getOrder(@PathVariable Long id){
+    public OrderResponseDto getOrderById(@PathVariable Long id){
         return orderService.getOrder(id);
+    }
+
+    @GetMapping("order/{orderNumber}")
+    public OrderResponseDto getOrderByOrderNumber(@PathVariable String orderNumber) {
+        return orderService.getOrderByOrderNumber(orderNumber);
     }
 
     @PostMapping
