@@ -8,6 +8,7 @@ import com.sazaxa.shipmentapi.recipient.Recipient;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 @Builder
 @Getter
@@ -23,6 +24,8 @@ public class OrderResponseDto {
     private String userMemo;
     private String orderStatus;
     private String depositName;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
     private List<ProductResponseDto> productResponses;
     private List<BoxResponseDto> boxResponses;
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
@@ -41,6 +44,8 @@ public class OrderResponseDto {
                 .userMemo(order.getUserMemo())
                 .orderStatus(order.getOrderStatus().status)
                 .depositName(order.getDepositName())
+                .createdDate(order.getCreatedDate())
+                .modifiedDate(order.getModifiedDate())
                 .productResponses(productResponses)
                 .boxResponses(boxResponses)
                 .recipient(order.getRecipient())

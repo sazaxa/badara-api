@@ -3,6 +3,8 @@ package com.sazaxa.shipmentapi.excel.download;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.ByteArrayInputStream;
+
 @RestController
 public class ExcelDownloadController {
 
@@ -13,8 +15,9 @@ public class ExcelDownloadController {
     }
 
     @GetMapping("/excel/download/orders")
-    public void downloadAllOrders(){
+    public ByteArrayInputStream downloadAllOrders(){
         excelDownloadService.downloadAllOrders();
+        return null;
     }
 
 }
