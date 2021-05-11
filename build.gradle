@@ -42,7 +42,7 @@ dependencies {
 	implementation group: 'com.querydsl', name: 'querydsl-apt'
 
 	//엑셀을 위한 POI 의존성
-	compile group: 'org.apache.poi', name: 'poi', version: '4.0.0'
+//	compile group: 'org.apache.poi', name: 'poi', version: '4.0.0'
 	compile group: 'org.apache.poi', name: 'poi-ooxml', version: '4.0.0'
 	compile group: 'commons-io', name: 'commons-io', version: '2.6'
 

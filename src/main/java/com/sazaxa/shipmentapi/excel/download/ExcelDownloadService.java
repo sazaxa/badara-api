@@ -36,11 +36,11 @@ public class ExcelDownloadService {
     public ByteArrayInputStream downloadAllOrders() throws IOException {
         List<Order> orderList = orderRepository.findAll();
 
+        Workbook workbook = new XSSFWorkbook();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-        Workbook workbook = new XSSFWorkbook();
 
-        Sheet sheet = workbook.createSheet("sienna의 바다라 주문정보");
+        Sheet sheet = workbook.createSheet("sienna");
 
         // Row for Header
         Row headerRow = sheet.createRow(0);
@@ -53,22 +53,20 @@ public class ExcelDownloadService {
             List<Product> productList = productRepository.findAllByOrder(order);
             Recipient recipient = order.getRecipient();
 
-            //header 만들기
             List<String> headerName = makeHeaderName(productList);
             for (int i = 0; i < headerName.size(); i++) {
                 Cell cell = headerRow.createCell(i);
                 cell.setCellValue(headerName.get(i));
             }
 
-            // body에 필요한 값들 String으로 만들기
             List<String> excelDataList = makeExcelDataList(order, productList, recipient);
 
+            Row bodyRow = sheet.createRow(columnCount);
             //body 만들기
             for (int i = 0; i < headerName.size(); i++) {
-                // Row for Body
-                Row bodyRow = sheet.createRow(columnCount++);
                 bodyRow.createCell(i).setCellValue(excelDataList.get(i));
             }
+            columnCount++;
         }
         workbook.write(out);
         return new ByteArrayInputStream(out.toByteArray());
@@ -99,6 +97,8 @@ public class ExcelDownloadService {
 
     private List<String> makeHeaderName(List<Product> product) {
         List<String> excelHeader = new ArrayList<>();
+        excelHeader.add("날짜");
+        excelHeader.add("주문자명");
         excelHeader.add("주문번호");
         excelHeader.add("상세주소");
         excelHeader.add("도시");
