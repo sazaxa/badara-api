@@ -122,6 +122,11 @@ public class Order extends BaseEntity {
         this.orderStatus = orderStatus;
     }
 
+    public void updateOrderCardType(String cardType) {
+        this.cardType = cardType;
+    }
+
+
     public void updateDepositName(String depositName) {
         this.depositName = depositName;
     }

@@ -289,6 +289,7 @@ public class OrderService {
 
         if (request.getPaymentMethod().equals(OrderStatus.PAYMENT_BANK.status)){
             order.updateOrderStatus(OrderStatus.PAYMENT_BANK);
+            order.updateOrderCardType(request.getCardType());
             order.updateDepositName(request.getDepositName());
             for (Box box : boxes){
                 box.updateKoreanShippingStatus(OrderStatus.PAYMENT_BANK);
@@ -328,6 +329,7 @@ public class OrderService {
 
         OrderResponseDto response = OrderResponseDto.builder()
                 .orderNumber(order.getOrderNumber())
+                .cardType(order.getCardType())
                 .expectedOrderPrice(order.getExpectedOrderPrice())
                 .userMemo(order.getUserMemo())
                 .orderStatus(order.getOrderStatus().status)
