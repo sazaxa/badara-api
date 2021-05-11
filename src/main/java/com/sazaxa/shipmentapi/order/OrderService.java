@@ -295,6 +295,7 @@ public class OrderService {
                 boxRepository.save(box);
             }
         }
+
         if (request.getPaymentMethod().equals(OrderStatus.PAYMENT_COMPLETE.status)){
 
             order.updateOrderStatus(OrderStatus.PAYMENT_COMPLETE);

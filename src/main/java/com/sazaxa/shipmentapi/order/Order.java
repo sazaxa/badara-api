@@ -90,7 +90,7 @@ public class Order extends BaseEntity {
     @Builder
     public Order(Long id, String orderNumber, String expectedOrderPrice, Double orderPrice, Double extraPrice,
                  String invoice, String shippingCompany, String adminMemo, String userMemo,
-                 OrderStatus orderStatus, Member member, Recipient recipient, String depositName) {
+                 OrderStatus orderStatus, Member member, Recipient recipient, String depositName, String cardType, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.expectedOrderPrice = expectedOrderPrice;
@@ -104,6 +104,9 @@ public class Order extends BaseEntity {
         this.member = member;
         this.recipient = recipient;
         this.depositName = depositName;
+        this.cardType = cardType;
+        super.setCreatedDate(createdDate);
+        super.setModifiedDate(modifiedDate);
     }
 
     public void updateOrder(Double extraPrice, Double orderPrice, String invoice, String shippingCompany, String adminMemo, OrderStatus orderStatus) {

@@ -1,8 +1,6 @@
 package com.sazaxa.shipmentapi.product.dto;
 
 
-import com.sazaxa.shipmentapi.box.Box;
-import com.sazaxa.shipmentapi.box.dto.BoxResponseDto;
 import com.sazaxa.shipmentapi.product.Product;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,5 +34,13 @@ public class ProductResponseDto {
         }
         return productResponses;
     }
+
+//    public static List<Product> ofList(List<Product> products) {
+//        List<ProductResponseDto> productResponses = new ArrayList<>();
+//        for (Product product : products){
+//            productResponses.add(ProductResponseDto.of(product));
+//        }
+//        return productResponses;
+//    }
 
 }
