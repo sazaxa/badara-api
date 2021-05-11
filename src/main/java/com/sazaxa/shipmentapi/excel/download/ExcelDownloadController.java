@@ -25,5 +25,4 @@ public class ExcelDownloadController {
         headers.add("Content-Disposition", "attachment; filename=order.xlsx");
         return ResponseEntity.ok().headers(headers).body(new InputStreamResource(inputStream));
     }
-
 }

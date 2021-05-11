@@ -7,9 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ExcelDownloadController.class)
@@ -33,6 +35,14 @@ class ExcelDownloadControllerTest {
     @Test
     void testDownloadAllOrders() throws Exception {
         mockMvc.perform(get("/excel/download/orders"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testDownloadSelectedOrders() throws Exception {
+        mockMvc.perform(post("/excel/download/orders")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"orderNumber\" : [\"PHILIPPINES-KANG-210506-90H5\", \"USA-GORAE-210506-OIJF\"]}\n"))
                 .andExpect(status().isOk());
     }
 
