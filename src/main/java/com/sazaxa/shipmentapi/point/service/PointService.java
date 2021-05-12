@@ -29,6 +29,6 @@ public class PointService {
     }
 
     public PointConfigResponseDto getDetail() {
-        return null;
+        return PointConfigResponseDto.of(getPointInfo());
     }
 }
