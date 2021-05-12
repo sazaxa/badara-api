@@ -1,6 +1,7 @@
 package com.sazaxa.shipmentapi.point.controller;
 
 import com.sazaxa.shipmentapi.point.dto.PointConfigRequestDto;
+import com.sazaxa.shipmentapi.point.dto.PointConfigResponseDto;
 import com.sazaxa.shipmentapi.point.service.PointService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ public class PointController {
     }
 
     @PostMapping("/config")
-    public void configurePoint(@RequestBody PointConfigRequestDto pointConfigRequestDto){
+    public PointConfigResponseDto configurePoint(@RequestBody PointConfigRequestDto pointConfigRequestDto){
+        return pointService.configurePoint(pointConfigRequestDto);
     }
 }
