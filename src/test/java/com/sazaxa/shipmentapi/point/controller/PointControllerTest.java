@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.point.controller;
 
+import com.sazaxa.shipmentapi.point.service.PointService;
 import com.sazaxa.shipmentapi.security.CustomUserDetailsService;
 import com.sazaxa.shipmentapi.security.jwt.JwtAuthenticationEntryPoint;
 import com.sazaxa.shipmentapi.security.jwt.JwtTokenProvider;
@@ -28,6 +29,9 @@ class PointControllerTest {
 
     @MockBean
     private JwtTokenProvider jwtTokenProvider;
+
+    @MockBean
+    private PointService pointService;
 
     @BeforeEach
     void setUp() {

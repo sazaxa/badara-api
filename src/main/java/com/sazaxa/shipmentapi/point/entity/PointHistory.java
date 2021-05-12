@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.point.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,4 +31,12 @@ public class PointHistory {
     @Column
     private String detail;
 
+    @Builder
+    public PointHistory(Long id, Double balance, Double deposit, Double withdraw, String detail) {
+        this.id = id;
+        this.balance = balance;
+        this.deposit = deposit;
+        this.withdraw = withdraw;
+        this.detail = detail;
+    }
 }
