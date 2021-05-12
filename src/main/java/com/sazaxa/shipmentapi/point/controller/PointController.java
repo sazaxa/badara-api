@@ -3,6 +3,7 @@ package com.sazaxa.shipmentapi.point.controller;
 import com.sazaxa.shipmentapi.point.dto.PointConfigRequestDto;
 import com.sazaxa.shipmentapi.point.dto.PointConfigResponseDto;
 import com.sazaxa.shipmentapi.point.service.PointService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,12 @@ public class PointController {
     }
 
     @PostMapping("/config")
-    public PointConfigResponseDto configurePoint(@RequestBody PointConfigRequestDto pointConfigRequestDto){
+    public PointConfigResponseDto configure(@RequestBody PointConfigRequestDto pointConfigRequestDto){
         return pointService.configurePoint(pointConfigRequestDto);
+    }
+
+    @GetMapping("/config")
+    public PointConfigResponseDto getDetail(){
+        return pointService.getDetail();
     }
 }

@@ -27,4 +27,8 @@ public class PointService {
     public Point getPointInfo(){
         return pointRepository.findById(1L).orElseThrow(()-> new PointNotFoundException("no point id : " + "1"));
     }
+
+    public PointConfigResponseDto getDetail() {
+        return null;
+    }
 }
