@@ -45,4 +45,11 @@ class PointServiceTest {
         assertThat(pointConfigResponseDto.getIsRegisterActive()).isTrue();
     }
 
+    @Test
+    void testGetDetail(){
+        given(pointRepository.findById(1L)).willReturn(Optional.of(point));
+        PointConfigResponseDto pointConfigResponseDto = pointService.getDetail();
+        assertThat(pointConfigResponseDto.getIsRegisterActive()).isFalse();
+    }
+
 }
