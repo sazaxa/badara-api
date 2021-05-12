@@ -73,14 +73,12 @@ class ExcelDownloadServiceTest {
             columnCount++;
 
             workbook.write(out);
-
         }
     }
 
     @Transactional
     @Test
     void testDownloadSelectedOrders() throws IOException {
-
         ExcelOrderListRequestDto excelOrderListRequestDto = ExcelOrderListRequestDto.builder()
                 .orderNumbers(List.of("AFGHANISTAN-TEST-210414-1KJR", "ALBANIA-AAA-210414-RMU5"))
                 .build();
@@ -125,8 +123,6 @@ class ExcelDownloadServiceTest {
             workbook.write(out);
         }
     }
-
-
 
     private List<String> makeExcelDataList(Order order, List<Product> productList, Recipient recipient) {
         List<String> excelDataList = new ArrayList<>();
