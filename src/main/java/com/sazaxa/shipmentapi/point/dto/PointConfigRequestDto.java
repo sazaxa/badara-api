@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 public class PointConfigRequestDto {
     private Long id;
     private Boolean isRegisterActive;
-    private Double RegisterAmount;
+    private Double registerAmount;
 
     @Builder
     public PointConfigRequestDto(Long id, Boolean isRegisterActive, Double registerAmount) {
         this.id = id;
         this.isRegisterActive = isRegisterActive;
-        this.RegisterAmount = registerAmount;
+        this.registerAmount = registerAmount;
     }
 }

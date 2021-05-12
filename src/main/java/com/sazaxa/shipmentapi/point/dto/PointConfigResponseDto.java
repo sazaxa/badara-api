@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 public class PointConfigResponseDto {
     private Long id;
     private Boolean isRegisterActive;
-    private Double RegisterAmount;
+    private Double registerAmount;
 
     @Builder
     public PointConfigResponseDto(Long id, Boolean isRegisterActive, Double registerAmount) {
         this.id = id;
         this.isRegisterActive = isRegisterActive;
-        RegisterAmount = registerAmount;
+        this.registerAmount = registerAmount;
     }
 
     public static PointConfigResponseDto of(Point point) {

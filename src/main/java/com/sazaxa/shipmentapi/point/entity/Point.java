@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.point.entity;
 
+import com.sazaxa.shipmentapi.point.dto.PointConfigRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,12 +24,17 @@ public class Point {
     private Boolean isRegisterActive;
 
     @Column
-    private Double RegisterAmount;
+    private Double registerAmount;
 
     @Builder
     public Point(Long id, Boolean isRegisterActive, Double registerAmount) {
         this.id = id;
         this.isRegisterActive = isRegisterActive;
-        RegisterAmount = registerAmount;
+        this.registerAmount = registerAmount;
+    }
+
+    public void update(PointConfigRequestDto pointConfigRequestDto) {
+        this.isRegisterActive = pointConfigRequestDto.getIsRegisterActive();
+        this.registerAmount = pointConfigRequestDto.getRegisterAmount();
     }
 }
