@@ -79,7 +79,7 @@ public class ExcelDownloadService {
 
         Workbook workbook = new XSSFWorkbook();
 
-        Sheet sheet = workbook.createSheet("sienna의 바다라 주문정보");
+        Sheet sheet = workbook.createSheet("sienna");
 
         // Row for Header
         Row headerRow = sheet.createRow(0);
@@ -112,6 +112,7 @@ public class ExcelDownloadService {
             }
             columnCount++;
         }
+        workbook.write(out);
         return new ByteArrayInputStream(out.toByteArray());
     }
 
