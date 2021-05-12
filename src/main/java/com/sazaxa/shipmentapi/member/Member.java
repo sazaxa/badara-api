@@ -16,13 +16,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
 @Getter
-@Table(name ="zx_member")
 @Entity
 public class Member extends BaseEntity {
     @Id

@@ -15,11 +15,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor
-@Table(name = "zx_box")
 @Entity
 public class Box {
 
