@@ -15,6 +15,6 @@ public class PointConfigRequestDto {
     public PointConfigRequestDto(Long id, Boolean isRegisterActive, Double registerAmount) {
         this.id = id;
         this.isRegisterActive = isRegisterActive;
-        RegisterAmount = registerAmount;
+        this.RegisterAmount = registerAmount;
     }
 }
