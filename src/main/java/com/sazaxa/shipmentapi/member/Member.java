@@ -44,6 +44,9 @@ public class Member extends BaseEntity {
     @Column
     private String status;
 
+    @Column
+    private Double point;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "member_roles",
             joinColumns = @JoinColumn(name = "member_id"),
@@ -51,13 +54,15 @@ public class Member extends BaseEntity {
     private Set<Role> roles = new HashSet<>();
 
     @Builder
-    public Member(Long id, String email, String password, String phoneNumber, String name, String status, Set<Role> roles) {
+    public Member(Long id, String email, String password, String phoneNumber, String name, String status,
+                  Double point, Set<Role> roles) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.name = name;
         this.status = status;
+        this.point = point;
         this.roles = roles;
     }
 
@@ -73,6 +78,10 @@ public class Member extends BaseEntity {
 
     public boolean authenticate(String password, PasswordEncoder passwordEncoder) {
         return passwordEncoder.matches(password, this.password);
+    }
+
+    public void updatePoint(Double point){
+        this.point = point;
     }
 
 }
