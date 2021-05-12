@@ -19,16 +19,16 @@ public class PointService {
     }
 
     public PointConfigResponseDto configurePoint(PointConfigRequestDto pointConfigRequestDto) {
-        Point point = pointRepository.findById(1L).orElseThrow(()-> new PointNotFoundException("no point id : " + "1"));
+        Point point = getPointInfo();
         point.update(pointConfigRequestDto);
         return PointConfigResponseDto.of(point);
     }
 
-    public Point getPointInfo(){
-        return pointRepository.findById(1L).orElseThrow(()-> new PointNotFoundException("no point id : " + "1"));
-    }
-
     public PointConfigResponseDto getDetail() {
         return PointConfigResponseDto.of(getPointInfo());
+    }
+    
+    public Point getPointInfo(){
+        return pointRepository.findById(1L).orElseThrow(()-> new PointNotFoundException("no point id : " + "1"));
     }
 }
