@@ -65,12 +65,12 @@ class ExcelDownloadServiceTest {
             // body에 필요한 값들 String으로 만들기
             List<String> excelDataList = makeExcelDataList(order, productList, recipient);
 
+            Row bodyRow = sheet.createRow(columnCount);
             //body 만들기
-            for (int i=0; i<headerName.size(); i++){
-                // Row for Body
-                Row bodyRow = sheet.createRow(columnCount++);
+            for (int i = 0; i < headerName.size(); i++) {
                 bodyRow.createCell(i).setCellValue(excelDataList.get(i));
             }
+            columnCount++;
 
             workbook.write(out);
 
@@ -115,12 +115,13 @@ class ExcelDownloadServiceTest {
             // body에 필요한 값들 String으로 만들기
             List<String> excelDataList = makeExcelDataList(order, productList, recipient);
 
+            Row bodyRow = sheet.createRow(columnCount);
             //body 만들기
-            for (int i=0; i<headerName.size(); i++){
-                // Row for Body
-                Row bodyRow = sheet.createRow(columnCount++);
+            for (int i = 0; i < headerName.size(); i++) {
                 bodyRow.createCell(i).setCellValue(excelDataList.get(i));
             }
+            columnCount++;
+
             workbook.write(out);
         }
     }
