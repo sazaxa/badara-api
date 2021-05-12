@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,6 +43,12 @@ class PointControllerTest {
         mockMvc.perform(post("/api/v1/point/config")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"isRegisterActive\" : true, \"RegisterAmount\" : 3000 } "))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testGetDetail() throws Exception {
+        mockMvc.perform(get("/api/v1/point/config"))
                 .andExpect(status().isOk());
     }
 }
