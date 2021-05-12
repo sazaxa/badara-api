@@ -1,7 +1,9 @@
 package com.sazaxa.shipmentapi.excel.download;
 
+import com.sazaxa.shipmentapi.excel.dto.ExcelOrderListRequestDto;
 import com.sazaxa.shipmentapi.order.Order;
 import com.sazaxa.shipmentapi.order.OrderRepository;
+import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
 import com.sazaxa.shipmentapi.recipient.Recipient;
@@ -33,7 +35,7 @@ class ExcelDownloadServiceTest {
 
     @Transactional
     @Test
-    void downloadAllOrders() throws IOException {
+    void testDownloadAllOrders() throws IOException {
         List<Order> orderList = orderRepository.findAll();
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -74,6 +76,56 @@ class ExcelDownloadServiceTest {
 
         }
     }
+
+    @Transactional
+    @Test
+    void testDownloadSelectedOrders() throws IOException {
+
+        ExcelOrderListRequestDto excelOrderListRequestDto = ExcelOrderListRequestDto.builder()
+                .orderNumbers(List.of("AFGHANISTAN-TEST-210414-1KJR", "ALBANIA-AAA-210414-RMU5"))
+                .build();
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        Workbook workbook = new XSSFWorkbook();
+
+        Sheet sheet = workbook.createSheet("sienna의 바다라 주문정보");
+
+        // Row for Header
+        Row headerRow = sheet.createRow(0);
+
+        // rowCount for Body
+        Integer columnCount = 1;
+
+        for (String orderNumber : excelOrderListRequestDto.getOrderNumbers()){
+
+            Order order = orderRepository.findByOrderNumber(orderNumber).orElseThrow(()->new OrderNotFoundException("no orderNumber : " + orderNumber));
+
+            // 필요한 정보 불러오기
+            List<Product> productList = productRepository.findAllByOrder(order);
+            Recipient recipient = order.getRecipient();
+
+            //header 만들기
+            List<String> headerName = makeHeaderName(productList);
+            for (int i=0; i < headerName.size(); i++){
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headerName.get(i));
+            }
+
+            // body에 필요한 값들 String으로 만들기
+            List<String> excelDataList = makeExcelDataList(order, productList, recipient);
+
+            //body 만들기
+            for (int i=0; i<headerName.size(); i++){
+                // Row for Body
+                Row bodyRow = sheet.createRow(columnCount++);
+                bodyRow.createCell(i).setCellValue(excelDataList.get(i));
+            }
+            workbook.write(out);
+        }
+    }
+
+
 
     private List<String> makeExcelDataList(Order order, List<Product> productList, Recipient recipient) {
         List<String> excelDataList = new ArrayList<>();
