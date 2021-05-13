@@ -100,7 +100,6 @@ public class AuthController {
                 .status(MemberStatus.ACTIVATE.name())
                 .build();
 
-
         memberService.registerMember(member);
 
         return new ResponseEntity(member, HttpStatus.CREATED);

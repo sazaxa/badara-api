@@ -11,6 +11,8 @@ import com.sazaxa.shipmentapi.member.role.RoleService;
 import com.sazaxa.shipmentapi.order.Order;
 import com.sazaxa.shipmentapi.order.OrderRepository;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
+import com.sazaxa.shipmentapi.point.entity.Point;
+import com.sazaxa.shipmentapi.point.service.PointService;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
 import com.sazaxa.shipmentapi.product.dto.ProductResponseDto;
@@ -31,14 +33,16 @@ public class MemberService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final BoxRepository boxRepository;
+    private final PointService pointService;
 
-    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, RoleService roleService, OrderRepository orderRepository, ProductRepository productRepository, BoxRepository boxRepository) {
+    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, RoleService roleService, OrderRepository orderRepository, ProductRepository productRepository, BoxRepository boxRepository, PointService pointService) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.boxRepository = boxRepository;
+        this.pointService = pointService;
     }
 
     public List<Member> getAllMembers() {
@@ -95,6 +99,12 @@ public class MemberService {
 
     //회원 가입
     public Member registerMember(Member resource){
+        Point point = pointService.getPointInfo();
+
+        if(point.getIsRegisterActive()){
+            resource.updatePoint(point.getRegisterAmount());
+        }
+
         return memberRepository.save(resource);
     }
 

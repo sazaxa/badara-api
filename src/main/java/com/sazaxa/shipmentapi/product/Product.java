@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor
-@Table
+@Table(name = "badara_product")
 @Entity
 public class Product {
 

@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
-@Table(name = "zx_dhl_shipping")
+@Table(name = "badara_dhl_shipping")
 @Entity
 public class DhlShipping extends BaseEntity {
 

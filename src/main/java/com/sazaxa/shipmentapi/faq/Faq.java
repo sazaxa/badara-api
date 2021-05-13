@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@Table(name = "badara_faq")
 @Entity
 public class Faq extends BaseEntity {
 
