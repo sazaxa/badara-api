@@ -14,7 +14,10 @@ import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderStatusRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderUpdateRequestDto;
+import com.sazaxa.shipmentapi.order.errors.PointBadRequestException;
 import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
+import com.sazaxa.shipmentapi.point.entity.PointHistory;
+import com.sazaxa.shipmentapi.point.repository.PointHistoryRepository;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
 import com.sazaxa.shipmentapi.product.dto.ProductResponseDto;
@@ -44,14 +47,16 @@ public class OrderService {
     private final RecipientRepository recipientRepository;
     private final BoxRepository boxRepository;
     private final ShippingService shippingService;
+    private final PointHistoryRepository pointHistoryRepository;
 
-    public OrderService(OrderRepository orderRepository, MemberRepository memberRepository, ProductRepository productRepository, RecipientRepository recipientRepository, BoxRepository boxRepository, ShippingService shippingService) {
+    public OrderService(OrderRepository orderRepository, MemberRepository memberRepository, ProductRepository productRepository, RecipientRepository recipientRepository, BoxRepository boxRepository, ShippingService shippingService, PointHistoryRepository pointHistoryRepository) {
         this.orderRepository = orderRepository;
         this.memberRepository = memberRepository;
         this.productRepository = productRepository;
         this.recipientRepository = recipientRepository;
         this.boxRepository = boxRepository;
         this.shippingService = shippingService;
+        this.pointHistoryRepository = pointHistoryRepository;
     }
 
     public List<OrderResponseDto> getAllOrder() {
@@ -282,12 +287,14 @@ public class OrderService {
 
     public OrderResponseDto updateStatus(String orderNumber, OrderStatusRequestDto request) {
         Order order = orderRepository.findByOrderNumber(orderNumber).orElseThrow(()->new OrderNotFoundException("no ordernumber : " + orderNumber));
+        Member member = order.getMember();
 
         List<Box> boxes = boxRepository.findAllByOrder(order);
         List<Product> products = productRepository.findAllByOrder(order);
         Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
 
         if (request.getPaymentMethod().equals(OrderStatus.PAYMENT_BANK.status)){
+            if (request.getPoint() >= 1){ managePoint(member, request.getPoint(), order); }
             order.updateOrderStatus(OrderStatus.PAYMENT_BANK);
             order.updateOrderCardType(request.getCardType());
             order.updateDepositName(request.getDepositName());
@@ -298,7 +305,7 @@ public class OrderService {
         }
 
         if (request.getPaymentMethod().equals(OrderStatus.PAYMENT_COMPLETE.status)){
-
+            if (request.getPoint() >= 1){ managePoint(member, request.getPoint(), order); }
             order.updateOrderStatus(OrderStatus.PAYMENT_COMPLETE);
             order.updateOrderPayment(request.getCardType(),
                     request.getCardCompany(),
@@ -310,7 +317,9 @@ public class OrderService {
                 box.updateKoreanShippingStatus(OrderStatus.PAYMENT_COMPLETE);
                 boxRepository.save(box);
             }
+
         }
+
         if (request.getPaymentMethod().equals(OrderStatus.REFUND_WAITING.status)){
             order.updateOrderStatus(OrderStatus.REFUND_WAITING);
             for (Box box : boxes){
@@ -339,6 +348,32 @@ public class OrderService {
                 .build();
 
         return response;
+    }
+
+    private void managePoint(Member member, Double point, Order order) {
+
+        // 포인트 내역 저장하기
+        PointHistory pointHistory = PointHistory.builder()
+                .balance(calcBalance(member.getPoint(), point))
+                .withdraw(point)
+                .section("주문")
+                .detail(order.getOrderNumber())
+                .build();
+        pointHistoryRepository.save(pointHistory);
+
+        // 고객 포인트 차감하기
+        member.updatePoint(pointHistory.getBalance());
+
+        // 주문서에 사용한 point 저장하기
+        order.updateDiscountPoint(point);
+
+    }
+
+    private Double calcBalance(Double memberPoint, Double usedPoint) {
+        if (memberPoint < usedPoint){
+            throw new PointBadRequestException();
+        }
+        return memberPoint - usedPoint;
     }
 
 //    public OrderResponseDto cancelOrder(Long id) {

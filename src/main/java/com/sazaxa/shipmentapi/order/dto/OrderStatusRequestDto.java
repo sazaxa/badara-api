@@ -12,4 +12,5 @@ public class OrderStatusRequestDto {
     private String cardOwnerType;
     private String paymentKey;
     private String cardRequestedDate;
+    private Double point;
 }

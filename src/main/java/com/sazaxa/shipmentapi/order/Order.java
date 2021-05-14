@@ -28,6 +28,9 @@ public class Order extends BaseEntity {
     private String expectedOrderPrice;
 
     @Column
+    private Double discountPrice;
+
+    @Column
     private Double orderPrice;
 
     @Column
@@ -78,12 +81,13 @@ public class Order extends BaseEntity {
     private Recipient recipient;
 
     @Builder
-    public Order(Long id, String orderNumber, String expectedOrderPrice, Double orderPrice, Double extraPrice,
+    public Order(Long id, String orderNumber, String expectedOrderPrice, Double discountPrice, Double orderPrice, Double extraPrice,
                  String invoice, String shippingCompany, String adminMemo, String userMemo,
                  OrderStatus orderStatus, Member member, Recipient recipient, String depositName, String cardType, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.expectedOrderPrice = expectedOrderPrice;
+        this.discountPrice = discountPrice;
         this.orderPrice = orderPrice;
         this.extraPrice = extraPrice;
         this.invoice = invoice;
@@ -97,6 +101,10 @@ public class Order extends BaseEntity {
         this.cardType = cardType;
         super.setCreatedDate(createdDate);
         super.setModifiedDate(modifiedDate);
+    }
+
+    public void updateDiscountPoint(Double discountPrice){
+        this.discountPrice = discountPrice;
     }
 
     public void updateOrder(Double extraPrice, Double orderPrice, String invoice, String shippingCompany, String adminMemo, OrderStatus orderStatus) {
@@ -115,7 +123,6 @@ public class Order extends BaseEntity {
     public void updateOrderCardType(String cardType) {
         this.cardType = cardType;
     }
-
 
     public void updateDepositName(String depositName) {
         this.depositName = depositName;
