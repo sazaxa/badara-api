@@ -136,5 +136,8 @@ public class Order extends BaseEntity {
         this.cardRequestedDate = cardRequestedDate;
     }
 
+    public void updatePaymentKey(String secret){
+        this.paymentKey = secret;
+    }
 
 }

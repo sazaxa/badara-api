@@ -14,7 +14,9 @@ import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderStatusRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderUpdateRequestDto;
+import com.sazaxa.shipmentapi.order.dto.VirtualAccountRequestDto;
 import com.sazaxa.shipmentapi.order.errors.PointBadRequestException;
+import com.sazaxa.shipmentapi.order.errors.VirtualAccountBadRequestException;
 import com.sazaxa.shipmentapi.order.exception.OrderNotFoundException;
 import com.sazaxa.shipmentapi.point.entity.PointHistory;
 import com.sazaxa.shipmentapi.point.repository.PointHistoryRepository;
@@ -305,6 +307,9 @@ public class OrderService {
         }
 
         if (request.getPaymentMethod().equals(OrderStatus.PAYMENT_COMPLETE.status)){
+
+//            order.getOrderStatus() == 무통입금이면 차감하지마
+
             if (request.getPoint() >= 1){ managePoint(member, request.getPoint(), order); }
             order.updateOrderStatus(OrderStatus.PAYMENT_COMPLETE);
             order.updateOrderPayment(request.getCardType(),
@@ -348,6 +353,30 @@ public class OrderService {
                 .build();
 
         return response;
+    }
+
+    public void perceiveVirtualAccount(VirtualAccountRequestDto request) {
+        if (!request.getStatus().equals("DONE")){
+            throw new VirtualAccountBadRequestException();
+        }
+
+        Order order = orderRepository.findByOrderNumber(request.getOrderId()).orElseThrow(()->new OrderNotFoundException("no ordernumber : " + request.getOrderId()));
+        Member member = order.getMember();
+
+        List<Box> boxes = boxRepository.findAllByOrder(order);
+        List<Product> products = productRepository.findAllByOrder(order);
+        Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
+
+        order.updateOrderStatus(OrderStatus.PAYMENT_COMPLETE);
+        order.updatePaymentKey(request.getSecret());
+
+        for (Box box : boxes){
+            box.updateKoreanShippingStatus(OrderStatus.PAYMENT_COMPLETE);
+            boxRepository.save(box);
+        }
+
+        orderRepository.save(order);
+
     }
 
     private void managePoint(Member member, Double point, Order order) {
@@ -447,6 +476,5 @@ public class OrderService {
                 .country(country)
                 .build());
     }
-
 
 }
