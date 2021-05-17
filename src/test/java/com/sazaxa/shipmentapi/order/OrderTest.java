@@ -9,7 +9,6 @@ class OrderTest {
 
     private Order order;
 
-
     @BeforeEach
     void setUp(){
         order = Order.builder()
@@ -21,6 +20,5 @@ class OrderTest {
     void 무통장입금인상태에서_결제요청이왔을때_OrderStatus와비교하는_테스트(){
         assertThat(order.getOrderStatus().name()).isEqualTo(OrderStatus.PAYMENT_BANK.name());
     }
-
 
 }
