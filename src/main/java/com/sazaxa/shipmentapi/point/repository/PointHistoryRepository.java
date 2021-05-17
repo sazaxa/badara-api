@@ -4,8 +4,8 @@ import com.sazaxa.shipmentapi.order.Order;
 import com.sazaxa.shipmentapi.point.entity.PointHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface PointHistoryRepository extends JpaRepository<PointHistory, Long> {
-    Optional<PointHistory> findByOrder(Order order);
+    List<PointHistory> findByOrder(Order order);
 }
