@@ -127,7 +127,7 @@ public class AuthController {
     @GetMapping("/current")
     @PreAuthorize("hasRole('USER')")
     public Member getCurrentMember(@CurrentUser UserPrincipalCustom userPrincipal){
-        return memberService.getMemberById(userPrincipal.getId());
+        return memberService.getDetail(userPrincipal.getId());
     }
 
     @GetMapping("/current/admin")

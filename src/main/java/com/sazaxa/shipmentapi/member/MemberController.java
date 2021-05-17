@@ -1,6 +1,7 @@
 package com.sazaxa.shipmentapi.member;
 
 import com.sazaxa.shipmentapi.member.dto.MemberCheckPasswordRequestDto;
+import com.sazaxa.shipmentapi.member.dto.MemberPointRequestDto;
 import com.sazaxa.shipmentapi.member.dto.MemberUpdateRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,30 +25,35 @@ public class MemberController {
     }
 
     @GetMapping
-    public List<Member> getAllMembers(){
-        return memberService.getAllMembers();
+    public List<Member> getList(){
+        return memberService.getList();
     }
 
     @GetMapping("/{id}")
-    public Member getMemberById(@PathVariable Long id){
-        return memberService.getMemberById(id);
+    public Member getDetail(@PathVariable Long id){
+        return memberService.getDetail(id);
     }
 
     @GetMapping("/{id}/order")
-    public List<OrderResponseDto> getMemberByIdWithOrder(
+    public List<OrderResponseDto> getDetailWithOrder(
             @PathVariable Long id){
-        return memberService.getMemberByIdWithOrder(id);
+        return memberService.getDetailWithOrder(id);
+    }
+
+    @PostMapping("/point/{id}")
+    public Member updatePoint(@PathVariable Long id, @RequestBody MemberPointRequestDto request){
+        return memberService.updatePoint(request);
+    }
+
+    @PostMapping("/check/{id}")
+    public boolean checkPassword(@PathVariable Long id, @RequestBody MemberCheckPasswordRequestDto request){
+        return memberService.checkMemberPasswordWithId(id, request.getPassword());
     }
 
     @PutMapping("/{id}")
     public String updateMember(@PathVariable Long id, @RequestBody MemberUpdateRequestDto request){
         memberService.updateMember(id, request);
         return "success";
-    }
-
-    @PostMapping("/check/{id}")
-    public boolean checkPassword(@PathVariable Long id, @RequestBody MemberCheckPasswordRequestDto request){
-        return memberService.checkMemberPasswordWithId(id, request.getPassword());
     }
 
     @PutMapping("/delete/{id}")

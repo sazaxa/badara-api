@@ -3,6 +3,7 @@ package com.sazaxa.shipmentapi.member;
 import com.sazaxa.shipmentapi.box.Box;
 import com.sazaxa.shipmentapi.box.BoxRepository;
 import com.sazaxa.shipmentapi.box.dto.BoxResponseDto;
+import com.sazaxa.shipmentapi.member.dto.MemberPointRequestDto;
 import com.sazaxa.shipmentapi.member.dto.MemberUpdateRequestDto;
 import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
 import com.sazaxa.shipmentapi.member.role.Role;
@@ -45,15 +46,15 @@ public class MemberService {
         this.pointService = pointService;
     }
 
-    public List<Member> getAllMembers() {
+    public List<Member> getList() {
         return memberRepository.findAllByOrderByCreatedDateDesc();
     }
 
-    public Member getMemberById(Long id) {
+    public Member getDetail(Long id) {
         return memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
     }
 
-    public List<OrderResponseDto> getMemberByIdWithOrder(Long id) {
+    public List<OrderResponseDto> getDetailWithOrder(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
         List<Order> orders = orderRepository.findByMemberOrderByCreatedDateDesc(member);
         List<OrderResponseDto> responses = new ArrayList<>();
@@ -127,5 +128,9 @@ public class MemberService {
             return true;
         }
         return false;
+    }
+
+    public Member updatePoint(MemberPointRequestDto request) {
+        return null;
     }
 }
