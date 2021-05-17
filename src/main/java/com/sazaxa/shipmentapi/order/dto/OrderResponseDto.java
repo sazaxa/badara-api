@@ -25,6 +25,7 @@ public class OrderResponseDto {
     private String orderStatus;
     private String depositName;
     private String cardType;
+    private String paymentKey;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     private List<ProductResponseDto> productResponses;
@@ -46,6 +47,7 @@ public class OrderResponseDto {
                 .orderStatus(order.getOrderStatus().status)
                 .depositName(order.getDepositName())
                 .cardType(order.getCardType())
+                .paymentKey(order.getPaymentKey())
                 .createdDate(order.getCreatedDate())
                 .modifiedDate(order.getModifiedDate())
                 .productResponses(productResponses)
