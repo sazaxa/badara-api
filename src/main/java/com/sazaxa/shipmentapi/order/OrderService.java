@@ -308,9 +308,10 @@ public class OrderService {
 
         if (request.getPaymentMethod().equals(OrderStatus.PAYMENT_COMPLETE.status)){
 
-//            order.getOrderStatus() == 무통입금이면 차감하지마
+            if (order.getOrderStatus().name() != OrderStatus.PAYMENT_BANK.name()){
+                if (request.getPoint() >= 1){ managePoint(member, request.getPoint(), order); }
+            }
 
-            if (request.getPoint() >= 1){ managePoint(member, request.getPoint(), order); }
             order.updateOrderStatus(OrderStatus.PAYMENT_COMPLETE);
             order.updateOrderPayment(request.getCardType(),
                     request.getCardCompany(),
@@ -376,7 +377,6 @@ public class OrderService {
         }
 
         orderRepository.save(order);
-
     }
 
     private void managePoint(Member member, Double point, Order order) {
