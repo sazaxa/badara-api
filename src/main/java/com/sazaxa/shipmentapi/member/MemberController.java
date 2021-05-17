@@ -4,6 +4,7 @@ import com.sazaxa.shipmentapi.member.dto.MemberCheckPasswordRequestDto;
 import com.sazaxa.shipmentapi.member.dto.MemberPointRequestDto;
 import com.sazaxa.shipmentapi.member.dto.MemberUpdateRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
+import com.sazaxa.shipmentapi.point.entity.PointHistory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +39,11 @@ public class MemberController {
     public List<OrderResponseDto> getDetailWithOrder(
             @PathVariable Long id){
         return memberService.getDetailWithOrder(id);
+    }
+
+    @GetMapping("/point/{id}")
+    public List<PointHistory> getPointHistory(@PathVariable Long id){
+        return memberService.getPointHistory(id);
     }
 
     @PostMapping("/point/{id}")

@@ -13,6 +13,8 @@ import com.sazaxa.shipmentapi.order.Order;
 import com.sazaxa.shipmentapi.order.OrderRepository;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.point.entity.Point;
+import com.sazaxa.shipmentapi.point.entity.PointHistory;
+import com.sazaxa.shipmentapi.point.repository.PointHistoryRepository;
 import com.sazaxa.shipmentapi.point.service.PointService;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
@@ -35,8 +37,9 @@ public class MemberService {
     private final ProductRepository productRepository;
     private final BoxRepository boxRepository;
     private final PointService pointService;
+    private final PointHistoryRepository pointHistoryRepository;
 
-    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, RoleService roleService, OrderRepository orderRepository, ProductRepository productRepository, BoxRepository boxRepository, PointService pointService) {
+    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, RoleService roleService, OrderRepository orderRepository, ProductRepository productRepository, BoxRepository boxRepository, PointService pointService, PointHistoryRepository pointHistoryRepository) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
@@ -44,6 +47,7 @@ public class MemberService {
         this.productRepository = productRepository;
         this.boxRepository = boxRepository;
         this.pointService = pointService;
+        this.pointHistoryRepository = pointHistoryRepository;
     }
 
     public List<Member> getList() {
@@ -51,11 +55,11 @@ public class MemberService {
     }
 
     public Member getDetail(Long id) {
-        return memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
+        return findMember(id);
     }
 
     public List<OrderResponseDto> getDetailWithOrder(Long id) {
-        Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
+        Member member = findMember(id);
         List<Order> orders = orderRepository.findByMemberOrderByCreatedDateDesc(member);
         List<OrderResponseDto> responses = new ArrayList<>();
         for (Order order : orders){
@@ -84,12 +88,12 @@ public class MemberService {
     }
 
     public void updateMember(Long id, MemberUpdateRequestDto request) {
-        Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
+        Member member = findMember(id);
         member.updateMember(passwordEncoder.encode(request.getPassword()), request.getPhoneNumber(), request.getName());
     }
 
     public void deleteMember(Long id) {
-        Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
+        Member member = findMember(id);
         member.updateStatus(MemberStatus.DEACTIVATE.name());
     }
 
@@ -104,6 +108,13 @@ public class MemberService {
 
         if(point.getIsRegisterActive()){
             resource.updatePoint(point.getRegisterAmount());
+            pointHistoryRepository.save(
+                    PointHistory.builder()
+                    .member(resource)
+                    .detail("회원가입")
+                    .deposit(point.getRegisterAmount())
+                    .balance(point.getRegisterAmount())
+                    .build());
         }
 
         return memberRepository.save(resource);
@@ -111,7 +122,7 @@ public class MemberService {
 
     //비밀번호 확인 로직
     public boolean checkMemberPasswordWithId(Long id, String password) {
-        Member member = memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
+        Member member = findMember(id);
         return member.authenticate(password, passwordEncoder);
     }
 
@@ -130,7 +141,15 @@ public class MemberService {
         return false;
     }
 
+    public Member findMember(Long id){
+        return memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
+    }
+
     public Member updatePoint(MemberPointRequestDto request) {
         return null;
+    }
+
+    public List<PointHistory> getPointHistory(Long id) {
+        return pointService.getPointHistoryWithMember(findMember(id));
     }
 }

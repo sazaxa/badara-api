@@ -342,7 +342,7 @@ public class OrderService {
 
             List<PointHistory> pointHistories = pointHistoryRepository.findByOrder(order);
             if (pointHistories.size() >= 1){
-                for (PointHistory pointHistory : pointHistories)
+                for (PointHistory pointHistory : pointHistories){
                     if (pointHistory.getWithdraw() != null){
                         PointHistory.builder()
                                 .section("환불")
@@ -355,6 +355,7 @@ public class OrderService {
 
                         member.updatePoint(member.getPoint() + pointHistory.getWithdraw());
                     }
+                }
             }
 
             order.updateOrderStatus(OrderStatus.REFUND);

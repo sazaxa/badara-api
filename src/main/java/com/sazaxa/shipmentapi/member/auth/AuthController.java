@@ -105,8 +105,6 @@ public class AuthController {
         return new ResponseEntity(member, HttpStatus.CREATED);
     }
 
-
-
     @PostMapping("/signin/admin")
     public ResponseEntity loginAdmin(@RequestBody Member resource){
 
