@@ -333,6 +333,38 @@ public class OrderService {
                 boxRepository.save(box);
             }
         }
+
+        /*
+        1. point 돌려주기
+        2. 취소로직
+         */
+        if (request.getPaymentMethod().equals(OrderStatus.REFUND.status)){
+
+            List<PointHistory> pointHistories = pointHistoryRepository.findByOrder(order);
+            if (pointHistories.size() >= 1){
+                for (PointHistory pointHistory : pointHistories)
+                    if (pointHistory.getWithdraw() != null){
+                        PointHistory.builder()
+                                .section("환불")
+                                .detail(orderNumber)
+                                .balance(pointHistory.getBalance() + pointHistory.getWithdraw())
+                                .deposit(pointHistory.getWithdraw())
+                                .order(order)
+                                .member(member)
+                                .build();
+
+                        member.updatePoint(member.getPoint() + pointHistory.getWithdraw());
+                    }
+            }
+
+            order.updateOrderStatus(OrderStatus.REFUND);
+            for (Box box : boxes){
+                box.updateKoreanShippingStatus(OrderStatus.REFUND);
+                boxRepository.save(box);
+            }
+        }
+
+
         if (request.getPaymentMethod().equals(OrderStatus.CANCEL.status)){
             order.updateOrderStatus(OrderStatus.CANCEL);
             for (Box box : boxes){
@@ -387,7 +419,9 @@ public class OrderService {
                 .withdraw(point)
                 .section("주문")
                 .detail(order.getOrderNumber())
+                .member(member)
                 .build();
+
         pointHistoryRepository.save(pointHistory);
 
         // 고객 포인트 차감하기
