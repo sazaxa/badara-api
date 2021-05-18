@@ -3,6 +3,7 @@ package com.sazaxa.shipmentapi.point.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.order.Order;
+import com.sazaxa.shipmentapi.util.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 @Getter
 @Table(name = "badara_point_history")
 @Entity
-public class PointHistory {
+public class PointHistory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -111,7 +111,7 @@ public class MemberService {
             pointHistoryRepository.save(
                     PointHistory.builder()
                     .member(resource)
-                    .detail("회원가입")
+                    .section("회원가입")
                     .deposit(point.getRegisterAmount())
                     .balance(point.getRegisterAmount())
                     .build());
