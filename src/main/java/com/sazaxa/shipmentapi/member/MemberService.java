@@ -145,9 +145,23 @@ public class MemberService {
         return memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
     }
 
-    public Member updatePoint(MemberPointRequestDto request) {
-        return null;
+    public Member updatePoint(Long id,MemberPointRequestDto request) {
+        Member member =  memberRepository.findById(id).orElseThrow(()-> new MemberNotFoundException("no member id : " + id));
+
+        PointHistory pointHistory = PointHistory.builder()
+                .member(member)
+                .section("관리자 지급")
+                .detail(request.getDetail())
+                .deposit(request.getPoint())
+                .balance(member.getPoint() + request.getPoint())
+                .build();
+
+        pointHistoryRepository.save(pointHistory);
+
+        member.updatePoint(pointHistory.getBalance());
+        return member;
     }
+
 
     public List<PointHistory> getPointHistory(Long id) {
         return pointService.getPointHistoryWithMember(findMember(id));

@@ -48,7 +48,7 @@ public class MemberController {
 
     @PostMapping("/point/{id}")
     public Member updatePoint(@PathVariable Long id, @RequestBody MemberPointRequestDto request){
-        return memberService.updatePoint(request);
+        return memberService.updatePoint(id,request);
     }
 
     @PostMapping("/check/{id}")
