@@ -344,14 +344,14 @@ public class OrderService {
             if (pointHistories.size() >= 1){
                 for (PointHistory pointHistory : pointHistories){
                     if (pointHistory.getWithdraw() != null){
-                        PointHistory.builder()
+                        pointHistoryRepository.save(PointHistory.builder()
                                 .section("환불")
                                 .detail(orderNumber)
                                 .balance(pointHistory.getBalance() + pointHistory.getWithdraw())
                                 .deposit(pointHistory.getWithdraw())
                                 .order(order)
                                 .member(member)
-                                .build();
+                                .build());
 
                         member.updatePoint(member.getPoint() + pointHistory.getWithdraw());
                     }
