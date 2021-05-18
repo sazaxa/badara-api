@@ -420,6 +420,7 @@ public class OrderService {
                 .withdraw(point)
                 .section("주문")
                 .detail(order.getOrderNumber())
+                .order(order)
                 .member(member)
                 .build();
 
