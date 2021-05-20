@@ -106,6 +106,7 @@ public class MemberService {
     //회원 가입
     public Member registerMember(Member resource){
         Point point = pointService.getPointInfo();
+        resource.updatePoint(0D);
 
         if(point.getIsRegisterActive()){
             resource.updatePoint(point.getRegisterAmount());
