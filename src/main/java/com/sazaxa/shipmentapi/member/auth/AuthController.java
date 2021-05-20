@@ -138,4 +138,51 @@ public class AuthController {
         return false;
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/social")
+    public ResponseEntity oauth(@RequestBody Member resource ){
+
+        if(memberService.isExistsByEmail(resource.getEmail())){
+            return new ResponseEntity("this email is already taken", HttpStatus.UNAUTHORIZED);
+        }
+
+        Role userRole = roleService.findByRoleName(RoleName.ROLE_USER);
+
+        Member member = Member.builder()
+                .email(resource.getEmail())
+                .password(passwordEncoder.encode(resource.getPassword()))
+                .phoneNumber(resource.getPhoneNumber())
+                .name(resource.getName())
+                .roles(Collections.singleton(userRole))
+                .status(MemberStatus.ACTIVATE.name())
+                .build();
+
+        memberService.registerMember(member);
+
+        return new ResponseEntity(member, HttpStatus.CREATED);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/social/check")
+    public ResponseEntity oauthCheck(@RequestBody Member resource ){
+
+        if(memberService.isExistsByEmail(resource.getEmail())){
+            return new ResponseEntity("this email is already taken", HttpStatus.UNAUTHORIZED);
+        }
+
+        Role userRole = roleService.findByRoleName(RoleName.ROLE_USER);
+
+        Member member = Member.builder()
+                .email(resource.getEmail())
+                .password(passwordEncoder.encode(resource.getPassword()))
+                .phoneNumber(resource.getPhoneNumber())
+                .name(resource.getName())
+                .roles(Collections.singleton(userRole))
+                .status(MemberStatus.ACTIVATE.name())
+                .build();
+
+        memberService.registerMember(member);
+
+        return new ResponseEntity(member, HttpStatus.CREATED);
+    }
 }
