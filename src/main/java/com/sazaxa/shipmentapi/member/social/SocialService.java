@@ -19,7 +19,7 @@ public class SocialService {
 
     public SocialResponseDto isRegistered(SocialRequestDto request) {
         for (MemberSocial memberSocial : memberSocialRepository.findAll()){
-              if (memberSocial.getSocialId() == request.getSocialId()){
+              if (memberSocial.getSocialId().equals(request.getSocialId())){
                   return SocialResponseDto.builder()
                           .socialId(request.getSocialId())
                           .email(request.getEmail())
