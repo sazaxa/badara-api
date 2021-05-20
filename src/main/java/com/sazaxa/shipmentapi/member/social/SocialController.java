@@ -32,7 +32,7 @@ public class SocialController {
         this.authenticationManager = authenticationManager;
         this.socialService = socialService;
     }
-
+    
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/check")
     public SocialResponseDto oauthCheck(@RequestBody SocialRequestDto request){

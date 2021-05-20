@@ -8,9 +8,15 @@ import lombok.NoArgsConstructor;
 @Getter
 public class SocialResponseDto {
     private Boolean isRegistered;
+    private String socialId;
+    private String email;
+    private String password;
 
     @Builder
-    public SocialResponseDto(Boolean isRegistered) {
+    public SocialResponseDto(Boolean isRegistered, String socialId, String email, String password) {
         this.isRegistered = isRegistered;
+        this.socialId = socialId;
+        this.email = email;
+        this.password = password;
     }
 }
