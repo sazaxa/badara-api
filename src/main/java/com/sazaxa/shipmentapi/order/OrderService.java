@@ -313,11 +313,13 @@ public class OrderService {
             }
 
             order.updateOrderStatus(OrderStatus.PAYMENT_COMPLETE);
-            order.updateOrderPayment(request.getCardType(),
-                    request.getCardCompany(),
-                    request.getCardOwnerType(),
-                    request.getPaymentKey(),
-                    LocalDateTime.parse(request.getCardRequestedDate(),DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+            if (request.getCardType() != null){
+                order.updateOrderPayment(request.getCardType(),
+                        request.getCardCompany(),
+                        request.getCardOwnerType(),
+                        request.getPaymentKey(),
+                        LocalDateTime.parse(request.getCardRequestedDate(),DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+            }
 
             for (Box box : boxes){
                 box.updateKoreanShippingStatus(OrderStatus.PAYMENT_COMPLETE);
