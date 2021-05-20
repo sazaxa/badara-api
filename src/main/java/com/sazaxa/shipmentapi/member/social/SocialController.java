@@ -1,12 +1,16 @@
 package com.sazaxa.shipmentapi.member.social;
 
+import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberService;
+import com.sazaxa.shipmentapi.member.MemberStatus;
+import com.sazaxa.shipmentapi.member.role.Role;
+import com.sazaxa.shipmentapi.member.role.RoleName;
 import com.sazaxa.shipmentapi.member.role.RoleService;
 import com.sazaxa.shipmentapi.member.social.dto.SocialRequestDto;
 import com.sazaxa.shipmentapi.member.social.dto.SocialResponseDto;
-import com.sazaxa.shipmentapi.security.jwt.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.Collections;
+
 @RequestMapping("/api/v1/social")
 public class SocialController {
 
-    @Autowired
-    private JwtTokenProvider tokenProvider;
     private final MemberService memberService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
@@ -32,10 +36,39 @@ public class SocialController {
         this.authenticationManager = authenticationManager;
         this.socialService = socialService;
     }
-    
+
+    @PostMapping
+    public ResponseEntity socialRegister(@RequestBody SocialRequestDto request){
+
+        String password = RandomStringUtils.random(20, 33, 125, true, true);
+
+
+        if(memberService.isExistsByEmail(request.getEmail())){
+            return new ResponseEntity("this email is already taken", HttpStatus.UNAUTHORIZED);
+        }
+
+        Role userRole = roleService.findByRoleName(RoleName.ROLE_USER);
+
+        Member member = Member.builder()
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(password))
+                .phoneNumber(request.getPhoneNumber())
+                .name(request.getName())
+                .roles(Collections.singleton(userRole))
+                .status(MemberStatus.ACTIVATE.name())
+                .build();
+
+        memberService.registerMember(member);
+       socialService.register(request, password, member);
+
+        return new ResponseEntity(member, HttpStatus.CREATED);
+
+    }
+
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/check")
-    public SocialResponseDto oauthCheck(@RequestBody SocialRequestDto request){
+    public SocialResponseDto isRegistered(@RequestBody SocialRequestDto request){
         return socialService.isRegistered(request);
     }
+
 }

@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.member.social;
 
+import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.social.dto.SocialRequestDto;
 import com.sazaxa.shipmentapi.member.social.dto.SocialResponseDto;
 import org.springframework.stereotype.Service;
@@ -33,5 +34,15 @@ public class SocialService {
                 .email(request.getEmail())
                 .isRegistered(Boolean.FALSE)
                 .build();
+    }
+
+
+    public void register(SocialRequestDto request, String password, Member member) {
+        memberSocialRepository.save(MemberSocial.builder()
+                .socialId(request.getSocialId())
+                .password(password)
+                .type("KAKAO")
+                .member(member)
+                .build());
     }
 }
