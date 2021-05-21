@@ -33,7 +33,7 @@ public class PointService {
         return PointConfigResponseDto.of(point);
     }
 
-    public PointConfigResponseDto getDetail() {
+    public PointConfigResponseDto detail() {
         return PointConfigResponseDto.of(getPointInfo());
     }
 

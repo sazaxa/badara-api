@@ -488,7 +488,7 @@ public class OrderService {
                 return null;
             }
         }
-        
+
         Double orderWeight = boxes.stream().mapToDouble(Box::getResultWeight).sum();
         return shippingService.getPrice(ShippingRequestDto.builder()
                 .weight(orderWeight)

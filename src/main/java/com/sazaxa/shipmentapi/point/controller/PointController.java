@@ -28,7 +28,7 @@ public class PointController {
     }
 
     @GetMapping("/config")
-    public PointConfigResponseDto getDetail(){
-        return pointService.getDetail();
+    public PointConfigResponseDto detail(){
+        return pointService.detail();
     }
 }
