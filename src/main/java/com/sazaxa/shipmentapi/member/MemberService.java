@@ -50,15 +50,15 @@ public class MemberService {
         this.pointHistoryRepository = pointHistoryRepository;
     }
 
-    public List<Member> getList() {
+    public List<Member> list() {
         return memberRepository.findAllByOrderByCreatedDateDesc();
     }
 
-    public Member getDetail(Long id) {
+    public Member detail(Long id) {
         return findMember(id);
     }
 
-    public List<OrderResponseDto> getDetailWithOrder(Long id) {
+    public List<OrderResponseDto> detailWithOrder(Long id) {
         Member member = findMember(id);
         List<Order> orders = orderRepository.findByMemberOrderByCreatedDateDesc(member);
         List<OrderResponseDto> responses = new ArrayList<>();
@@ -88,12 +88,12 @@ public class MemberService {
         return responses;
     }
 
-    public void updateMember(Long id, MemberUpdateRequestDto request) {
+    public void update(Long id, MemberUpdateRequestDto request) {
         Member member = findMember(id);
         member.updateMember(passwordEncoder.encode(request.getPassword()), request.getPhoneNumber(), request.getName());
     }
 
-    public void deleteMember(Long id) {
+    public void delete(Long id) {
         Member member = findMember(id);
         member.updateStatus(MemberStatus.DEACTIVATE.name());
     }

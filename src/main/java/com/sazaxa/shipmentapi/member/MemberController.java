@@ -26,19 +26,31 @@ public class MemberController {
     }
 
     @GetMapping
-    public List<Member> getList(){
-        return memberService.getList();
+    public List<Member> list(){
+        return memberService.list();
     }
 
     @GetMapping("/{id}")
-    public Member getDetail(@PathVariable Long id){
-        return memberService.getDetail(id);
+    public Member detail(@PathVariable Long id){
+        return memberService.detail(id);
     }
 
     @GetMapping("/{id}/order")
-    public List<OrderResponseDto> getDetailWithOrder(
+    public List<OrderResponseDto> detailWithOrder(
             @PathVariable Long id){
-        return memberService.getDetailWithOrder(id);
+        return memberService.detailWithOrder(id);
+    }
+
+    @PutMapping("/{id}")
+    public String update(@PathVariable Long id, @RequestBody MemberUpdateRequestDto request){
+        memberService.update(id, request);
+        return "success";
+    }
+
+    @PutMapping("/delete/{id}")
+    public String delete(@PathVariable Long id){
+        memberService.delete(id);
+        return "success";
     }
 
     @GetMapping("/point/{id}")
@@ -55,17 +67,4 @@ public class MemberController {
     public boolean checkPassword(@PathVariable Long id, @RequestBody MemberCheckPasswordRequestDto request){
         return memberService.checkMemberPasswordWithId(id, request.getPassword());
     }
-
-    @PutMapping("/{id}")
-    public String updateMember(@PathVariable Long id, @RequestBody MemberUpdateRequestDto request){
-        memberService.updateMember(id, request);
-        return "success";
-    }
-
-    @PutMapping("/delete/{id}")
-    public String deleteMember(@PathVariable Long id){
-        memberService.deleteMember(id);
-        return "success";
-    }
-
 }
