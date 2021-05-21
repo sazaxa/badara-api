@@ -11,6 +11,7 @@ import java.util.List;
 @Builder
 public class BoxResponseDto {
     private Long id;
+    private String type;
     private Double expectedWidth;
     private Double expectedDepth;
     private Double expectedHeight;
@@ -31,6 +32,7 @@ public class BoxResponseDto {
     public static BoxResponseDto of(Box box) {
         return BoxResponseDto.builder()
                 .id(box.getId())
+                .type(box.getType())
                 .expectedWidth(box.getExpectedWidth())
                 .expectedDepth(box.getExpectedDepth())
                 .expectedHeight(box.getExpectedHeight())
