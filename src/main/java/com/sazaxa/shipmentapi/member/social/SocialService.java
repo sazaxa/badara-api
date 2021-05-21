@@ -37,12 +37,17 @@ public class SocialService {
     }
 
 
-    public void register(SocialRequestDto request, String password, Member member) {
+    public SocialResponseDto register(SocialRequestDto request, String password, Member member) {
         memberSocialRepository.save(MemberSocial.builder()
                 .socialId(request.getSocialId())
                 .password(password)
                 .type("KAKAO")
                 .member(member)
                 .build());
+
+        return SocialResponseDto.builder()
+                .email(request.getEmail())
+                .password(password)
+                .build();
     }
 }

@@ -58,9 +58,9 @@ public class SocialController {
                 .build();
 
         memberService.registerMember(member);
-       socialService.register(request, password, member);
+        SocialResponseDto socialResponseDto = socialService.register(request, password, member);
 
-        return new ResponseEntity(member, HttpStatus.CREATED);
+        return new ResponseEntity(socialResponseDto, HttpStatus.CREATED);
 
     }
 
