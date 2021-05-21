@@ -3,8 +3,10 @@ package com.sazaxa.shipmentapi.excel.shipping;
 import com.sazaxa.shipmentapi.excel.errors.CountryNotFoundException;
 import com.sazaxa.shipmentapi.excel.errors.ExcelExtensionException;
 import com.sazaxa.shipmentapi.excel.shipping.dto.ShippingRequestDto;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,41 @@ public class ShippingService {
         this.shippingRepositorySupport = shippingRepositorySupport;
     }
 
+    public void uploadShippingFee(MultipartFile file) throws IOException {
+        //확장자에 따른 인스턴스 생성
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+
+        //엑셀 데이터 가져오기
+        Workbook workbook = getKindOfWorkbook(file, extension);
+
+        //엑셀의 첫번째 시트 가져오기
+        Sheet worksheet = workbook.getSheetAt(0);
+        Row firstRow = worksheet.getRow(0);
+
+        //엑셀 시트의 Row가져오기
+        int sizeRow = firstRow.getPhysicalNumberOfCells();
+
+        //국가명 저장
+        List<String> listCountry = getCountriesName(firstRow, sizeRow);
+
+        //DHL 배송비 저장
+        List<DhlShipping> dhlShipmentList = new ArrayList<>();
+        int sizeColumn = worksheet.getPhysicalNumberOfRows();
+
+        //국가에 따른 배송비 저장
+        for (int i = 1; i < sizeColumn; i++) {
+            Row row = worksheet.getRow(i);
+            double weight = row.getCell(0).getNumericCellValue();
+
+            for (int j = 1; j < sizeRow; j++){
+                double price = (double) Math.round(row.getCell(j).getNumericCellValue() * 100) / 100;
+                dhlShipmentList.add(new DhlShipping(listCountry.get(j-1), weight, price));
+            }
+        }
+        saveDhlShipment(dhlShipmentList);
+    }
+
+
     public void saveDhlShipment(List<DhlShipping> dhlShipmentList){
         shippingRepository.deleteAll();
         shippingRepository.saveAll(dhlShipmentList);
@@ -46,7 +83,7 @@ public class ShippingService {
     }
 
     //국가명 얻기
-    List<String> getCountriesName(Row row, int sizeRow){
+    public List<String> getCountriesName(Row row, int sizeRow){
         List<String> listCountry = new ArrayList<>();
         for (int i=1; i<sizeRow; i++){
             listCountry.add(row.getCell(i).getStringCellValue().replace(" ", ""));
@@ -77,4 +114,5 @@ public class ShippingService {
         }
         throw new CountryNotFoundException("no country : " + requestDto.getCountry());
     }
+
 }
