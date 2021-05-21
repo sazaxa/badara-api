@@ -54,7 +54,7 @@ class PointServiceTest {
     @Test
     void testGetDetail(){
         given(pointRepository.findById(1L)).willReturn(Optional.of(point));
-        PointConfigResponseDto pointConfigResponseDto = pointService.getDetail();
+        PointConfigResponseDto pointConfigResponseDto = pointService.detail();
         assertThat(pointConfigResponseDto.getIsRegisterActive()).isFalse();
     }
 

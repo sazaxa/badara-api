@@ -62,17 +62,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .headers()
-//                .addHeaderWriter(
-//                        new XFrameOptionsHeaderWriter(
-//                                new WhiteListedAllowFromStrategy(Arrays.asList("localhost"))
-//                        )
-//                )
                 .frameOptions().disable()
                 .addHeaderWriter(new StaticHeadersWriter("X-Frame-Options", "ALLOW-FROM " + "https://www.facebook.com"))
                 .and()
-//                .httpBasic().disable()
                 .cors().and().csrf().disable()
-
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(unauthorizedHandler)
@@ -80,23 +73,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .anyRequest().permitAll();
-//                .antMatchers("/",
-//                        "/favicon.ico",
-//                        "/**/*.png",
-//                        "/**/*.gif",
-//                        "/**/*.svg",
-//                        "/**/*.jpg",
-//                        "/**/*.html",
-//                        "/**/*.css",
-//                        "/**/*.js")
-//                .permitAll()
-//                .antMatchers("/api/v1/auth/**")
-//                .permitAll()
-//                .antMatchers("/api/v1/shipping/**", "/api/v1/faq/**")
-//                .permitAll().anyRequest()
-//                .authenticated();
+                .antMatchers("/",
+                        "/favicon.ico",
+                        "/**/*.png",
+                        "/**/*.gif",
+                        "/**/*.svg",
+                        "/**/*.jpg",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js")
+                .permitAll()
+                .antMatchers("/api/v1/auth/**", "/api/v1/social/**")
+                .permitAll()
+                .antMatchers("/api/v1/shipping/**", "/api/v1/faq/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated();
 
-//        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // jwt 인증필터 넣기
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // jwt 인증필터 넣기
     }
 }

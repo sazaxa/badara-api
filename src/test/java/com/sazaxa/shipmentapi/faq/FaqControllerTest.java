@@ -94,7 +94,7 @@ class FaqControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("t1")));
 
-        verify(faqService).delete(id);
+        verify(faqService).detail(id);
     }
 
     @Test
