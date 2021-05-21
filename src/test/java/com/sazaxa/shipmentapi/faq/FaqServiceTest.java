@@ -67,7 +67,7 @@ class FaqServiceTest {
                 .build();
 
         given(faqRepository.findAll()).willReturn(Arrays.asList(faq));
-        List<Faq> list = faqService.getAllFaq();
+        List<Faq> list = faqService.list();
 
         assertThat(list.get(0).getTitle()).isEqualTo("dummy-test-title-1");
         verify(faqRepository).findAll();
@@ -81,7 +81,7 @@ class FaqServiceTest {
                 .build();
 
         given(faqRepository.findById(1L)).willReturn(Optional.of(faq));
-        Faq mockFaq = faqService.getFaqById(1L);
+        Faq mockFaq = faqService.detail(1L);
 
         assertThat(mockFaq.getTitle()).isEqualTo("dummy-test-title-1");
         verify(faqRepository).findById(1L);

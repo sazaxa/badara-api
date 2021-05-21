@@ -69,12 +69,12 @@ class FaqControllerTest {
                 .content("c1")
                 .build();
 
-        given(faqService.getAllFaq()).willReturn(List.of(faq));
-        given(faqService.getFaqById(id)).willReturn(faq);
-        given(faqService.getFaqById(1000L)).willThrow(new FaqNotFoundException("no faq id : " + id));
-        given(faqService.saveFaq(any(FaqSaveRequestDto.class))).willReturn(faq);
-        given(faqService.updateFaq(eq(1L), any(FaqUpdateRequestDto.class))).willReturn(faq);
-        given(faqService.deleteFaq(1000L)).willThrow(new FaqNotFoundException("no faq id : " + id));
+        given(faqService.list()).willReturn(List.of(faq));
+        given(faqService.detail(id)).willReturn(faq);
+        given(faqService.detail(1000L)).willThrow(new FaqNotFoundException("no faq id : " + id));
+        given(faqService.create(any(FaqSaveRequestDto.class))).willReturn(faq);
+        given(faqService.update(eq(1L), any(FaqUpdateRequestDto.class))).willReturn(faq);
+        given(faqService.delete(1000L)).willThrow(new FaqNotFoundException("no faq id : " + id));
 
         IMAGE = new ClassPathResource("국가정보_210423.xlsx");
     }
@@ -85,7 +85,7 @@ class FaqControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("t1")));
 
-        verify(faqService).getAllFaq();
+        verify(faqService).list();
     }
 
     @Test
@@ -94,7 +94,7 @@ class FaqControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("t1")));
 
-        verify(faqService).getFaqById(id);
+        verify(faqService).delete(id);
     }
 
     @Test
@@ -111,7 +111,7 @@ class FaqControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().string(containsString("t1")));
 
-        verify(faqService).saveFaq(any(FaqSaveRequestDto.class));
+        verify(faqService).create(any(FaqSaveRequestDto.class));
     }
 
     @Test
@@ -121,7 +121,7 @@ class FaqControllerTest {
                 .content("{\"title\" : \"t1\", \"content\" : \"c1\"}"))
                 .andExpect(status().isOk());
 
-        verify(faqService).updateFaq(eq(id), any(FaqUpdateRequestDto.class));
+        verify(faqService).update(eq(id), any(FaqUpdateRequestDto.class));
     }
 
     @Test
@@ -129,7 +129,7 @@ class FaqControllerTest {
         mockMvc.perform(delete(BASE_URL + "/" + id))
                 .andExpect(status().isNoContent());
 
-        verify(faqService).deleteFaq(id);
+        verify(faqService).delete(id);
     }
 
     @Test
@@ -137,7 +137,7 @@ class FaqControllerTest {
         mockMvc.perform(delete(BASE_URL + "/" + "1000"))
                 .andExpect(status().isNotFound());
 
-        verify(faqService).deleteFaq(1000L);
+        verify(faqService).delete(1000L);
     }
 
     @Test

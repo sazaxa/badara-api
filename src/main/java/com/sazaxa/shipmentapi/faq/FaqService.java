@@ -41,16 +41,16 @@ public class FaqService {
         this.keyName = "faq/";
     }
 
-    public List<Faq> getAllFaq() {
+    public List<Faq> list() {
         return faqRepository.findAll();
     }
 
-    public Faq getFaqById(Long id) {
+    public Faq detail(Long id) {
         Faq faq = faqRepository.findById(id).orElseThrow(() -> new FaqNotFoundException("no id" + id) );
         return faq;
     }
 
-    public Faq saveFaq(FaqSaveRequestDto request) {
+    public Faq create(FaqSaveRequestDto request) {
         Faq faq = Faq.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
@@ -58,14 +58,14 @@ public class FaqService {
         return faqRepository.save(faq);
     }
 
-    public Faq updateFaq(Long id, FaqUpdateRequestDto faqUpdateRequestDto) {
+    public Faq update(Long id, FaqUpdateRequestDto faqUpdateRequestDto) {
         Faq faq = faqRepository.findById(id).orElseThrow(() -> new FaqNotFoundException("no id" + id) );
         faq.updateFaq(faqUpdateRequestDto.getTitle(), faqUpdateRequestDto.getContent());
         faqRepository.save(faq);
         return faq;
     }
 
-    public Faq deleteFaq(Long id) {
+    public Faq delete(Long id) {
         Faq faq = faqRepository.findById(id).orElseThrow(() -> new FaqNotFoundException("no id" + id) );
         faqRepository.delete(faq);
         return faq;

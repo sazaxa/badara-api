@@ -62,7 +62,7 @@ class ShipmentApiApplicationTests {
 
 	@Test
 	void testFaq(){
-		Faq faq = faqService.saveFaq(FaqSaveRequestDto.builder()
+		Faq faq = faqService.create(FaqSaveRequestDto.builder()
 				.title("test-title-1")
 				.content("test-contest-2")
 				.build());

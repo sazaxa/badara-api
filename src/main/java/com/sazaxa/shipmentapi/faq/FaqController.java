@@ -29,32 +29,32 @@ public class FaqController {
     }
 
     @GetMapping
-    public List<Faq> getAllFaq(){
-        return faqService.getAllFaq();
+    public List<Faq> list(){
+        return faqService.list();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public Faq getFaqById(@PathVariable Long id){
-        return faqService.getFaqById(id);
+    public Faq detail(@PathVariable Long id){
+        return faqService.detail(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Faq saveFaq(@RequestBody FaqSaveRequestDto request){
-        return faqService.saveFaq(request);
+    public Faq create(@RequestBody FaqSaveRequestDto request){
+        return faqService.create(request);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public Faq updateFaq(@PathVariable Long id, @RequestBody FaqUpdateRequestDto request){
-        return faqService.updateFaq(id, request);
+    public Faq update(@PathVariable Long id, @RequestBody FaqUpdateRequestDto request){
+        return faqService.update(id, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteFaq(@PathVariable Long id){
-        faqService.deleteFaq(id);
+    public void delete(@PathVariable Long id){
+        faqService.delete(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
