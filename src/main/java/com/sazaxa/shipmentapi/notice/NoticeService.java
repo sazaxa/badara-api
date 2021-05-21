@@ -17,7 +17,7 @@ public class NoticeService {
         this.noticeRepository = noticeRepository;
     }
 
-    public List<NoticeResponseDto> getAllNotice() {
+    public List<NoticeResponseDto> list() {
         List<Notice> notices = noticeRepository.findAll();
         List<NoticeResponseDto> responses = new ArrayList<>();
         for (Notice notice : notices){
@@ -32,7 +32,7 @@ public class NoticeService {
 
     }
 
-    public Notice saveNotice(NoticeRequestDto request) {
+    public Notice create(NoticeRequestDto request) {
         Notice notice = Notice.builder()
                 .title(request.getTitle())
                 .content(request.getContent())

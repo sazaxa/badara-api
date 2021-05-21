@@ -19,20 +19,15 @@ public class NoticeServiceNestedTest {
     @Nested
     @DisplayName("getAllNotice 메소드는")
     class Describe_getAllNotice{
-
         @Nested
         @DisplayName("만약 List가 비어 있다면")
         class Context_with_Empty{
             @Test
             @DisplayName("List는 비어있다.")
             void it_returns_Empty_list(){
-                List<NoticeResponseDto> result = noticeService.getAllNotice();
+                List<NoticeResponseDto> result = noticeService.list();
                 assertThat(result).isEmpty();
             }
         }
-
-
-
     }
-
 }

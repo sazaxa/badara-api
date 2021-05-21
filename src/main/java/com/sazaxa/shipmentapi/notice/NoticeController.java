@@ -21,13 +21,13 @@ public class NoticeController {
     }
 
     @GetMapping
-    public List<NoticeResponseDto> getAllNotices(){
-        return noticeService.getAllNotice();
+    public List<NoticeResponseDto> list(){
+        return noticeService.list();
     }
 
     @PostMapping
-    public Notice saveNotice(@RequestBody NoticeRequestDto request){
-        return noticeService.saveNotice(request);
+    public Notice create(@RequestBody NoticeRequestDto request){
+        return noticeService.create(request);
     }
 
 
