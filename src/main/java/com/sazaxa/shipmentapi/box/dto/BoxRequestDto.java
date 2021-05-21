@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 public class BoxRequestDto {
     private Long id;
+    private String type;
     private Double expectedWidth;
     private Double expectedDepth;
     private Double expectedHeight;
@@ -30,6 +31,7 @@ public class BoxRequestDto {
     public static Box toEntity(BoxRequestDto boxRequest){
         return Box.builder()
                 .id(boxRequest.getId())
+                .type(boxRequest.getType())
                 .expectedWidth(boxRequest.getExpectedWidth())
                 .expectedDepth(boxRequest.getExpectedDepth())
                 .expectedHeight(boxRequest.getExpectedHeight())
@@ -55,6 +57,7 @@ public class BoxRequestDto {
             list.add(
                     Box.builder()
                     .id(boxRequest.getId())
+                    .type(boxRequest.getType())
                     .expectedWidth(boxRequest.getExpectedWidth())
                     .expectedDepth(boxRequest.getExpectedDepth())
                     .expectedHeight(boxRequest.getExpectedHeight())
