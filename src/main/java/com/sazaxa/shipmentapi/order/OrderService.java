@@ -169,6 +169,7 @@ public class OrderService {
                     .koreanShippingCompany(box.getKoreanShippingCompany())
                     .koreanShippingStatus(OrderStatus.CENTER_INCOME)
                     .userMemo(box.getUserMemo())
+                    .type(box.getType())
                     .order(order)
                     .build();
 
@@ -257,6 +258,7 @@ public class OrderService {
                     isVolumeWeight(weightVolumeWeight(newBox.getWidth(), newBox.getDepth(), newBox.getHeight()), newBox.getNetWeight()),
                     compareWeight(weightVolumeWeight(newBox.getWidth(), newBox.getDepth(), newBox.getHeight()), newBox.getNetWeight()),
                     newBox.getUserMemo(),
+                    newBox.getType(),
                     OrderStatus.findByKorean(request.getOrderStatus())
                     );
             boxRepository.save(box);

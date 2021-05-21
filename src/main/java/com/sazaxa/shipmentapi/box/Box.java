@@ -120,7 +120,8 @@ public class Box {
 
     public void updateBox(Double expectedWidth, Double expectedDepth, Double expectedHeight, Double expectedVolumeWeight, Double expectedNetWeight,
                           Double expectedPrice, Double width, Double depth, Double height, Double volumeWeight, Double netWeight, Double price,
-                          String koreanInvoice, String koreanShippingCompany, Boolean isVolumeWeight, Double resultWeight, String userMemo, OrderStatus koreanShippingStatus) {
+                          String koreanInvoice, String koreanShippingCompany, Boolean isVolumeWeight, Double resultWeight, String userMemo, String type,
+                          OrderStatus koreanShippingStatus) {
         this.expectedWidth = expectedWidth;
         this.expectedDepth = expectedDepth;
         this.expectedHeight = expectedHeight;
@@ -138,6 +139,7 @@ public class Box {
         this.isVolumeWeight = isVolumeWeight;
         this.resultWeight = resultWeight;
         this.userMemo = userMemo;
+        this.type = type;
         this.koreanShippingStatus = koreanShippingStatus;
     }
 
