@@ -14,7 +14,7 @@ import com.sazaxa.shipmentapi.config.AwsConfig;
 import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqUpdateRequestDto;
 import com.sazaxa.shipmentapi.faq.dto.ImgResponseDto;
-import com.sazaxa.shipmentapi.faq.exception.FaqNotFoundException;
+import com.sazaxa.shipmentapi.faq.errors.FaqNotFoundException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

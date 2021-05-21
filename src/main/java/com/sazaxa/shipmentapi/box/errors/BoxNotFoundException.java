@@ -1,13 +1,11 @@
-package com.sazaxa.shipmentapi.faq.exception;
+package com.sazaxa.shipmentapi.box.errors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class FaqNotFoundException extends RuntimeException {
-
-    public FaqNotFoundException(String s) {
+public class BoxNotFoundException extends RuntimeException{
+    public BoxNotFoundException(String s){
         super(s);
     }
-
 }

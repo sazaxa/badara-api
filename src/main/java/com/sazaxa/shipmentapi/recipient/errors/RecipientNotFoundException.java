@@ -1,11 +1,11 @@
-package com.sazaxa.shipmentapi.member.exception;
+package com.sazaxa.shipmentapi.recipient.errors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class MemberNotFoundException extends RuntimeException {
-    public MemberNotFoundException(String s) {
+public class RecipientNotFoundException extends RuntimeException {
+    public RecipientNotFoundException(String s){
         super(s);
     }
 }

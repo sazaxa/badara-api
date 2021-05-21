@@ -5,7 +5,7 @@ import com.sazaxa.shipmentapi.box.BoxRepository;
 import com.sazaxa.shipmentapi.box.dto.BoxResponseDto;
 import com.sazaxa.shipmentapi.member.dto.MemberPointRequestDto;
 import com.sazaxa.shipmentapi.member.dto.MemberUpdateRequestDto;
-import com.sazaxa.shipmentapi.member.exception.MemberNotFoundException;
+import com.sazaxa.shipmentapi.member.errors.MemberNotFoundException;
 import com.sazaxa.shipmentapi.member.role.Role;
 import com.sazaxa.shipmentapi.member.role.RoleName;
 import com.sazaxa.shipmentapi.member.role.RoleService;

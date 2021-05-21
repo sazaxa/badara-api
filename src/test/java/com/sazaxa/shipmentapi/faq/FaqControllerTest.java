@@ -3,7 +3,7 @@ package com.sazaxa.shipmentapi.faq;
 import com.sazaxa.shipmentapi.faq.dto.FaqResponseDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqSaveRequestDto;
 import com.sazaxa.shipmentapi.faq.dto.FaqUpdateRequestDto;
-import com.sazaxa.shipmentapi.faq.exception.FaqNotFoundException;
+import com.sazaxa.shipmentapi.faq.errors.FaqNotFoundException;
 import com.sazaxa.shipmentapi.security.CustomUserDetailsService;
 import com.sazaxa.shipmentapi.security.jwt.JwtAuthenticationEntryPoint;
 import com.sazaxa.shipmentapi.security.jwt.JwtTokenProvider;
