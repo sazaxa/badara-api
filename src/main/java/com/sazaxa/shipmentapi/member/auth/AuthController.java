@@ -48,11 +48,6 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
     }
 
-    @GetMapping("/hue")
-    public String test(){
-        return "HUE..";
-    }
-
     @PostMapping("/signin")
     public ResponseEntity loginUser(@Valid @RequestBody MemberSigninRequestDto resource){
 

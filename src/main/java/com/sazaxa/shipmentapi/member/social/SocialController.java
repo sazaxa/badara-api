@@ -41,7 +41,6 @@ public class SocialController {
 
         String password = RandomStringUtils.random(20, 33, 125, true, true);
 
-
         if(memberService.isExistsByEmail(request.getEmail())){
             return new ResponseEntity("this email is already taken", HttpStatus.UNAUTHORIZED);
         }
@@ -61,7 +60,6 @@ public class SocialController {
         SocialResponseDto socialResponseDto = socialService.register(request, password, member);
 
         return new ResponseEntity(socialResponseDto, HttpStatus.CREATED);
-
     }
 
     @ResponseStatus(HttpStatus.OK)

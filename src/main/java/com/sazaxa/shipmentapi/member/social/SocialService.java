@@ -36,7 +36,6 @@ public class SocialService {
                 .build();
     }
 
-
     public SocialResponseDto register(SocialRequestDto request, String password, Member member) {
         memberSocialRepository.save(MemberSocial.builder()
                 .socialId(request.getSocialId())
