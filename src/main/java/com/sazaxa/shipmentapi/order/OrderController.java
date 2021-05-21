@@ -31,35 +31,29 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<OrderResponseDto> getAllOrder(){
-        return orderService.getAllOrder();
+    public List<OrderResponseDto> list(){
+        return orderService.list();
     }
 
     @GetMapping("/{id}")
-    public OrderResponseDto getOrderById(@PathVariable Long id){
-        return orderService.getOrder(id);
+    public OrderResponseDto detail(@PathVariable Long id){
+        return orderService.detail(id);
     }
 
     @GetMapping("order/{orderNumber}")
-    public OrderResponseDto getOrderByOrderNumber(@PathVariable String orderNumber) {
-        return orderService.getOrderByOrderNumber(orderNumber);
+    public OrderResponseDto detailWithOrderNumber(@PathVariable String orderNumber) {
+        return orderService.detailWithOrderNumber(orderNumber);
     }
 
     @PostMapping
-    public OrderResponseDto saveOrder(@RequestBody OrderSaveRequestDto request,
+    public OrderResponseDto create(@RequestBody OrderSaveRequestDto request,
                                       @CurrentUser UserPrincipalCustom currentUser) {
-        return orderService.saveOrder(request, currentUser);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/virtual/done")
-    public void perceiveVirtualAccount(@RequestBody VirtualAccountRequestDto request){
-        orderService.perceiveVirtualAccount(request);
+        return orderService.create(request, currentUser);
     }
 
     @PutMapping("/{id}")
-    public OrderResponseDto updateOrder(@PathVariable Long id, @RequestBody OrderUpdateRequestDto request){
-        return orderService.updateOrder(id, request);
+    public OrderResponseDto update(@PathVariable Long id, @RequestBody OrderUpdateRequestDto request){
+        return orderService.update(id, request);
     }
 
     @PutMapping("/status/{orderNumber}")
@@ -67,9 +61,10 @@ public class OrderController {
         return orderService.updateStatus(orderNumber, request);
     }
 
-//    @PutMapping("/cancel/{id}")
-//    public OrderResponseDto cancelOrder(@PathVariable Long id){
-//        return orderService.cancelOrder(id);
-//    }
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/virtual/done")
+    public void perceiveVirtualAccount(@RequestBody VirtualAccountRequestDto request){
+        orderService.perceiveVirtualAccount(request);
+    }
 
 }

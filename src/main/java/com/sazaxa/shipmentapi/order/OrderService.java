@@ -61,7 +61,7 @@ public class OrderService {
         this.pointHistoryRepository = pointHistoryRepository;
     }
 
-    public List<OrderResponseDto> getAllOrder() {
+    public List<OrderResponseDto> list() {
         List<Order> orders = orderRepository.findAllByOrderByCreatedDateDesc();
         List<OrderResponseDto> responses = new ArrayList<>();
 
@@ -80,7 +80,7 @@ public class OrderService {
         return responses;
     }
 
-    public OrderResponseDto getOrder(Long id) {
+    public OrderResponseDto detail(Long id) {
         Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id : " + id));
 
         List<Product> products = productRepository.findAllByOrder(order);
@@ -93,7 +93,7 @@ public class OrderService {
         return response;
     }
 
-    public OrderResponseDto getOrderByOrderNumber(String orderNumber) {
+    public OrderResponseDto detailWithOrderNumber(String orderNumber) {
         Order order = orderRepository.findByOrderNumber(orderNumber).orElseThrow(() -> new OrderNotFoundException(("no orderNumber :" + orderNumber)));
         List<Product> products = productRepository.findAllByOrder(order);
         List<ProductResponseDto> productResponses = ProductResponseDto.ofList(products);
@@ -111,7 +111,7 @@ public class OrderService {
      * @param currentUser
      * @return order를 돌려줍니다.
      */
-    public OrderResponseDto saveOrder(OrderSaveRequestDto request, UserPrincipalCustom currentUser) {
+    public OrderResponseDto create(OrderSaveRequestDto request, UserPrincipalCustom currentUser) {
 
         Member member = memberRepository.findById(currentUser.getId()).orElseThrow(()-> new MemberNotFoundException("no member id : " + currentUser.getId()));
         Recipient recipient = Recipient.builder()
@@ -194,21 +194,7 @@ public class OrderService {
         return response;
     }
 
-
-    /**
-     * OrderNumber를 생성합니다.
-     * @param request
-     * @aram currentUser
-     * @return
-     */
-    private String makeOrderNumber(OrderSaveRequestDto request) {
-        String country = request.getRecipient().getCountry();
-        String name = request.getRecipient().getName().split(" ")[0];
-        String orderNumber = country.toUpperCase() + "-" + name.toUpperCase() + "-" + new SimpleDateFormat("yyMMdd").format(new Date()) + "-" + RandomStringUtils.randomAlphanumeric(4).toUpperCase();
-        return orderNumber;
-    }
-
-    public OrderResponseDto updateOrder(Long id, OrderUpdateRequestDto request) {
+    public OrderResponseDto update(Long id, OrderUpdateRequestDto request) {
 
         Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id" + id));
         Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
@@ -260,7 +246,7 @@ public class OrderService {
                     newBox.getUserMemo(),
                     newBox.getType(),
                     OrderStatus.findByKorean(request.getOrderStatus())
-                    );
+            );
             boxRepository.save(box);
         }
 
@@ -393,6 +379,19 @@ public class OrderService {
         return response;
     }
 
+    /**
+     * OrderNumber를 생성합니다.
+     * @param request
+     * @aram currentUser
+     * @return
+     */
+    private String makeOrderNumber(OrderSaveRequestDto request) {
+        String country = request.getRecipient().getCountry();
+        String name = request.getRecipient().getName().split(" ")[0];
+        String orderNumber = country.toUpperCase() + "-" + name.toUpperCase() + "-" + new SimpleDateFormat("yyMMdd").format(new Date()) + "-" + RandomStringUtils.randomAlphanumeric(4).toUpperCase();
+        return orderNumber;
+    }
+
     public void perceiveVirtualAccount(VirtualAccountRequestDto request) {
         if (!request.getStatus().equals("DONE")){
             throw new VirtualAccountBadRequestException();
@@ -445,25 +444,6 @@ public class OrderService {
         return memberPoint - usedPoint;
     }
 
-//    public OrderResponseDto cancelOrder(Long id) {
-//        Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id :" + id));
-//        order.updateOrderStatus(OrderStatus.CANCEL);
-//
-//        List<Product> products = productRepository.findAllByOrder(order);
-//        List<Box> boxes = boxRepository.findAllByOrder(order);
-//        Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
-//
-//        return OrderResponseDto.builder()
-//                .orderNumber(order.getOrderNumber())
-//                .expectedOrderPrice(order.getExpectedOrderPrice())
-//                .userMemo(order.getUserMemo())
-//                .orderStatus(order.getOrderStatus().status)
-//                .productResponses(ProductResponseDto.ofList(products))
-//                .boxResponses(BoxResponseDto.ofList(boxes))
-//                .recipient(recipient)
-//                .build();
-//    }
-
     public Double weightVolumeWeight(Double width, Double depth, Double height ) {
         if (width == null || depth == null || height == null){
             return null;
@@ -503,18 +483,16 @@ public class OrderService {
     }
 
     public Double calculateOrderPrice( List<Box> boxes, String country){
-
         for (Box box : boxes){
             if (box.getResultWeight() == null){
                 return null;
             }
         }
-
+        
         Double orderWeight = boxes.stream().mapToDouble(Box::getResultWeight).sum();
         return shippingService.getPrice(ShippingRequestDto.builder()
                 .weight(orderWeight)
                 .country(country)
                 .build());
     }
-
 }
