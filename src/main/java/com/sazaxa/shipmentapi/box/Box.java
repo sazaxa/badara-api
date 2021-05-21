@@ -71,6 +71,9 @@ public class Box {
     private String userMemo;
 
     @Column
+    private String type;
+
+    @Column
     private OrderStatus koreanShippingStatus;
 
     @ManyToOne(targetEntity = Order.class, fetch = FetchType.LAZY)
@@ -81,8 +84,8 @@ public class Box {
     @Builder
     public Box(Long id,Double expectedWidth, Double expectedDepth, Double expectedHeight, Double expectedVolumeWeight,
                Double expectedNetWeight, Double expectedPrice, Double width, Double depth, Double height, Double volumeWeight,
-               Double netWeight, Double price, String koreanInvoice, Double resultWeight,
-               String koreanShippingCompany, OrderStatus koreanShippingStatus, String userMemo, Order order) {
+               Double netWeight, Double price, String koreanInvoice, Double resultWeight, String koreanShippingCompany,
+               OrderStatus koreanShippingStatus, String userMemo, String type,  Order order) {
         this.id = id;
         this.expectedWidth = expectedWidth;
         this.expectedDepth = expectedDepth;
@@ -101,6 +104,7 @@ public class Box {
         this.koreanShippingCompany = koreanShippingCompany;
         this.koreanShippingStatus = koreanShippingStatus;
         this.userMemo = userMemo;
+        this.type = type;
         this.order = order;
     }
 
