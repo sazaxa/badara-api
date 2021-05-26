@@ -28,11 +28,11 @@ public class OrderResponseDto {
     private Double discountPrice;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
-    private List<BoxResponseDto> boxResponses;
+    private List<BoxResponseDto> boxes;
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private Recipient recipient;
 
-    public static OrderResponseDto of(Order order, List<BoxResponseDto> boxResponses){
+    public static OrderResponseDto of(Order order, List<BoxResponseDto> boxes){
         return OrderResponseDto.builder()
                 .id(order.getId())
                 .orderNumber(order.getOrderNumber())
@@ -50,7 +50,7 @@ public class OrderResponseDto {
                 .discountPrice(order.getDiscountPrice())
                 .createdDate(order.getCreatedDate())
                 .modifiedDate(order.getModifiedDate())
-                .boxResponses(boxResponses)
+                .boxes(boxes)
                 .recipient(order.getRecipient())
                 .build();
     }
