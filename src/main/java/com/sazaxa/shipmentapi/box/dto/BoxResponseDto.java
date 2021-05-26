@@ -1,6 +1,8 @@
 package com.sazaxa.shipmentapi.box.dto;
 
 import com.sazaxa.shipmentapi.box.Box;
+import com.sazaxa.shipmentapi.product.Product;
+import com.sazaxa.shipmentapi.product.dto.ProductResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -28,6 +30,31 @@ public class BoxResponseDto {
     private String koreanShippingCompany;
     private String koreanShippingStatus;
     private String userMemo;
+    private List<ProductResponseDto> products;
+
+    public static BoxResponseDto of(Box box, List<Product> products) {
+        return BoxResponseDto.builder()
+                .id(box.getId())
+                .type(box.getType())
+                .expectedWidth(box.getExpectedWidth())
+                .expectedDepth(box.getExpectedDepth())
+                .expectedHeight(box.getExpectedHeight())
+                .expectedVolumeWeight(box.getExpectedVolumeWeight())
+                .expectedNetWeight(box.getExpectedNetWeight())
+                .expectedPrice(box.getExpectedPrice())
+                .width(box.getWidth())
+                .depth(box.getDepth())
+                .height(box.getHeight())
+                .volumeWeight(box.getVolumeWeight())
+                .netWeight(box.getNetWeight())
+                .price(box.getPrice())
+                .koreanInvoice(box.getKoreanInvoice())
+                .koreanShippingCompany(box.getKoreanShippingCompany())
+                .koreanShippingStatus(box.getKoreanShippingStatus().status)
+                .userMemo(box.getUserMemo())
+                .products(ProductResponseDto.ofList(products))
+                .build();
+    }
 
     public static BoxResponseDto of(Box box) {
         return BoxResponseDto.builder()
@@ -59,4 +86,5 @@ public class BoxResponseDto {
         }
         return boxResponses;
     }
+
 }

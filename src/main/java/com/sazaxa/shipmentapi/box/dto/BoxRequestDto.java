@@ -2,6 +2,7 @@ package com.sazaxa.shipmentapi.box.dto;
 
 import com.sazaxa.shipmentapi.box.Box;
 import com.sazaxa.shipmentapi.order.OrderStatus;
+import com.sazaxa.shipmentapi.product.dto.ProductRequestDto;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class BoxRequestDto {
     private String koreanShippingCompany;
     private String koreanShippingStatus;
     private String userMemo;
+    private List<ProductRequestDto> products;
 
     public static Box toEntity(BoxRequestDto boxRequest){
         return Box.builder()

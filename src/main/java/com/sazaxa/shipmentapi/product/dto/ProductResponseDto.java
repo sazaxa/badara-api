@@ -35,12 +35,4 @@ public class ProductResponseDto {
         return productResponses;
     }
 
-//    public static List<Product> ofList(List<Product> products) {
-//        List<ProductResponseDto> productResponses = new ArrayList<>();
-//        for (Product product : products){
-//            productResponses.add(ProductResponseDto.of(product));
-//        }
-//        return productResponses;
-//    }
-
 }

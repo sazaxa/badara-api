@@ -22,7 +22,7 @@ import com.sazaxa.shipmentapi.point.entity.PointHistory;
 import com.sazaxa.shipmentapi.point.repository.PointHistoryRepository;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
-import com.sazaxa.shipmentapi.product.dto.ProductResponseDto;
+import com.sazaxa.shipmentapi.product.dto.ProductRequestDto;
 import com.sazaxa.shipmentapi.product.errors.ProductNotFoundException;
 import com.sazaxa.shipmentapi.recipient.Recipient;
 import com.sazaxa.shipmentapi.recipient.RecipientRepository;
@@ -66,43 +66,27 @@ public class OrderService {
         List<OrderResponseDto> responses = new ArrayList<>();
 
         for (Order order : orders){
-
-            List<Product> products = productRepository.findAllByOrder(order);
-
-            List<ProductResponseDto> productResponses = ProductResponseDto.ofList(products);
-
             List<Box> boxes = boxRepository.findAllByOrder(order);
-            List<BoxResponseDto> boxResponses = BoxResponseDto.ofList(boxes);
-
-            OrderResponseDto response = OrderResponseDto.of(order, productResponses, boxResponses);
+            List<BoxResponseDto> boxResponseDtoList = makeBoxResponseDtoList(boxes);
+            OrderResponseDto response = OrderResponseDto.of(order, boxResponseDtoList);
             responses.add(response);
         }
+
         return responses;
     }
 
     public OrderResponseDto detail(Long id) {
         Order order = orderRepository.findById(id).orElseThrow(()-> new OrderNotFoundException("no order id : " + id));
-
-        List<Product> products = productRepository.findAllByOrder(order);
-        List<ProductResponseDto> productResponses = ProductResponseDto.ofList(products);
-
         List<Box> boxes = boxRepository.findAllByOrder(order);
-        List<BoxResponseDto> boxResponses = BoxResponseDto.ofList(boxes);
-
-        OrderResponseDto response = OrderResponseDto.of(order, productResponses, boxResponses);
-        return response;
+        List<BoxResponseDto> boxResponseDtoList = makeBoxResponseDtoList(boxes);
+        return OrderResponseDto.of(order, boxResponseDtoList);
     }
 
     public OrderResponseDto detailWithOrderNumber(String orderNumber) {
         Order order = orderRepository.findByOrderNumber(orderNumber).orElseThrow(() -> new OrderNotFoundException(("no orderNumber :" + orderNumber)));
-        List<Product> products = productRepository.findAllByOrder(order);
-        List<ProductResponseDto> productResponses = ProductResponseDto.ofList(products);
-
         List<Box> boxes = boxRepository.findAllByOrder(order);
-        List<BoxResponseDto> boxResponses = BoxResponseDto.ofList(boxes);
-
-        OrderResponseDto response = OrderResponseDto.of(order, productResponses, boxResponses);
-        return response;
+        List<BoxResponseDto> boxResponseDtoList = makeBoxResponseDtoList(boxes);
+        return OrderResponseDto.of(order, boxResponseDtoList);
     }
 
     /**
@@ -143,21 +127,7 @@ public class OrderService {
                 .build();
         orderRepository.save(order);
 
-        List<Product> products = new ArrayList<>();
-        for (Product product : request.getProducts()){
-            Product newProduct = Product.builder()
-                    .productDetail(product.getProductDetail())
-                    .quantity(product.getQuantity())
-                    .price(product.getPrice())
-                    .weight(product.getWeight())
-                    .order(order)
-                    .build();
-            products.add(newProduct);
-        }
-        productRepository.saveAll(products);
-
-        List<Box> boxes = new ArrayList<>();
-        for (Box box : request.getBoxes()){
+        for (BoxRequestDto box : request.getBoxes()){
             Box newBox = Box.builder()
                     .expectedWidth(box.getExpectedWidth())
                     .expectedDepth(box.getExpectedDepth())
@@ -177,17 +147,36 @@ public class OrderService {
                 newBox.updateKoreanShippingStatus(OrderStatus.INVOICE);
             }
 
-            boxes.add(newBox);
+            boxRepository.save(newBox);
+
+            for (ProductRequestDto product : box.getProducts()){
+                Product newProduct = Product.builder()
+                        .productDetail(product.getProductDetail())
+                        .quantity(product.getQuantity())
+                        .price(product.getPrice())
+                        .weight(product.getWeight())
+                        .box(newBox)
+                        .order(order)
+                        .build();
+                productRepository.save(newProduct);
+            }
+
         }
-        boxRepository.saveAll(boxes);
+
+        List<Box> boxes = boxRepository.findAllByOrder(order);
+        List<BoxResponseDto> boxResponseDtoList = new ArrayList<>();
+        for (Box box : boxes){
+            List<Product> products = productRepository.findByBox(box);
+            BoxResponseDto boxResponseDto = BoxResponseDto.of(box, products);
+            boxResponseDtoList.add(boxResponseDto);
+        }
 
         OrderResponseDto response = OrderResponseDto.builder()
                 .orderNumber(order.getOrderNumber())
                 .expectedOrderPrice(order.getExpectedOrderPrice())
                 .userMemo(order.getUserMemo())
                 .orderStatus(order.getOrderStatus().status)
-                .productResponses(ProductResponseDto.ofList(products))
-                .boxResponses(BoxResponseDto.ofList(boxes))
+                .boxResponses(boxResponseDtoList)
                 .recipient(recipient)
                 .build();
 
@@ -216,10 +205,12 @@ public class OrderService {
         recipientRepository.save(recipient);
 
 
-        for (Product newProduct : request.getProducts()){
-            Product product = productRepository.findById(newProduct.getId()).orElseThrow(()-> new ProductNotFoundException("no product id : " + newProduct.getId()));
-            product.updateProduct(newProduct.getProductDetail(), newProduct.getQuantity(), newProduct.getPrice(), newProduct.getWeight());
-            productRepository.save(product);
+        for (BoxRequestDto boxRequestDto : request.getBoxes()){
+            for (ProductRequestDto productRequestDto : boxRequestDto.getProducts()){
+                Product product = productRepository.findById(productRequestDto.getId()).orElseThrow(()->new ProductNotFoundException("no product id : " + productRequestDto.getId()));
+                product.updateProduct(productRequestDto.getProductDetail(), productRequestDto.getQuantity(), productRequestDto.getPrice(), productRequestDto.getWeight());
+                productRepository.save(product);
+            }
         }
 
         List<Box> boxList = BoxRequestDto.toEntityList(request.getBoxes());
@@ -250,9 +241,7 @@ public class OrderService {
             boxRepository.save(box);
         }
 
-        List<Product> products = productRepository.findAllByOrder(order);
         List<Box> boxes = boxRepository.findAllByOrder(order);
-
         order.updateOrder(
                 request.getExtraPrice(),
                 calculateOrderPrice(boxes, recipient.getCountry()),
@@ -262,17 +251,14 @@ public class OrderService {
                 OrderStatus.findByKorean(request.getOrderStatus()));
         orderRepository.save(order);
 
-        OrderResponseDto response = OrderResponseDto.builder()
+        return OrderResponseDto.builder()
                 .orderNumber(order.getOrderNumber())
                 .expectedOrderPrice(order.getExpectedOrderPrice())
                 .userMemo(order.getUserMemo())
                 .orderStatus(order.getOrderStatus().status)
-                .productResponses(ProductResponseDto.ofList(products))
-                .boxResponses(BoxResponseDto.ofList(boxes))
+                .boxResponses(makeBoxResponseDtoList(boxes))
                 .recipient(recipient)
                 .build();
-
-        return response;
     }
 
     public OrderResponseDto updateStatus(String orderNumber, OrderStatusRequestDto request) {
@@ -280,7 +266,6 @@ public class OrderService {
         Member member = order.getMember();
 
         List<Box> boxes = boxRepository.findAllByOrder(order);
-        List<Product> products = productRepository.findAllByOrder(order);
         Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
 
         if (request.getPaymentMethod().equals(OrderStatus.PAYMENT_BANK.status)){
@@ -371,12 +356,20 @@ public class OrderService {
                 .expectedOrderPrice(order.getExpectedOrderPrice())
                 .userMemo(order.getUserMemo())
                 .orderStatus(order.getOrderStatus().status)
-                .productResponses(ProductResponseDto.ofList(products))
                 .boxResponses(BoxResponseDto.ofList(boxes))
                 .recipient(recipient)
                 .build();
 
         return response;
+    }
+
+    private List<BoxResponseDto> makeBoxResponseDtoList(List<Box> boxes) {
+        List<BoxResponseDto> boxResponseDtoList = new ArrayList<>();
+        for (Box box : boxes){
+            List<Product> products = productRepository.findByBox(box);
+            boxResponseDtoList.add(BoxResponseDto.of(box, products));
+        }
+        return boxResponseDtoList;
     }
 
     /**

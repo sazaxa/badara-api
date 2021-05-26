@@ -1,6 +1,7 @@
 package com.sazaxa.shipmentapi.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sazaxa.shipmentapi.box.Box;
 import com.sazaxa.shipmentapi.order.Order;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,13 +44,19 @@ public class Product {
     @JoinColumn(name="order_id")
     private Order order;
 
+    @ManyToOne(targetEntity = Box.class, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @JoinColumn(name="box_id")
+    private Box box;
+
     @Builder
-    public Product(String productDetail, Integer quantity, Double price, Double weight, Order order) {
+    public Product(String productDetail, Integer quantity, Double price, Double weight, Order order, Box box) {
         this.productDetail = productDetail;
         this.quantity = quantity;
         this.price = price;
         this.weight = weight;
         this.order = order;
+        this.box = box;
     }
 
     public void updateProduct(String productDetail, Integer quantity, Double price, Double weight) {

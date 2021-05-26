@@ -3,7 +3,6 @@ package com.sazaxa.shipmentapi.order.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sazaxa.shipmentapi.box.dto.BoxResponseDto;
 import com.sazaxa.shipmentapi.order.Order;
-import com.sazaxa.shipmentapi.product.dto.ProductResponseDto;
 import com.sazaxa.shipmentapi.recipient.Recipient;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,12 +28,11 @@ public class OrderResponseDto {
     private Double discountPrice;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
-    private List<ProductResponseDto> productResponses;
     private List<BoxResponseDto> boxResponses;
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private Recipient recipient;
 
-    public static OrderResponseDto of(Order order, List<ProductResponseDto> productResponses, List<BoxResponseDto> boxResponses){
+    public static OrderResponseDto of(Order order, List<BoxResponseDto> boxResponses){
         return OrderResponseDto.builder()
                 .id(order.getId())
                 .orderNumber(order.getOrderNumber())
@@ -52,7 +50,6 @@ public class OrderResponseDto {
                 .discountPrice(order.getDiscountPrice())
                 .createdDate(order.getCreatedDate())
                 .modifiedDate(order.getModifiedDate())
-                .productResponses(productResponses)
                 .boxResponses(boxResponses)
                 .recipient(order.getRecipient())
                 .build();

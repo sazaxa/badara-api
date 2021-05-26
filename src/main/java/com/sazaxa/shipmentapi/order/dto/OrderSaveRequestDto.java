@@ -1,7 +1,6 @@
 package com.sazaxa.shipmentapi.order.dto;
 
-import com.sazaxa.shipmentapi.box.Box;
-import com.sazaxa.shipmentapi.product.Product;
+import com.sazaxa.shipmentapi.box.dto.BoxRequestDto;
 import com.sazaxa.shipmentapi.recipient.Recipient;
 import lombok.Getter;
 
@@ -17,7 +16,6 @@ public class OrderSaveRequestDto {
     private String adminMemo;
     private String userMemo;
     private String orderStatus;
-    private List<Product> products;
-    private List<Box> boxes;
+    private List<BoxRequestDto> boxes;
     private Recipient recipient;
 }

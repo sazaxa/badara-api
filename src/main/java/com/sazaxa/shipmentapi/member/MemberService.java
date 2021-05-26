@@ -18,7 +18,6 @@ import com.sazaxa.shipmentapi.point.repository.PointHistoryRepository;
 import com.sazaxa.shipmentapi.point.service.PointService;
 import com.sazaxa.shipmentapi.product.Product;
 import com.sazaxa.shipmentapi.product.ProductRepository;
-import com.sazaxa.shipmentapi.product.dto.ProductResponseDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +62,6 @@ public class MemberService {
         List<Order> orders = orderRepository.findByMemberOrderByCreatedDateDesc(member);
         List<OrderResponseDto> responses = new ArrayList<>();
         for (Order order : orders){
-            List<Product> products = productRepository.findAllByOrder(order);
             List<Box> boxes = boxRepository.findAllByOrder(order);
 
             OrderResponseDto response = OrderResponseDto.builder()
@@ -79,8 +77,7 @@ public class MemberService {
                     .orderStatus(order.getOrderStatus().status)
                     .depositName(order.getDepositName())
                     .discountPrice(order.getDiscountPrice())
-                    .productResponses(ProductResponseDto.ofList(products))
-                    .boxResponses(BoxResponseDto.ofList(boxes))
+                    .boxResponses(makeBoxResponseDtoList(boxes))
                     .recipient(order.getRecipient())
                     .build();
             responses.add(response);
@@ -167,5 +164,14 @@ public class MemberService {
 
     public List<PointHistory> getPointHistory(Long id) {
         return pointService.getPointHistoryWithMember(findMember(id));
+    }
+
+    private List<BoxResponseDto> makeBoxResponseDtoList(List<Box> boxes) {
+        List<BoxResponseDto> boxResponseDtoList = new ArrayList<>();
+        for (Box box : boxes){
+            List<Product> products = productRepository.findByBox(box);
+            boxResponseDtoList.add(BoxResponseDto.of(box, products));
+        }
+        return boxResponseDtoList;
     }
 }
