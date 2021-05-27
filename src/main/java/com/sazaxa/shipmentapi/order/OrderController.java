@@ -42,7 +42,7 @@ public class OrderController {
 
     @PostMapping("/{orderNumber}")
     public OrderResponseDto detailWithOrderNumber(@PathVariable String orderNumber, @CurrentUser UserPrincipalCustom currentUser) {
-        return orderService.detailWithOrderNumber(orderNumber, currentUser);
+            return orderService.detailWithOrderNumber(orderNumber, currentUser);
     }
 
     @PostMapping

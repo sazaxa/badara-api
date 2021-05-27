@@ -93,7 +93,8 @@ public class OrderService {
         System.out.println(member.getEmail());
 
         if (Boolean.valueOf(order.getMember().getEmail().equals(currentUser.getEmail())).equals(Boolean.FALSE) &&
-                Boolean.valueOf(member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())).equals(Boolean.FALSE)){
+                Boolean.valueOf(member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())).equals(Boolean.TRUE))
+        {
             throw new MemberNotAuthenticationException();
         }
 
@@ -201,7 +202,8 @@ public class OrderService {
         Member member = memberRepository.findByEmail(currentUser.getEmail());
 
         if (Boolean.valueOf(order.getMember().getEmail().equals(currentUser.getEmail())).equals(Boolean.FALSE) &&
-                Boolean.valueOf(member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())).equals(Boolean.FALSE)){
+                Boolean.valueOf(member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())).equals(Boolean.TRUE))
+                {
             throw new MemberNotAuthenticationException();
         }
 
