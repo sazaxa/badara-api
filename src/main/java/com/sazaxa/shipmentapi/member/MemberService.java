@@ -77,7 +77,7 @@ public class MemberService {
                     .orderStatus(order.getOrderStatus().status)
                     .depositName(order.getDepositName())
                     .discountPrice(order.getDiscountPrice())
-                    .boxResponses(makeBoxResponseDtoList(boxes))
+                    .boxes(makeBoxResponseDtoList(boxes))
                     .recipient(order.getRecipient())
                     .build();
             responses.add(response);

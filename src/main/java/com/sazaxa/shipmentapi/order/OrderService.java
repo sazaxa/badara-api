@@ -176,7 +176,7 @@ public class OrderService {
                 .expectedOrderPrice(order.getExpectedOrderPrice())
                 .userMemo(order.getUserMemo())
                 .orderStatus(order.getOrderStatus().status)
-                .boxResponses(boxResponseDtoList)
+                .boxes(boxResponseDtoList)
                 .recipient(recipient)
                 .build();
 
@@ -256,7 +256,7 @@ public class OrderService {
                 .expectedOrderPrice(order.getExpectedOrderPrice())
                 .userMemo(order.getUserMemo())
                 .orderStatus(order.getOrderStatus().status)
-                .boxResponses(makeBoxResponseDtoList(boxes))
+                .boxes(makeBoxResponseDtoList(boxes))
                 .recipient(recipient)
                 .build();
     }
@@ -356,7 +356,7 @@ public class OrderService {
                 .expectedOrderPrice(order.getExpectedOrderPrice())
                 .userMemo(order.getUserMemo())
                 .orderStatus(order.getOrderStatus().status)
-                .boxResponses(BoxResponseDto.ofList(boxes))
+                .boxes(BoxResponseDto.ofList(boxes))
                 .recipient(recipient)
                 .build();
 
