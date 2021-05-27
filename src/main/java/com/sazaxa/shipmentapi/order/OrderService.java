@@ -9,7 +9,10 @@ import com.sazaxa.shipmentapi.excel.shipping.ShippingService;
 import com.sazaxa.shipmentapi.excel.shipping.dto.ShippingRequestDto;
 import com.sazaxa.shipmentapi.member.Member;
 import com.sazaxa.shipmentapi.member.MemberRepository;
+import com.sazaxa.shipmentapi.member.errors.MemberNotAuthenticationException;
 import com.sazaxa.shipmentapi.member.errors.MemberNotFoundException;
+import com.sazaxa.shipmentapi.member.role.Role;
+import com.sazaxa.shipmentapi.member.role.RoleName;
 import com.sazaxa.shipmentapi.order.dto.OrderResponseDto;
 import com.sazaxa.shipmentapi.order.dto.OrderSaveRequestDto;
 import com.sazaxa.shipmentapi.order.dto.OrderStatusRequestDto;
@@ -82,11 +85,19 @@ public class OrderService {
         return OrderResponseDto.of(order, boxResponseDtoList);
     }
 
-    public OrderResponseDto detailWithOrderNumber(String orderNumber) {
+    public OrderResponseDto detailWithOrderNumber(String orderNumber, UserPrincipalCustom currentUser) {
         Order order = orderRepository.findByOrderNumber(orderNumber).orElseThrow(() -> new OrderNotFoundException(("no orderNumber :" + orderNumber)));
-        List<Box> boxes = boxRepository.findAllByOrder(order);
-        List<BoxResponseDto> boxResponseDtoList = makeBoxResponseDtoList(boxes);
-        return OrderResponseDto.of(order, boxResponseDtoList);
+        Member member = memberRepository.findByEmail(currentUser.getEmail());
+
+        if (order.getMember().getEmail().equals(currentUser.getEmail()) ||
+            member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())){
+
+            List<Box> boxes = boxRepository.findAllByOrder(order);
+            List<BoxResponseDto> boxResponseDtoList = makeBoxResponseDtoList(boxes);
+            return OrderResponseDto.of(order, boxResponseDtoList);
+        }
+
+        throw new MemberNotAuthenticationException();
     }
 
     /**

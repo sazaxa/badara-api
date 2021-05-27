@@ -16,5 +16,4 @@ class ShipmentApiApplicationTests {
 		Integer newPrice = (int) (500 * Math.ceil(price / 500));
 		assertThat(newPrice).isEqualTo(1500);
 	}
-
 }

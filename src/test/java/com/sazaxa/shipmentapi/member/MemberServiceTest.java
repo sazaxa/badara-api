@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 class MemberServiceTest {
 
 
@@ -29,7 +31,7 @@ class MemberServiceTest {
                 .roles(roles)
                 .build();
 
-        System.out.println(member.getRoles().contains(role));
+        assertThat(member.getRoles().contains(role)).isTrue();
     }
 
     @Test
