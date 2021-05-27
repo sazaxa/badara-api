@@ -74,15 +74,15 @@ class FaqServiceTest {
         verify(faqRepository).findById(1L);
     }
 
-    @Test
-    void testFileName(){
-        assertThat(IMAGE.getFilename()).isEqualTo("green.PNG");
-    }
-
-    @Test
-    void testGetKey(){
-        System.out.println(awsConfig.getAccessKeyId());
-    }
+//    @Test
+//    void testFileName(){
+//        assertThat(IMAGE.getFilename()).isEqualTo("green.PNG");
+//    }
+//
+//    @Test
+//    void testGetKey(){
+//        System.out.println(awsConfig.getAccessKeyId());
+//    }
 
 //    @Test
 //    void testUploadImg(){
