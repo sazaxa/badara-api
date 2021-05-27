@@ -40,7 +40,7 @@ public class OrderController {
         return orderService.detail(id);
     }
 
-    @GetMapping("/{orderNumber}")
+    @PostMapping("/{orderNumber}")
     public OrderResponseDto detailWithOrderNumber(@PathVariable String orderNumber, @CurrentUser UserPrincipalCustom currentUser) {
         return orderService.detailWithOrderNumber(orderNumber, currentUser);
     }

@@ -89,7 +89,10 @@ public class OrderService {
         Order order = orderRepository.findByOrderNumber(orderNumber).orElseThrow(() -> new OrderNotFoundException(("no orderNumber :" + orderNumber)));
         Member member = memberRepository.findByEmail(currentUser.getEmail());
 
-        if (Boolean.valueOf(order.getMember().getEmail().equals(currentUser.getEmail())).equals(Boolean.FALSE) ||
+        System.out.println(currentUser.getEmail());
+        System.out.println(member.getEmail());
+
+        if (Boolean.valueOf(order.getMember().getEmail().equals(currentUser.getEmail())).equals(Boolean.FALSE) &&
                 Boolean.valueOf(member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())).equals(Boolean.FALSE)){
             throw new MemberNotAuthenticationException();
         }
@@ -197,7 +200,7 @@ public class OrderService {
         Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id" + id));
         Member member = memberRepository.findByEmail(currentUser.getEmail());
 
-        if (Boolean.valueOf(order.getMember().getEmail().equals(currentUser.getEmail())).equals(Boolean.FALSE) ||
+        if (Boolean.valueOf(order.getMember().getEmail().equals(currentUser.getEmail())).equals(Boolean.FALSE) &&
                 Boolean.valueOf(member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())).equals(Boolean.FALSE)){
             throw new MemberNotAuthenticationException();
         }
