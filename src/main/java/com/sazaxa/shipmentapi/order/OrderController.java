@@ -40,7 +40,7 @@ public class OrderController {
         return orderService.detail(id);
     }
 
-    @GetMapping("order/{orderNumber}")
+    @GetMapping("/{orderNumber}")
     public OrderResponseDto detailWithOrderNumber(@PathVariable String orderNumber) {
         return orderService.detailWithOrderNumber(orderNumber);
     }
