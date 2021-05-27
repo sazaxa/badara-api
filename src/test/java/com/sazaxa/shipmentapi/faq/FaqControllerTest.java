@@ -79,6 +79,26 @@ class FaqControllerTest {
         }
     }
 
+    @Nested
+    @DisplayName("detail 메소드는")
+    class Describe_detail{
+        @Nested
+        @DisplayName("만약 존재하는 아이디가 주어진다면")
+        class Context_WithExistedId{
+            @Test
+            @DisplayName("주어진 아이디에 해당하는 FAQ와 OK를 리턴한다.")
+            void itReturn() throws Exception {
+                given(faqService.detail(EXISTED_ID)).willReturn(existedFaq);
+
+                mockMvc.perform(get(BASE_URL + "/" + EXISTED_ID))
+                        .andExpect(content().string(StringContains.containsString(EXISTED_FAQ_TITLE)))
+                        .andExpect(status().isOk());
+
+                verify(faqService).detail(EXISTED_ID);
+            }
+        }
+    }
+
     @Test
     void testUploadImage() throws Exception {
         MockMultipartFile image = new MockMultipartFile("image", "green.PNG", MediaType.IMAGE_PNG_VALUE, IMAGE.getInputStream());
