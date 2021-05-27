@@ -89,15 +89,14 @@ public class OrderService {
         Order order = orderRepository.findByOrderNumber(orderNumber).orElseThrow(() -> new OrderNotFoundException(("no orderNumber :" + orderNumber)));
         Member member = memberRepository.findByEmail(currentUser.getEmail());
 
-        if (order.getMember().getEmail().equals(currentUser.getEmail()) ||
-            member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())){
-
-            List<Box> boxes = boxRepository.findAllByOrder(order);
-            List<BoxResponseDto> boxResponseDtoList = makeBoxResponseDtoList(boxes);
-            return OrderResponseDto.of(order, boxResponseDtoList);
+        if (Boolean.valueOf(order.getMember().getEmail().equals(currentUser.getEmail())).equals(Boolean.FALSE) ||
+                Boolean.valueOf(member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())).equals(Boolean.FALSE)){
+            throw new MemberNotAuthenticationException();
         }
 
-        throw new MemberNotAuthenticationException();
+        List<Box> boxes = boxRepository.findAllByOrder(order);
+        List<BoxResponseDto> boxResponseDtoList = makeBoxResponseDtoList(boxes);
+        return OrderResponseDto.of(order, boxResponseDtoList);
     }
 
     /**
@@ -195,89 +194,89 @@ public class OrderService {
     }
 
     public OrderResponseDto update(Long id, OrderUpdateRequestDto request, UserPrincipalCustom currentUser) {
-
         Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id" + id));
-
         Member member = memberRepository.findByEmail(currentUser.getEmail());
 
-        if (order.getMember().getEmail().equals(currentUser.getEmail()) ||
-                member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())){
-
-            Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
-
-            recipient.updateRecipient(
-                    request.getRecipient().getName() == null ? recipient.getName() : request.getRecipient().getName(),
-                    request.getRecipient().getEmail() == null ? recipient.getEmail() : request.getRecipient().getEmail(),
-                    request.getRecipient().getCountry() == null ? recipient.getCountry() : request.getRecipient().getCountry(),
-                    request.getRecipient().getState() == null ? recipient.getState() : request.getRecipient().getState(),
-                    request.getRecipient().getCity() == null ? recipient.getCity() : request.getRecipient().getCity(),
-                    request.getRecipient().getAddress1() == null ? recipient.getAddress1() : request.getRecipient().getAddress1(),
-                    request.getRecipient().getAddress2() == null ? recipient.getAddress2() : request.getRecipient().getAddress2(),
-                    request.getRecipient().getAddress3() == null ? recipient.getAddress3() : request.getRecipient().getAddress3(),
-                    request.getRecipient().getZipcode() == null ? recipient.getZipcode() : request.getRecipient().getZipcode(),
-                    request.getRecipient().getCountryCode() == null ? recipient.getCountryCode() : request.getRecipient().getCountryCode(),
-                    request.getRecipient().getPhoneNumber() == null ? recipient.getPhoneNumber() : request.getRecipient().getPhoneNumber(),
-                    request.getRecipient().getMemo() == null ? recipient.getMemo() : request.getRecipient().getMemo()
-            );
-            recipientRepository.save(recipient);
-
-
-            for (BoxRequestDto boxRequestDto : request.getBoxes()){
-                for (ProductRequestDto productRequestDto : boxRequestDto.getProducts()){
-                    Product product = productRepository.findById(productRequestDto.getId()).orElseThrow(()->new ProductNotFoundException("no product id : " + productRequestDto.getId()));
-                    product.updateProduct(productRequestDto.getProductDetail(), productRequestDto.getQuantity(), productRequestDto.getPrice(), productRequestDto.getWeight());
-                    productRepository.save(product);
-                }
-            }
-
-            List<Box> boxList = BoxRequestDto.toEntityList(request.getBoxes());
-
-            for (Box newBox : boxList){
-                Box box = boxRepository.findById(newBox.getId()).orElseThrow(()-> new BoxNotFoundException("no box id : " + newBox.getId()));
-                box.updateBox(
-                        newBox.getExpectedWidth(),
-                        newBox.getExpectedDepth(),
-                        newBox.getExpectedHeight(),
-                        newBox.getExpectedVolumeWeight(),
-                        newBox.getExpectedNetWeight(),
-                        newBox.getExpectedPrice(),
-                        newBox.getWidth(),
-                        newBox.getDepth(),
-                        newBox.getHeight(),
-                        weightVolumeWeight(newBox.getWidth(), newBox.getDepth(), newBox.getHeight()),
-                        newBox.getNetWeight(),
-                        newBox.getPrice(),
-                        newBox.getKoreanInvoice(),
-                        newBox.getKoreanShippingCompany(),
-                        isVolumeWeight(weightVolumeWeight(newBox.getWidth(), newBox.getDepth(), newBox.getHeight()), newBox.getNetWeight()),
-                        compareWeight(weightVolumeWeight(newBox.getWidth(), newBox.getDepth(), newBox.getHeight()), newBox.getNetWeight()),
-                        newBox.getUserMemo(),
-                        newBox.getType(),
-                        OrderStatus.findByKorean(request.getOrderStatus())
-                );
-                boxRepository.save(box);
-            }
-
-            List<Box> boxes = boxRepository.findAllByOrder(order);
-            order.updateOrder(
-                    request.getExtraPrice(),
-                    calculateOrderPrice(boxes, recipient.getCountry()),
-                    request.getInvoice(),
-                    request.getShippingCompany(),
-                    request.getAdminMemo(),
-                    OrderStatus.findByKorean(request.getOrderStatus()));
-            orderRepository.save(order);
-
-            return OrderResponseDto.builder()
-                    .orderNumber(order.getOrderNumber())
-                    .expectedOrderPrice(order.getExpectedOrderPrice())
-                    .userMemo(order.getUserMemo())
-                    .orderStatus(order.getOrderStatus().status)
-                    .boxes(makeBoxResponseDtoList(boxes))
-                    .recipient(recipient)
-                    .build();
+        if (Boolean.valueOf(order.getMember().getEmail().equals(currentUser.getEmail())).equals(Boolean.FALSE) ||
+                Boolean.valueOf(member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())).equals(Boolean.FALSE)){
+            throw new MemberNotAuthenticationException();
         }
-        throw new MemberNotAuthenticationException();
+
+        Recipient recipient = recipientRepository.findById(order.getRecipient().getId()).orElseThrow(()-> new  RecipientNotFoundException("no recipient id : " + order.getRecipient().getId()));
+        recipient.updateRecipient(
+                request.getRecipient().getName() == null ? recipient.getName() : request.getRecipient().getName(),
+                request.getRecipient().getEmail() == null ? recipient.getEmail() : request.getRecipient().getEmail(),
+                request.getRecipient().getCountry() == null ? recipient.getCountry() : request.getRecipient().getCountry(),
+                request.getRecipient().getState() == null ? recipient.getState() : request.getRecipient().getState(),
+                request.getRecipient().getCity() == null ? recipient.getCity() : request.getRecipient().getCity(),
+                request.getRecipient().getAddress1() == null ? recipient.getAddress1() : request.getRecipient().getAddress1(),
+                request.getRecipient().getAddress2() == null ? recipient.getAddress2() : request.getRecipient().getAddress2(),
+                request.getRecipient().getAddress3() == null ? recipient.getAddress3() : request.getRecipient().getAddress3(),
+                request.getRecipient().getZipcode() == null ? recipient.getZipcode() : request.getRecipient().getZipcode(),
+                request.getRecipient().getCountryCode() == null ? recipient.getCountryCode() : request.getRecipient().getCountryCode(),
+                request.getRecipient().getPhoneNumber() == null ? recipient.getPhoneNumber() : request.getRecipient().getPhoneNumber(),
+                request.getRecipient().getMemo() == null ? recipient.getMemo() : request.getRecipient().getMemo()
+        );
+        recipientRepository.save(recipient);
+
+
+        for (BoxRequestDto boxRequestDto : request.getBoxes()){
+            for (ProductRequestDto productRequestDto : boxRequestDto.getProducts()){
+                Product product = productRepository.findById(productRequestDto.getId()).orElseThrow(()->new ProductNotFoundException("no product id : " + productRequestDto.getId()));
+                product.updateProduct(productRequestDto.getProductDetail(), productRequestDto.getQuantity(), productRequestDto.getPrice(), productRequestDto.getWeight());
+                productRepository.save(product);
+            }
+        }
+
+        List<Box> boxList = BoxRequestDto.toEntityList(request.getBoxes());
+
+        for (Box newBox : boxList){
+            Box box = boxRepository.findById(newBox.getId()).orElseThrow(()-> new BoxNotFoundException("no box id : " + newBox.getId()));
+            box.updateBox(
+                    newBox.getExpectedWidth(),
+                    newBox.getExpectedDepth(),
+                    newBox.getExpectedHeight(),
+                    newBox.getExpectedVolumeWeight(),
+                    newBox.getExpectedNetWeight(),
+                    newBox.getExpectedPrice(),
+                    newBox.getWidth(),
+                    newBox.getDepth(),
+                    newBox.getHeight(),
+                    weightVolumeWeight(newBox.getWidth(), newBox.getDepth(), newBox.getHeight()),
+                    newBox.getNetWeight(),
+                    newBox.getPrice(),
+                    newBox.getKoreanInvoice(),
+                    newBox.getKoreanShippingCompany(),
+                    isVolumeWeight(weightVolumeWeight(newBox.getWidth(), newBox.getDepth(), newBox.getHeight()), newBox.getNetWeight()),
+                    compareWeight(weightVolumeWeight(newBox.getWidth(), newBox.getDepth(), newBox.getHeight()), newBox.getNetWeight()),
+                    newBox.getUserMemo(),
+                    newBox.getType(),
+                    OrderStatus.findByKorean(request.getOrderStatus())
+            );
+            boxRepository.save(box);
+        }
+
+        List<Box> boxes = boxRepository.findAllByOrder(order);
+        order.updateOrder(
+                request.getExtraPrice(),
+                calculateOrderPrice(boxes, recipient.getCountry()),
+                request.getInvoice(),
+                request.getShippingCompany(),
+                request.getAdminMemo(),
+                OrderStatus.findByKorean(request.getOrderStatus()));
+        orderRepository.save(order);
+
+        return OrderResponseDto.builder()
+                .orderNumber(order.getOrderNumber())
+                .expectedOrderPrice(order.getExpectedOrderPrice())
+                .userMemo(order.getUserMemo())
+                .orderStatus(order.getOrderStatus().status)
+                .boxes(makeBoxResponseDtoList(boxes))
+                .recipient(recipient)
+                .build();
+
+
+
     }
 
     public OrderResponseDto updateStatus(String orderNumber, OrderStatusRequestDto request) {
