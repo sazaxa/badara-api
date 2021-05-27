@@ -52,8 +52,8 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public OrderResponseDto update(@PathVariable Long id, @RequestBody OrderUpdateRequestDto request){
-        return orderService.update(id, request);
+    public OrderResponseDto update(@PathVariable Long id, @RequestBody OrderUpdateRequestDto request, @CurrentUser UserPrincipalCustom currentUser){
+        return orderService.update(id, request, currentUser);
     }
 
     @PutMapping("/status/{orderNumber}")
