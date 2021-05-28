@@ -1,5 +1,6 @@
 package com.sazaxa.shipmentapi.faq;
 
+import com.sazaxa.shipmentapi.faq.errors.FaqNotFoundException;
 import com.sazaxa.shipmentapi.security.CustomUserDetailsService;
 import com.sazaxa.shipmentapi.security.jwt.JwtAuthenticationEntryPoint;
 import com.sazaxa.shipmentapi.security.jwt.JwtTokenProvider;
@@ -46,9 +47,12 @@ class FaqControllerTest {
 
     private ClassPathResource IMAGE;
     private static final String  BASE_URL = "/api/v1/faq";
+
     private static final Long EXISTED_ID =1L;
     private static final String EXISTED_FAQ_TITLE = "existedTitle";
     private static final String EXISTED_FAQ_CONTENT = "existedContent";
+
+    private static final Long NOT_EXISTED_ID =100L;
 
     private Faq existedFaq;
 
@@ -97,6 +101,22 @@ class FaqControllerTest {
                 verify(faqService).detail(EXISTED_ID);
             }
         }
+
+        @Nested
+        @DisplayName("만약 존재하지 않는 아이디가 주어진다면")
+        class Context_WithNotExistedId{
+            @Test
+            @DisplayName("FAQ를 찾을수 없다는 예외를 던지고 NOT_FOUND를 리턴한다.")
+            void itReturn() throws Exception {
+                given(faqService.detail(NOT_EXISTED_ID)).willThrow(new FaqNotFoundException("no faq id" + NOT_EXISTED_ID));
+
+                mockMvc.perform(get(BASE_URL + "/" + NOT_EXISTED_ID))
+                        .andExpect(status().isNotFound());
+
+                verify(faqService).detail(NOT_EXISTED_ID);
+            }
+        }
+
     }
 
     @Test
