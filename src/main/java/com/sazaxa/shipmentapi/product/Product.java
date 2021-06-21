@@ -3,6 +3,7 @@ package com.sazaxa.shipmentapi.product;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sazaxa.shipmentapi.box.Box;
 import com.sazaxa.shipmentapi.order.Order;
+import com.sazaxa.shipmentapi.util.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Table(name = "badara_product")
 @Entity
-public class Product {
+public class Product extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
