@@ -1,6 +1,7 @@
 package com.sazaxa.shipmentapi.point.entity;
 
 import com.sazaxa.shipmentapi.point.dto.PointConfigRequestDto;
+import com.sazaxa.shipmentapi.util.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Table(name = "badara_point")
 @Entity
-public class Point {
+public class Point extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
