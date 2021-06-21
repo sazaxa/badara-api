@@ -29,7 +29,6 @@ public class ExcelDownloadController {
         return ResponseEntity.ok().headers(headers).body(new InputStreamResource(inputStream));
     }
 
-
     @PostMapping("/excel/download/orders")
     public ResponseEntity<InputStreamResource> downloadSelectedOrders(@RequestBody ExcelOrderListRequestDto excelOrderListRequestDto) throws IOException {
         ByteArrayInputStream inputStream = excelDownloadService.downloadSelectedOrders(excelOrderListRequestDto);
@@ -37,4 +36,5 @@ public class ExcelDownloadController {
         headers.add("Content-Disposition", "attachment; filename=orders.xlsx");
         return ResponseEntity.ok().headers(headers).body(new InputStreamResource(inputStream));
     }
+
 }
