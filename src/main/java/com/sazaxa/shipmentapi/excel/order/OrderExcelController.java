@@ -22,7 +22,6 @@ public class OrderExcelController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/excel/order/upload")
     public ExcelSuccessResponseDto create(@RequestParam("file") MultipartFile file) throws IOException {
-        System.out.println("check excel order upload");
         return orderExcelService.create(file);
     }
 

@@ -48,7 +48,7 @@ public class OrderController {
     @PostMapping
     public OrderResponseDto create(@RequestBody OrderSaveRequestDto request,
                                       @CurrentUser UserPrincipalCustom currentUser) {
-        return orderService.create(request, currentUser);
+        return orderService.create(request, currentUser.getEmail());
     }
 
     @PutMapping("/{id}")

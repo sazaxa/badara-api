@@ -87,10 +87,10 @@ public class OrderService {
 
     public OrderResponseDto detailWithOrderNumber(String orderNumber, UserPrincipalCustom currentUser) {
         Order order = orderRepository.findByOrderNumber(orderNumber).orElseThrow(() -> new OrderNotFoundException(("no orderNumber :" + orderNumber)));
-        Member member = memberRepository.findByEmail(currentUser.getEmail());
 
-        System.out.println(currentUser.getEmail());
-        System.out.println(member.getEmail());
+        Member member = memberRepository.findByEmail(currentUser.getEmail())
+                .orElseThrow(()->new MemberNotFoundException("no user email : " + currentUser.getEmail()));
+
 
         if (Boolean.valueOf(order.getMember().getEmail().equals(currentUser.getEmail())).equals(Boolean.FALSE) &&
                 Boolean.valueOf(member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())).equals(Boolean.TRUE))
@@ -106,12 +106,13 @@ public class OrderService {
     /**
      * 주문을 처리합니다.
      * @param request
-     * @param currentUser
+     * @param email
      * @return order를 돌려줍니다.
      */
-    public OrderResponseDto create(OrderSaveRequestDto request, UserPrincipalCustom currentUser) {
+    public OrderResponseDto create(OrderSaveRequestDto request, String email) {
 
-        Member member = memberRepository.findById(currentUser.getId()).orElseThrow(()-> new MemberNotFoundException("no member id : " + currentUser.getId()));
+        Member member = memberRepository.findByEmail(email).orElseThrow(()-> new MemberNotFoundException("no member email : " + email));
+
         Recipient recipient = Recipient.builder()
                 .name(request.getRecipient().getName())
                 .email(request.getRecipient().getEmail())
@@ -199,7 +200,10 @@ public class OrderService {
 
     public OrderResponseDto update(Long id, OrderUpdateRequestDto request, UserPrincipalCustom currentUser) {
         Order order = orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("no order id" + id));
-        Member member = memberRepository.findByEmail(currentUser.getEmail());
+
+        Member member = memberRepository.findByEmail(currentUser.getEmail())
+                .orElseThrow(()->new MemberNotFoundException("no user email : " + currentUser.getEmail()));
+
 
         if (Boolean.valueOf(order.getMember().getEmail().equals(currentUser.getEmail())).equals(Boolean.FALSE) &&
                 Boolean.valueOf(member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())).equals(Boolean.TRUE))

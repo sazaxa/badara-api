@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum OrderExcelColumn {
     RECIPIENT_NAME,
     EMAIL,
-    NATION,
+    COUNTRY,
     ADDRESS,
     ZIPCODE,
     CITY,
@@ -27,5 +27,6 @@ public enum OrderExcelColumn {
     PRICE_2,
     PRODUCT_NAME_3,
     QTY_3,
-    PRICE_3
+    PRICE_3,
+    USER_ACCOUNT
 }
