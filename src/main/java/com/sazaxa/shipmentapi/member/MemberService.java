@@ -126,13 +126,17 @@ public class MemberService {
     }
 
     public boolean checkMemberPasswordWithEmail(String email, String password) {
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(()->new MemberNotFoundException("no user email : " + email));
         return member.authenticate(password, passwordEncoder);
     }
 
     //로그인한 유저의 Role 확인
     public boolean isAdminRole(String email) {
-        Member member = memberRepository.findByEmail(email);
+
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(()->new MemberNotFoundException("no user email : " + email));
+
         Role userRole = roleService.findByRoleName(RoleName.ROLE_ADMIN);
         if (member.getRoles().contains(userRole)){
             return true;
