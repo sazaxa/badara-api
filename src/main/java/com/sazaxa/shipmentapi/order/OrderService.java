@@ -91,7 +91,6 @@ public class OrderService {
         Member member = memberRepository.findByEmail(currentUser.getEmail())
                 .orElseThrow(()->new MemberNotFoundException("no user email : " + currentUser.getEmail()));
 
-
         if (Boolean.valueOf(order.getMember().getEmail().equals(currentUser.getEmail())).equals(Boolean.FALSE) &&
                 Boolean.valueOf(member.getRoles().contains(Role.builder().roleName(RoleName.ROLE_ADMIN).build())).equals(Boolean.TRUE))
         {
@@ -175,7 +174,6 @@ public class OrderService {
                         .build();
                 productRepository.save(newProduct);
             }
-
         }
 
         List<Box> boxes = boxRepository.findAllByOrder(order);
@@ -283,9 +281,6 @@ public class OrderService {
                 .boxes(makeBoxResponseDtoList(boxes))
                 .recipient(recipient)
                 .build();
-
-
-
     }
 
     public OrderResponseDto updateStatus(String orderNumber, OrderStatusRequestDto request) {

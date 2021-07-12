@@ -83,6 +83,7 @@ public class OrderExcelService {
     }
 
     public ExcelSuccessResponseDto create(MultipartFile file) throws IOException {
+
         if (file == null){
             throw new ExcelNotFoundException("엑셀파일을 추가해주세요");
         }
@@ -224,7 +225,7 @@ public class OrderExcelService {
         if (extension.equals(ExcelExtension.XLS.getExtension())) {
             return new HSSFWorkbook(file.getInputStream());
         }
-        throw new ExcelExtensionException(extension);
+        throw new ExcelExtensionException(extension + "은 지원하는 확장자가 아닙니다.");
     }
 
     private String makeOrderNumber(String country, String name) {
